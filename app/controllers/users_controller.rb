@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @users = current_user.organisation.users
   end
 
   # GET /users/1 or /users/1.json
