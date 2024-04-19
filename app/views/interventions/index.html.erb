@@ -5,11 +5,11 @@
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Interventions</h1>
-    <%= link_to "New intervention", new_intervention_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to "Nouvelle Intervention", new_intervention_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
   <%= form_tag request.path, method: :get do %>
-    <div class="flex flex-wrap items-end gap-4">
+    <div class="flex flex-wrap items-end gap-4 mt-8">
       <div class="max-w-48">
         <%= label_tag :search, "Rechercher" %>
         <%= text_field_tag :search, params[:search], include_blank:true, onchange:'this.form.submit()', class: 'input input-bordered input-sm w-full', placeholder: 'Description' %>
@@ -56,8 +56,12 @@
     <%= render @interventions %>
   </div>
 
-  <p>Affichage de <%= pluralize(@interventions.count, 'intervention', plural: 'interventions') %> sur <%= current_user.organisation.interventions.count %></p>
-  <p>Temps total : <%= @interventions.sum(:temps_total) %></p>
+  <p class="mt-8">
+    Affichage de <%= pluralize(@interventions.count, 'intervention', plural: 'interventions') %> sur <%= current_user.organisation.interventions.count %>
+  </p>
+  <p>
+    Temps total : <%= @interventions.sum(:temps_total) %>
+  </p>
 
 </div>
 

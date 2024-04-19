@@ -9,7 +9,6 @@
   </p>
   <div class="flex gap-8">
     <div>
-
       <p class="my-5">
         <strong class="block font-thin mb-1">Adhérent:</strong>
         <%= intervention.adherent.try(:nom_prénom) %>
@@ -27,6 +26,7 @@
         <%= intervention.agent_binome.try(:nom_prénom) %>
       </p>
     </div>
+
     <div>
       <p class="my-5">
         <strong class="block font-thin mb-1">Début:</strong>
@@ -43,12 +43,14 @@
         <%= intervention.temps_de_pause %>
       </p>
     </div>
+
     <div>
       <p class="my-5">
         <strong class="block font-thin mb-1">Temps total (h):</strong>
         <%= intervention.temps_total %>
       </p>
     </div>
+
     <div>
       <p class="my-5">
         <strong class="block font-thin mb-1">Statut:</strong>
@@ -57,20 +59,20 @@
         </span>
       </p>
     </div>
+
     <p class="my-5">
       <strong class="block font-thin mb-1">Commentaires:</strong>
       <%= intervention.commentaires %>
     </p>
   </div>
 
-
   <% if action_name != "show" %>
-    <%= link_to "Show this intervention", intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-thin" %>
-    <%= link_to "Edit this intervention", edit_intervention_path(intervention), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-thin" %>
+    <%= link_to "Voir cette intervention", intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-thin" %>
+    <%= link_to "Modifier cette intervention", edit_intervention_path(intervention), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-thin" %>
     <hr class="mt-6">
-
   <% else %>
     <div class="my-5">
+      <p>Changer le Statut : </p>
       <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
       <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
       <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
@@ -78,4 +80,5 @@
       <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white' %> |
     </div>
   <% end %>
+
 </div>

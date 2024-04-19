@@ -49,14 +49,14 @@
       <%= form.datetime_field :fin, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
     <div class="flex-1">
-      <%= form.label :temps_de_pause %>
+      <%= form.label :temps_de_pause, "Temps de pause (h)" %>
       <%= form.number_field :temps_de_pause, min: 0, required: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
   </div>
 
   <div class="my-5">
     <%= form.label :commentaires %>
-    <%= form.text_area :commentaires, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: :true %>
+    <%= form.text_area :commentaires, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="inline">
