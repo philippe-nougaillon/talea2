@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  début: 2024-04-19 10:33:24
+  fin: 2024-04-19 10:33:24
+  temps_de_pause: 1
+  description: MyString
+  workflow_state: MyString
+
+two:
+  début: 2024-04-19 10:33:24
+  fin: 2024-04-19 10:33:24
+  temps_de_pause: 1
+  description: MyString
+  workflow_state: MyString

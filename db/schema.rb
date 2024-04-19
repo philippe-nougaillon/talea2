@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_19_081325) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_19_085019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "interventions", force: :cascade do |t|
+    t.datetime "début"
+    t.datetime "fin"
+    t.integer "temps_de_pause"
+    t.string "description"
+    t.string "workflow_state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "organisation_id", null: false
+    t.integer "agent_id"
+    t.integer "agent_binome_id"
+    t.integer "adherent_id"
+    t.index ["adherent_id"], name: "index_interventions_on_adherent_id"
+    t.index ["agent_binome_id"], name: "index_interventions_on_agent_binome_id"
+    t.index ["agent_id"], name: "index_interventions_on_agent_id"
+    t.index ["organisation_id"], name: "index_interventions_on_organisation_id"
+  end
 
   create_table "organisations", force: :cascade do |t|
     t.string "nom"
@@ -33,5 +51,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_19_081325) do
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
   end
 
+  add_foreign_key "interventions", "organisations"
   add_foreign_key "users", "organisations"
 end

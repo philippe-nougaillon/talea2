@@ -1,0 +1,32 @@
+<div id="<%= dom_id intervention %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Début:</strong>
+    <%= intervention.début %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Fin:</strong>
+    <%= intervention.fin %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Temps de pause:</strong>
+    <%= intervention.temps_de_pause %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= intervention.description %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Workflow state:</strong>
+    <%= intervention.workflow_state %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this intervention", intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this intervention", edit_intervention_path(intervention), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
