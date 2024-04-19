@@ -5,6 +5,7 @@ class InterventionsController < ApplicationController
   def index
     @interventions = current_user.organisation.interventions
     @adhérents = current_user.organisation.users.adhérent
+    @agents = current_user.organisation.users.agent
     @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
 
     if params[:search].present?
@@ -13,6 +14,20 @@ class InterventionsController < ApplicationController
 
     if params[:adherent_id].present?
       @interventions = @interventions.where(adherent_id: params[:adherent_id])
+    end
+
+    if params[:agent_id].present?
+      @interventions = @interventions.where(agent_id: params[:agent_id]).or(@interventions.where(agent_binome_id: params[:agent_id]))
+    end
+
+    if params[:du].present?
+      if params[:au].present?
+        @interventions = @interventions.where("DATE(début) BETWEEN ? AND ?", params[:du], params[:au])
+      else
+        @interventions = @interventions.where("DATE(début) = ?", params[:du]).or(@interventions.where("DATE(fin) = ?", params[:du]))
+      end
+    elsif params[:au].present?
+      @interventions = @interventions.where("DATE(fin) = ?", params[:au])
     end
 
     if params[:tags].present?
@@ -36,7 +51,7 @@ class InterventionsController < ApplicationController
 
   # GET /interventions/1/edit
   def edit
-    @agents = current_user.organisation.users
+    @agents = current_user.organisation.users.agent
     @adhérents = current_user.organisation.users.adhérent
   end
 
