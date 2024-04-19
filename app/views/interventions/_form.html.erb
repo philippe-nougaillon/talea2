@@ -23,36 +23,40 @@
 
   <div class="my-5">
     <%= form.label :adherent_id, "Adhérent" %>
-    <%= form.select :adherent_id, options_from_collection_for_select(@adhérents, :id, :nom_prénom), class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.select :adherent_id, options_from_collection_for_select(@adhérents, :id, :nom_prénom), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div class="flex gap-8">
-    <div class="flex-1 my-5">
+  <div class="flex gap-8 my-5">
+    <div class="flex-1">
       <%= form.label :agent_id %>
-      <%= form.select :agent_id, options_from_collection_for_select(@agents, :id, :nom_prénom), class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.select :agent_id, options_from_collection_for_select(@agents, :id, :nom_prénom), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
 
-    <div class="flex-1 my-5">
+    <div class="flex-1">
       <%= form.label :agent_binome_id, "Agent binôme" %>
-      <%= form.select :agent_binome_id, options_from_collection_for_select(@agents, :id, :nom_prénom), class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.select :agent_binome_id, options_from_collection_for_select(@agents, :id, :nom_prénom), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
   </div>
 
-  <div class="flex gap-8">
-    <div class="flex-1 my-5">
+  <div class="flex gap-8 my-5">
+    <div class="flex-1">
       <%= form.label :début %>
       <%= form.datetime_field :début, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
 
-    <div class="flex-1 my-5">
+    <div class="flex-1">
       <%= form.label :fin %>
       <%= form.datetime_field :fin, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+    <div class="flex-1">
+      <%= form.label :temps_de_pause %>
+      <%= form.number_field :temps_de_pause, min: 0, required: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
   </div>
 
   <div class="my-5">
-    <%= form.label :temps_de_pause %>
-    <%= form.number_field :temps_de_pause, min: 0, required: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :commentaires %>
+    <%= form.text_area :commentaires, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: :true %>
   </div>
 
   <div class="inline">
