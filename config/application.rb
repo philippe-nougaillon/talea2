@@ -23,5 +23,9 @@ module Talea
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.time_zone = "Paris"
+    config.i18n.default_locale = :fr
+    config.i18n.fallbacks = [:en]
   end
 end
