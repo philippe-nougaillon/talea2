@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  audited
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :registerable, :trackable and :omniauthable
   devise :database_authenticatable,

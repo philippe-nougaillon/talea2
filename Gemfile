@@ -78,3 +78,5 @@ gem "acts-as-taggable-on", "~> 10.0"
 gem "workflow-activerecord", "~> 6.0"
 
 gem "view_component", "~> 3.12"
+
+gem "audited", "~> 5.6"
