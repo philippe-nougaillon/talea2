@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="mt-4">
     <%= form.label :nom, style: "display: block" %>
     <%= form.text_field :nom, class: 'input input-bordered input-sm w-full', required: true %>
   </div>
@@ -21,7 +21,7 @@
     <%= form.text_field :prénom, class: 'input input-bordered input-sm w-full', required: true %>
   </div>
 
-  <div>
+  <div class="mt-4">
     <%= form.label :email, style: "display: block" %>
     <%= form.email_field :email, class: 'input input-bordered input-sm w-full', required: true %>
   </div>
@@ -37,7 +37,7 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="my-4">
     <%= form.label :rôle, "Rôle" %>
     <%= form.select :rôle, options_for_select(User.rôles.keys, @user.rôle), {}, class: 'select select-bordered select-sm w-full' %>
   </div>
