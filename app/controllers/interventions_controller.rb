@@ -4,6 +4,23 @@ class InterventionsController < ApplicationController
   # GET /interventions or /interventions.json
   def index
     @interventions = current_user.organisation.interventions
+    @adhérents = current_user.organisation.users.adhérent
+    @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
+
+    if params[:search].present?
+      @interventions = @interventions.where("description ILIKE :search", {search: "%#{params[:search]}%"})
+    end
+
+    if params[:adherent_id].present?
+      @interventions = @interventions.where(adherent_id: params[:adherent_id])
+    end
+
+    if params[:tags].present?
+      @interventions = @interventions.tagged_with(params[:tags].reject(&:blank?))
+      session[:tags] = params[:tags]
+    else
+      session[:tags] = params[:tags] = []
+    end
   end
 
   # GET /interventions/1 or /interventions/1.json
@@ -13,10 +30,14 @@ class InterventionsController < ApplicationController
   # GET /interventions/new
   def new
     @intervention = Intervention.new
+    @agents = current_user.organisation.users.agent
+    @adhérents = current_user.organisation.users.adhérent
   end
 
   # GET /interventions/1/edit
   def edit
+    @agents = current_user.organisation.users
+    @adhérents = current_user.organisation.users.adhérent
   end
 
   # POST /interventions or /interventions.json

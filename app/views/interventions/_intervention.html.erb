@@ -1,54 +1,68 @@
 <div id="<%= dom_id intervention %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Agent:</strong>
-    <%= intervention.agent %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Agent binôme:</strong>
-    <%= intervention.agent_binome %>
-  </p>
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Début:</strong>
-    <%= intervention.début %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Fin:</strong>
-    <%= intervention.fin %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Temps de pause:</strong>
-    <%= intervention.temps_de_pause %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Description:</strong>
+  <p class="text-3xl my-5">
     <%= intervention.description %>
   </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Tags:</strong>
+  <p class="mt-5">
     <% intervention.tags.each do |tag| %>
-      <span class="badge badge-primary"><%= tag.name.humanize %></span>
+      <span class="badge badge-success text-white"><%= tag.name.humanize %></span>
     <% end %>
   </p>
+  <div class="flex gap-8">
+    <div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Workflow state:</strong>
-    <%= intervention.workflow_state %>
-  </p>
+      <p class="my-5">
+        <strong class="block font-thin mb-1">Adhérent :</strong>
+        <%= intervention.adherent.try(:nom_prénom) %>
+      </p>
+    </div>
 
-  <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
+    <div>
+      <p class="my-5">
+        <strong class="block font-thin mb-1">Agent:</strong>
+        <%= intervention.agent.try(:nom_prénom) %>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-thin mb-1">Agent binôme:</strong>
+        <%= intervention.agent_binome.try(:nom_prénom) %>
+      </p>
+    </div>
+    <div>
+      <p class="my-5">
+        <strong class="block font-thin mb-1">Début:</strong>
+        <%= l intervention.début if intervention.début %>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-thin mb-1">Fin:</strong>
+        <%= l intervention.fin if intervention.fin%>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-thin mb-1">Temps de pause:</strong>
+        <%= intervention.temps_de_pause %>
+      </p>
+    </div>
+    <div>
+      <p class="my-5">
+        <strong class="block font-thin mb-1">Statut:</strong>
+        <span class="badge badge-lg <%= intervention.style %>">
+          <%= intervention.workflow_state.humanize %>
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this intervention", intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-thin" %>
+    <%= link_to "Edit this intervention", edit_intervention_path(intervention), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-thin" %>
+    <hr class="mt-6">
+
+  <% else %>
+    <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
   <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
   <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
   <%= link_to_if intervention.can_valider?, 'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-info text-white' %> |
   <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white' %> |
-
-  <% if action_name != "show" %>
-    <%= link_to "Show this intervention", intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Edit this intervention", edit_intervention_path(intervention), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
   <% end %>
 </div>

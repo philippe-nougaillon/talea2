@@ -20,26 +20,36 @@ class Intervention < ApplicationRecord
   ARCHIVE = 'archivé'
 
   workflow do
-    state NOUVEAU, meta: {style: 'badge-info'} do
+    state NOUVEAU, meta: {style: 'badge-info text-white'} do
       event :accepter, transitions_to: ACCEPTE
     end
 
-    state ACCEPTE, meta: {style: 'badge-primary'} do
+    state ACCEPTE, meta: {style: 'badge-primary text-white'} do
       event :en_cours, transitions_to: EN_COURS
     end
 
-    state EN_COURS, meta: {style: 'badge-warning'} do
+    state EN_COURS, meta: {style: 'badge-warning text-white'} do
       event :realiser, transitions_to: REALISE
     end
 
-    state REALISE, meta: {style: 'badge-success'} do
+    state REALISE, meta: {style: 'badge-success text-white'} do
       event :valider, transitions_to: VALIDE
     end
 
-    state VALIDE, meta: {style: 'badge-success'} do
+    state VALIDE, meta: {style: 'badge-success text-white'} do
       event :archiver, transitions_to: ARCHIVE
     end
 
-    state ARCHIVE, meta: {style: 'badge-dark'}
+    state ARCHIVE, meta: {style: 'badge-ghost'}
+  end
+
+  # pour que le changement se voit dans l'audit trail
+  def persist_workflow_state(new_value)
+    self[:workflow_state] = new_value
+    save!
+  end
+  
+  def style
+    self.current_state.meta[:style]
   end
 end
