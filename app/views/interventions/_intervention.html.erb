@@ -45,6 +45,12 @@
     </div>
     <div>
       <p class="my-5">
+        <strong class="block font-thin mb-1">Temps total:</strong>
+        <%= intervention.temps_total %>
+      </p>
+    </div>
+    <div>
+      <p class="my-5">
         <strong class="block font-thin mb-1">Statut:</strong>
         <span class="badge badge-lg <%= intervention.style %>">
           <%= intervention.workflow_state.humanize %>
@@ -60,9 +66,9 @@
 
   <% else %>
     <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
-  <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
-  <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
-  <%= link_to_if intervention.can_valider?, 'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-info text-white' %> |
-  <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white' %> |
+    <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
+    <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
+    <%= link_to_if intervention.can_valider?, 'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-info text-white' %> |
+    <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white' %> |
   <% end %>
 </div>

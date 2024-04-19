@@ -9,6 +9,8 @@ class Intervention < ApplicationRecord
   belongs_to :agent_binome, class_name: :User, foreign_key: :agent_binome_id, optional: true 
   belongs_to :adherent, class_name: :User, foreign_key: :adherent_id, optional: true 
 
+  before_save :calcul_temps_total
+
 
   # WORKFLOW
 
@@ -51,5 +53,13 @@ class Intervention < ApplicationRecord
   
   def style
     self.current_state.meta[:style]
+  end
+
+  def calcul_temps_total
+    total = 0
+    if self.fin && self.début
+      total = ((self.fin - self.début).to_i / 3600.0) - self.temps_de_pause
+    end
+    self.temps_total = total
   end
 end

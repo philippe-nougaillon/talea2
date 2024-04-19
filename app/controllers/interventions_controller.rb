@@ -30,6 +30,10 @@ class InterventionsController < ApplicationController
       @interventions = @interventions.where("DATE(fin) = ?", params[:au])
     end
 
+    if params[:workflow_state].present?
+      @interventions = @interventions.where("interventions.workflow_state = ?", params[:workflow_state].to_s.downcase)
+    end
+
     if params[:tags].present?
       @interventions = @interventions.tagged_with(params[:tags].reject(&:blank?))
       session[:tags] = params[:tags]
