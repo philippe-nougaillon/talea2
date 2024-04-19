@@ -1,5 +1,5 @@
 class InterventionsController < ApplicationController
-  before_action :set_intervention, only: %i[ show edit update destroy ]
+  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours realiser valider archiver ]
 
   # GET /interventions or /interventions.json
   def index
@@ -58,6 +58,31 @@ class InterventionsController < ApplicationController
     end
   end
 
+  def accepter
+    @intervention.accepter!
+    redirect_to @intervention, notice: "Intervention acceptée"
+  end
+
+  def en_cours
+    @intervention.en_cours!
+    redirect_to @intervention, notice: "Intervention en cours"
+  end
+
+  def realiser
+    @intervention.realiser!
+    redirect_to @intervention, notice: "Intervention réalisée"
+  end
+
+  def valider
+    @intervention.valider!
+    redirect_to @intervention, notice: "Intervention validée"
+  end
+
+  def archiver
+    @intervention.archiver!
+    redirect_to @intervention, notice: "Intervention archivée"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_intervention
@@ -66,6 +91,6 @@ class InterventionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def intervention_params
-      params.require(:intervention).permit(:début, :fin, :temps_de_pause, :description, :workflow_state, :organisation_id, :agent_id, :agent_binome_id, :adherent_id)
+      params.require(:intervention).permit(:organisation_id, :agent_id, :agent_binome_id, :adherent_id, :début, :fin, :temps_de_pause, :description, :workflow_state, :tag_list)
     end
 end

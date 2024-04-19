@@ -1,5 +1,14 @@
 <div id="<%= dom_id intervention %>">
   <p class="my-5">
+    <strong class="block font-medium mb-1">Agent:</strong>
+    <%= intervention.agent %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Agent binôme:</strong>
+    <%= intervention.agent_binome %>
+  </p>
+  <p class="my-5">
     <strong class="block font-medium mb-1">Début:</strong>
     <%= intervention.début %>
   </p>
@@ -20,9 +29,22 @@
   </p>
 
   <p class="my-5">
+    <strong class="block font-medium mb-1">Tags:</strong>
+    <% intervention.tags.each do |tag| %>
+      <span class="badge badge-primary"><%= tag.name.humanize %></span>
+    <% end %>
+  </p>
+
+  <p class="my-5">
     <strong class="block font-medium mb-1">Workflow state:</strong>
     <%= intervention.workflow_state %>
   </p>
+
+  <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
+  <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
+  <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
+  <%= link_to_if intervention.can_valider?, 'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-info text-white' %> |
+  <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white' %> |
 
   <% if action_name != "show" %>
     <%= link_to "Show this intervention", intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
