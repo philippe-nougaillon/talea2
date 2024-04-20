@@ -33,4 +33,9 @@
   <div id="users" class="min-w-full">
     <%= render @users %>
   </div>
+
+  <p class="mt-8">
+    Affichage de <%= pluralize(@users.count, 'utilisateur', plural: 'utilisateurs') %> sur <%= current_user.organisation.users.count %>
+  </p>
+
 </div>

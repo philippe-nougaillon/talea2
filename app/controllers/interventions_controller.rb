@@ -3,10 +3,11 @@ class InterventionsController < ApplicationController
 
   # GET /interventions or /interventions.json
   def index
-    @interventions = current_user.organisation.interventions
+    @interventions = current_user.interventions_by_role
+    @tags = @interventions.tag_counts_on(:tags).order(:name)
+
     @adhérents = current_user.organisation.users.adhérent
     @agents = current_user.organisation.users.agent
-    @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
 
     if params[:search].present?
       @interventions = @interventions.where("description ILIKE :search", {search: "%#{params[:search]}%"})
