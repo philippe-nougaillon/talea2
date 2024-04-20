@@ -76,29 +76,15 @@
 
   <% if action_name == "show" %>
     <div class="my-5">
-      Actions : 
+      <strong class="block text-slate-400 mb-1">Actions</strong>
       <p>
-        |
         <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
         <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white' %> |
         <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
         <%= link_to_if intervention.can_valider?, 'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
-        <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-ghost' %> |
+        <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-ghost' %> 
       </p>
     </div>
-
-    <hr>
-
-    <p class="mt-5">
-      <span class="text-slate-400 mb-1">Créée le :</span>
-      <%= l intervention.created_at %>
-      (il y a <%= time_ago_in_words intervention.created_at %>)
-    </p>
-    <p class="mb-5">
-      <span class="text-slate-400 mb-1">Modifiée le :</span>
-      <%= l intervention.updated_at %>
-      (il y a <%= time_ago_in_words intervention.updated_at %>)
-    </p>
   <% end %>
 
 </div>
