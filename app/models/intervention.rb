@@ -13,9 +13,9 @@ class Intervention < ApplicationRecord
 
   before_save :calcul_temps_total
 
+  scope :ordered, -> { order(updated_at: :desc) }
 
   # WORKFLOW
-
   NOUVEAU   = 'nouveau'
   ACCEPTE   = 'accepté'
   EN_COURS  = 'en cours'

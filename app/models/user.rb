@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   belongs_to :organisation, optional: true
 
-  normalizes :nom, with: -> nom { nom.humanize.strip }
+  normalizes :nom,    with: -> nom { nom.humanize.strip }
   normalizes :prénom, with: -> prénom { prénom.humanize.strip }
 
   enum rôle: {
@@ -22,7 +22,7 @@ class User < ApplicationRecord
   def interventions_by_role
     case self.rôle
     when 'manager'
-      self.organisation.interventions
+      self.organisation.interventions #TODO: .ordered
     when 'adhérent'
       self.organisation.interventions.where(adherent_id: self.id)
     when 'agent'
