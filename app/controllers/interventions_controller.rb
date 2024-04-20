@@ -1,5 +1,5 @@
 class InterventionsController < ApplicationController
-  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours realiser valider archiver ]
+  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider archiver ]
 
   # GET /interventions or /interventions.json
   def index
@@ -109,8 +109,8 @@ class InterventionsController < ApplicationController
     redirect_to @intervention, notice: "Intervention en cours"
   end
 
-  def realiser
-    @intervention.realiser!
+  def terminer
+    @intervention.terminer!
     redirect_to @intervention, notice: "Intervention réalisée"
   end
 

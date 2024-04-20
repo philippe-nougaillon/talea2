@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   
   devise_scope :user do
     authenticated :user do
-      root 'users#index', as: :authenticated_root
+      root 'interventions#index', as: :authenticated_root
     end
     
     unauthenticated do
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     member do
       get :accepter
       get :en_cours
-      get :realiser
+      get :terminer
       get :valider
       get :archiver
     end

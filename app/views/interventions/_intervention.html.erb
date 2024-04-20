@@ -1,8 +1,9 @@
 <div id="<%= dom_id intervention %>">
 
   <small>
-    Il y a <%= time_ago_in_words intervention.updated_at %>
+    <i>il y a <%= time_ago_in_words intervention.updated_at %></i>
   </small>
+
   <p class="text-3xl text-primary font-black">
     <%= link_to intervention.description, intervention %>
   </p>
@@ -11,7 +12,7 @@
     <div>
       <p class="my-5">
         <% intervention.tags.each do |tag| %>
-          <span class="badge badge-success text-white"><%= tag.name.humanize %></span>
+          <span class="badge "><%= tag.name.humanize %></span>
         <% end %>
       </p>
 
@@ -67,8 +68,8 @@
     </div>
 
     <div class="avatar placeholder p-4">
-      <div class="bg-slate-400 text-neutral-content w-48">
-        <span class="text-xl">Photos</span>
+      <div class="bg-slate-400 text-neutral-content w-32">
+        <span class="text-xl">Photo</span>
       </div>
     </div> 
 
@@ -86,9 +87,9 @@
       <p>
         <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
         <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white' %> |
-        <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
-        <%= link_to_if intervention.can_valider?, 'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
-        <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-ghost' %> 
+        <%= link_to_if intervention.can_terminer?, 'Terminer', terminer_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
+        <%= link_to_if intervention.can_valider?,  'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
+        <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white' %> 
       </p>
     </div>
   <% end %>

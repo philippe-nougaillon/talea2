@@ -33,7 +33,7 @@ class Intervention < ApplicationRecord
     end
 
     state EN_COURS, meta: {style: 'badge-warning text-white'} do
-      event :realiser, transitions_to: REALISE
+      event :terminer, transitions_to: REALISE
     end
 
     state REALISE, meta: {style: 'badge-error text-white'} do
