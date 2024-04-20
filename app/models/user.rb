@@ -19,17 +19,6 @@ class User < ApplicationRecord
     manager: 2
   }
 
-  def interventions_by_role
-    case self.rôle
-    when 'manager'
-      self.organisation.interventions #TODO: .ordered
-    when 'adhérent'
-      self.organisation.interventions.where(adherent_id: self.id)
-    when 'agent'
-      self.organisation.interventions.where("agent_id = :id OR agent_binome_id = :id", {id: self.id})
-    end
-  end
-
   def nom_prénom
     "#{self.nom} #{self.prénom}"
   end

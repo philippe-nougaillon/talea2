@@ -58,8 +58,21 @@ class Intervention < ApplicationRecord
   end
 
   def self.workflow_states_count(interventions)
-    interventions.select(:id).group(:workflow_state).count(:id)
+    interventions.reorder(:workflow_state).select(:id).group(:workflow_state).count(:id)
   end
+
+  def self.by_role_for(user)
+    case user.rôle
+    when 'manager'
+      user.organisation.interventions.ordered
+    when 'adhérent'
+      user.organisation.interventions.where(adherent_id: user.id)
+    when 'agent'
+      user.organisation.interventions.where("agent_id = :id OR agent_binome_id = :id", {id: user.id})
+    end
+  end
+
+  private
 
   def calcul_temps_total
     total = 0
