@@ -1,5 +1,8 @@
 <div id="<%= dom_id intervention %>">
-  <p class="text-3xl my-5">
+  <small>
+    Il y a <%= time_ago_in_words intervention.updated_at %>
+  </small>
+  <p class="text-3xl">
     <%= intervention.description %>
   </p>
   <p class="mt-5">
@@ -37,17 +40,17 @@
         <strong class="block font-thin mb-1">Fin:</strong>
         <%= l intervention.fin if intervention.fin%>
       </p>
-
-      <p class="my-5">
-        <strong class="block font-thin mb-1">Pause (h):</strong>
-        <%= intervention.temps_de_pause %>
-      </p>
     </div>
 
     <div>
       <p class="my-5">
         <strong class="block font-thin mb-1">Temps total (h):</strong>
         <%= intervention.temps_total %>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-thin mb-1">Pause (h):</strong>
+        <%= intervention.temps_de_pause %>
       </p>
     </div>
 
@@ -72,13 +75,24 @@
     <hr class="mt-6">
   <% else %>
     <div class="my-5">
-      <p>Changer le Statut : </p>
-      <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
-      <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
-      <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
-      <%= link_to_if intervention.can_valider?, 'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-info text-white' %> |
-      <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white' %> |
+      <p>
+        Actions pour changer le Statut : |
+        <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
+        <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white' %> |
+        <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
+        <%= link_to_if intervention.can_valider?, 'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
+        <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-ghost' %> |
+      </p>
     </div>
+
+    <p class="my-2">
+      Créée le : <%= l intervention.created_at %>
+      (il y a <%= time_ago_in_words intervention.created_at %>)
+    </p>
+    <p class="my-2">
+      Modifiée le : <%= l intervention.updated_at %>
+      (il y a <%= time_ago_in_words intervention.updated_at %>)
+    </p>
   <% end %>
 
 </div>

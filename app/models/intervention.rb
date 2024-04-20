@@ -16,12 +16,12 @@ class Intervention < ApplicationRecord
 
   # WORKFLOW
 
-  NOUVEAU = 'nouveau'
-  ACCEPTE  = 'accepté'
-  EN_COURS= 'en cours'
-  REALISE= 'réalisé'
-  VALIDE  = 'validé'
-  ARCHIVE = 'archivé'
+  NOUVEAU   = 'nouveau'
+  ACCEPTE   = 'accepté'
+  EN_COURS  = 'en cours'
+  REALISE   = 'réalisé'
+  VALIDE    = 'validé'
+  ARCHIVE   = 'archivé'
 
   workflow do
     state NOUVEAU, meta: {style: 'badge-info text-white'} do
@@ -36,7 +36,7 @@ class Intervention < ApplicationRecord
       event :realiser, transitions_to: REALISE
     end
 
-    state REALISE, meta: {style: 'badge-success text-white'} do
+    state REALISE, meta: {style: 'badge-error text-white'} do
       event :valider, transitions_to: VALIDE
     end
 
@@ -57,6 +57,10 @@ class Intervention < ApplicationRecord
     self.current_state.meta[:style]
   end
 
+  def self.workflow_states_count(interventions)
+    interventions.select(:id).group(:workflow_state).count(:id)
+  end
+
   def calcul_temps_total
     total = 0
     if self.fin && self.début
@@ -64,4 +68,5 @@ class Intervention < ApplicationRecord
     end
     self.temps_total = total
   end
+  
 end
