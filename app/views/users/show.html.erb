@@ -8,7 +8,7 @@
 
     <%= link_to "Modifier cet utilisateur", edit_user_path(@user), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
-      <%= button_to "Détruire cet utilisateur", user_path(@user), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      <%= button_to "Détruire cet utilisateur", user_path(@user), method: :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir supprimer cet utilisateur ?" }, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>
     <%= link_to "Retour vers Utilisateurs", users_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>

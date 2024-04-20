@@ -1,62 +1,65 @@
 <div id="<%= dom_id intervention %>">
+
   <small>
     Il y a <%= time_ago_in_words intervention.updated_at %>
   </small>
-  <p class="text-3xl">
-    <%= intervention.description %>
+  <p class="text-3xl text-primary font-black">
+    <%= link_to intervention.description, intervention %>
   </p>
-  <p class="mt-5">
-    <% intervention.tags.each do |tag| %>
-      <span class="badge badge-success text-white"><%= tag.name.humanize %></span>
-    <% end %>
-  </p>
+
   <div class="flex gap-8">
     <div>
       <p class="my-5">
-        <strong class="block font-thin mb-1">Adhérent:</strong>
+        <% intervention.tags.each do |tag| %>
+          <span class="badge badge-success text-white"><%= tag.name.humanize %></span>
+        <% end %>
+      </p>
+
+      <p class="my-5">
+        <strong class="block text-slate-400 mb-1">Adhérent</strong>
         <%= intervention.adherent.try(:nom_prénom) %>
       </p>
     </div>
 
     <div>
       <p class="my-5">
-        <strong class="block font-thin mb-1">Agent:</strong>
+        <strong class="block text-slate-400 mb-1">Agent</strong>
         <%= intervention.agent.try(:nom_prénom) %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-thin mb-1">Binôme:</strong>
+        <strong class="block text-slate-400 mb-1">Binôme</strong>
         <%= intervention.agent_binome.try(:nom_prénom) %>
       </p>
     </div>
 
     <div>
       <p class="my-5">
-        <strong class="block font-thin mb-1">Début:</strong>
+        <strong class="block text-slate-400 mb-1">Début</strong>
         <%= l intervention.début if intervention.début %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-thin mb-1">Fin:</strong>
+        <strong class="block text-slate-400 mb-1">Fin</strong>
         <%= l intervention.fin if intervention.fin%>
       </p>
     </div>
 
     <div>
       <p class="my-5">
-        <strong class="block font-thin mb-1">Temps total (h):</strong>
+        <strong class="block text-slate-400 mb-1">Temps total (h)</strong>
         <%= intervention.temps_total %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-thin mb-1">Pause (h):</strong>
+        <strong class="block text-slate-400 mb-1">Pause (h)</strong>
         <%= intervention.temps_de_pause %>
       </p>
     </div>
 
     <div>
       <p class="my-5">
-        <strong class="block font-thin mb-1">Statut:</strong>
+        <strong class="block text-slate-400 mb-1">Statut</strong>
         <span class="badge badge-lg text-nowrap <%= intervention.style %>">
           <%= intervention.workflow_state.humanize %>
         </span>
@@ -64,19 +67,18 @@
     </div>
 
     <p class="my-5">
-      <strong class="block font-thin mb-1">Commentaires:</strong>
+      <strong class="block text-slate-400 mb-1">Commentaires</strong>
       <%= intervention.commentaires %>
     </p>
   </div>
 
-  <% if action_name != "show" %>
-    <%= link_to "Voir cette intervention", intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-thin" %>
-    <%= link_to "Modifier cette intervention", edit_intervention_path(intervention), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-thin" %>
-    <hr class="mt-6">
-  <% else %>
+  <hr>
+
+  <% if action_name == "show" %>
     <div class="my-5">
+      Actions : 
       <p>
-        Actions pour changer le Statut : |
+        |
         <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
         <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white' %> |
         <%= link_to_if intervention.can_realiser?, 'Réaliser', realiser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
@@ -85,14 +87,21 @@
       </p>
     </div>
 
-    <p class="my-2">
-      Créée le : <%= l intervention.created_at %>
+    <hr>
+
+    <p class="mt-5">
+      <span class="text-slate-400 mb-1">Créée le :</span>
+      <%= l intervention.created_at %>
       (il y a <%= time_ago_in_words intervention.created_at %>)
     </p>
-    <p class="my-2">
-      Modifiée le : <%= l intervention.updated_at %>
+    <p class="mb-5">
+      <span class="text-slate-400 mb-1">Modifiée le :</span>
+      <%= l intervention.updated_at %>
       (il y a <%= time_ago_in_words intervention.updated_at %>)
     </p>
   <% end %>
 
 </div>
+
+
+

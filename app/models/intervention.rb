@@ -47,7 +47,7 @@ class Intervention < ApplicationRecord
     state ARCHIVE, meta: {style: 'badge-ghost'}
   end
 
-  # pour que le changement se voit dans l'audit trail
+  # pour que le changement de 'workflow_state' se voit dans l'audit trail
   def persist_workflow_state(new_value)
     self[:workflow_state] = new_value
     save!
