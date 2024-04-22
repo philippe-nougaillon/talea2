@@ -15,14 +15,16 @@
         <%= text_field_tag :search, params[:search], include_blank:true, onchange:'this.form.submit()', class: 'input input-bordered input-sm w-full', placeholder: 'Description' %>
       </div>
 
-      <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/12">
-        <%= label_tag :du, 'Du' %>
-        <%= date_field_tag :du, params[:du], onchange: 'this.form.submit()', class: 'input input-bordered input-sm w-full' %>
-      </div>
+      <div class="flex gap-4 w-full md:w-2/3 lg:w-1/4">
+        <div class="flex-1">
+          <%= label_tag :du, 'Du' %>
+          <%= date_field_tag :du, params[:du], onchange: 'this.form.submit()', class: 'input input-bordered input-sm w-full' %>
+        </div>
 
-      <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/12">
-        <%= label_tag :au, 'Au' %>
-        <%= date_field_tag :au, params[:au], onchange: 'this.form.submit()', class: 'input input-bordered input-sm w-full' %>
+        <div class="flex-1">
+          <%= label_tag :au, 'Au' %>
+          <%= date_field_tag :au, params[:au], onchange: 'this.form.submit()', class: 'input input-bordered input-sm w-full' %>
+        </div>
       </div>
 
       <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/12">
@@ -44,7 +46,7 @@
         <%= select_tag :agent_id, options_from_collection_for_select(@agents, :id, :nom_prénom, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="flex gap-1">
+      <div class="flex flex-wrap gap-1">
         <%= render TagCloudComponent.new(tags: @tags) %>
       </div>
     </div>
