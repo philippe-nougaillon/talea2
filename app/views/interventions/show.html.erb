@@ -24,7 +24,7 @@
           </tr>
         </thead>
 
-        <%= render partial: 'partials/audit', collection: @intervention.audits.reorder(id: :desc) %>
+        <%= render partial: 'partials/audit', collection: @intervention.audits.includes(:user).reorder(id: :desc) %>
       </table>
     </div>
   </div>

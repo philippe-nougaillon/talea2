@@ -47,7 +47,7 @@
         </tr>
       </thead>
 
-      <%= render partial: 'audit', collection: @audits %>
+      <%= render partial: 'audit', collection: @audits.includes(:user) %>
     </table>
   </div>
 
