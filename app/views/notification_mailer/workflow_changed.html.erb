@@ -1,2 +1,5 @@
 Bonjour,
-L'intervention '<%= @intervention.description %>' vient de changer de statut -> '<%= @intervention.workflow_state %>'
+<br>
+L'intervention '<b><%= @intervention.description %></b>' vient de changer de statut -> '<b><%= @intervention.workflow_state %></b>'.
+<br>
+Voir l'intervention : <%= link_to 'ici', intervention_url(@intervention) %>
