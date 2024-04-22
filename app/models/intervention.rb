@@ -66,9 +66,9 @@ class Intervention < ApplicationRecord
     when 'manager'
       user.organisation.interventions.ordered
     when 'adhérent'
-      user.organisation.interventions.where(adherent_id: user.id)
+      user.organisation.interventions.where(adherent_id: user.id).ordered
     when 'agent'
-      user.organisation.interventions.where("agent_id = :id OR agent_binome_id = :id", {id: user.id})
+      user.organisation.interventions.where("agent_id = :id OR agent_binome_id = :id", {id: user.id}).ordered
     end
   end
 
