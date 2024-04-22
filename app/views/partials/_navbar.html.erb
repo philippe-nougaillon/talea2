@@ -1,0 +1,25 @@
+<div class="btm-nav btm-nav-xs">
+  <%= link_to interventions_path, class: "text-secondary #{'active' if params[:controller] == 'interventions'}" do %>
+    <span class="material-symbols-outlined">
+      home
+    </span>
+  <% end %>
+
+  <%= link_to users_path, class: "text-secondary #{'active' if params[:controller] == 'users'}" do %>
+    <span class="material-symbols-outlined">
+      group
+    </span>
+  <% end %>
+
+  <%= link_to admin_audits_path, class: "text-secondary #{'active' if params[:controller] == 'admin'}" do %>
+    <span class="material-symbols-outlined">
+      history
+    </span>
+  <% end %>
+
+  <%= link_to destroy_user_session_path, 'data-turbo-method': :delete, title: "Fermer la session", class: 'text-secondary p-1.5' do %>
+    <span class="material-symbols-outlined">
+      logout
+    </span>
+  <% end %> 
+</div>

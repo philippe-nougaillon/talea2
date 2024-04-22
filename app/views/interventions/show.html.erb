@@ -12,9 +12,21 @@
     </div>
     <%= link_to "Retour aux Interventions", interventions_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 
-    <p class="text-error mt-12">
-      + Audit trail...
-    </p>
+    <h2 class="text-2xl mt-8">Audits</h2>
+    <div class="overflow-x-auto mt-8">
+      <table class="table table-sm">
+        <thead class="bg-slate-200">
+          <tr>
+            <th>Date</th>
+            <th>Utilisateur</th>
+            <th>Action</th>
+            <th>Modifications</th>
+          </tr>
+        </thead>
+
+        <%= render partial: 'partials/audit', collection: @intervention.audits.reorder(id: :desc) %>
+      </table>
+    </div>
   </div>
 
 </div>

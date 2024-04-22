@@ -23,32 +23,10 @@
     <main class="container mx-auto my-8 px-4 md:px-12">
       <%= yield %>
     </main>
-    
-    <div class="btm-nav btm-nav-xs">
-      <button class="text-secondary <%= 'active' if params[:controller] == 'interventions' %>">
-        <%= link_to interventions_path do %>
-          <span class="material-symbols-outlined">
-            home
-          </span>
-        <% end %>
-      </button>
 
-      <button class="text-secondary <%= 'active' if params[:controller] == 'users' %>">
-        <%= link_to users_path do %>
-          <span class="material-symbols-outlined">
-            group
-          </span>
-        <% end %>
-      </button>
-
-      <button class="text-secondary <%= 'active' if params[:controller] == 'admin' %>">
-        <%= link_to admin_audits_path do %>
-          <span class="material-symbols-outlined">
-            history
-          </span>
-        <% end %>
-      </button>
-    </div>
+    <% if user_signed_in? %>
+      <%= render 'partials/navbar' %>
+    <% end %>
 
   </body>
 </html>
