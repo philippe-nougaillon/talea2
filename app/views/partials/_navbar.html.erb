@@ -17,7 +17,7 @@
     </span>
   <% end %>
 
-  <%= link_to destroy_user_session_path, 'data-turbo-method': :delete, title: "Fermer la session", class: 'text-secondary p-1.5' do %>
+  <%= link_to destroy_user_session_path, 'data-turbo-method': :delete, title: "Fermer la session de #{current_user.email} (#{current_user.rôle})", class: 'text-secondary p-1.5' do %>
     <span class="material-symbols-outlined">
       logout
     </span>
