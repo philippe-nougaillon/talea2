@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <div class="flex gap-8 my-5">
+  <div class="flex flex-wrap gap-8 my-5 items-end">
     <div class="flex-1">
       <%= form.label :début %>
       <%= form.datetime_field :début, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
@@ -59,8 +59,12 @@
     <%= form.text_area :commentaires, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div class="inline">
+  <div class="flex flex-wrap gap-2">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <% if params[:action] == 'edit' %>
+      <%= link_to "Voir cette intervention", @intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+    <%= link_to "Retour vers Interventions", interventions_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
 <% end %>
 

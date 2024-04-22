@@ -3,14 +3,14 @@
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex justify-between items-center">
+  <div class="flex flex-wrap justify-between items-center">
     <h1 class="font-bold text-4xl">Interventions</h1>
     <%= link_to "Nouvelle Intervention", new_intervention_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
   <%= form_tag request.path, method: :get do %>
     <div class="flex flex-wrap items-end gap-4 mt-8">
-      <div class="max-w-48">
+      <div class="w-full sm:max-w-48">
         <%= label_tag :search, "Rechercher" %>
         <%= text_field_tag :search, params[:search], include_blank:true, onchange:'this.form.submit()', class: 'input input-bordered input-sm w-full', placeholder: 'Description' %>
       </div>
@@ -34,12 +34,12 @@
                             onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="max-w-72 w-full">
+      <div class="w-full sm:max-w-72">
         <%= label_tag :adherent_id, "Adhérent" %>
         <%= select_tag :adherent_id, options_from_collection_for_select(@adhérents, :id, :nom_prénom, params[:adherent_id]), include_blank: true, onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="max-w-72 w-full">
+      <div class="w-full sm:max-w-72">
         <%= label_tag :agent_id, "Agent" %>
         <%= select_tag :agent_id, options_from_collection_for_select(@agents, :id, :nom_prénom, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
       </div>

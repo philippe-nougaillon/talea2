@@ -1,4 +1,4 @@
-<div class="mx-auto md:w-2/3 w-full flex">
+<div class="mx-auto md:w-2/3 w-full">
   <div class="mx-auto mt-8">
     <% if notice.present? %>
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
@@ -6,11 +6,11 @@
 
     <%= render @intervention %>
 
-    <%= link_to "Modifier cette intervention", edit_intervention_path(@intervention), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Détruire cette intervention", intervention_path(@intervention), method: :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir supprimer cette intervention ?" }, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+    <div class="flex flex-wrap gap-2">
+      <%= link_to "Modifier cette intervention", edit_intervention_path(@intervention), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= button_to "Détruire cette intervention", intervention_path(@intervention), method: :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir supprimer cette intervention ?" }, class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      <%= link_to "Retour aux Interventions", interventions_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
-    <%= link_to "Retour aux Interventions", interventions_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 
     <h2 class="text-2xl mt-8">Audits</h2>
     <div class="overflow-x-auto">
