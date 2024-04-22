@@ -19,7 +19,7 @@ class Intervention < ApplicationRecord
   NOUVEAU   = 'nouveau'
   ACCEPTE   = 'accepté'
   EN_COURS  = 'en cours'
-  REALISE   = 'réalisé'
+  TERMINE   = 'terminé'
   VALIDE    = 'validé'
   ARCHIVE   = 'archivé'
 
@@ -33,10 +33,10 @@ class Intervention < ApplicationRecord
     end
 
     state EN_COURS, meta: {style: 'badge-warning text-white'} do
-      event :terminer, transitions_to: REALISE
+      event :terminer, transitions_to: TERMINE
     end
 
-    state REALISE, meta: {style: 'badge-error text-white'} do
+    state TERMINE, meta: {style: 'badge-error text-white'} do
       event :valider, transitions_to: VALIDE
     end
 
