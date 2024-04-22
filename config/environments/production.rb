@@ -94,4 +94,14 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  ActionMailer::Base.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    :api_key => ENV['MAILGUN_API_KEY'],
+    :domain => ENV['MAILGUN_DOMAIN'],
+    :api_host => 'api.eu.mailgun.net'  # Uncomment this line for EU region domains
+  }
+
+  config.action_mailer.default_url_options = { host: 'talea2-c8c89babd5ea.herokuapp.com', protocol: 'http' }
+  config.action_mailer.asset_host = 'https://talea2-c8c89babd5ea.herokuapp.com/'
 end

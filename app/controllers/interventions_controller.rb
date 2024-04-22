@@ -1,5 +1,6 @@
 class InterventionsController < ApplicationController
   before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider archiver ]
+  after_action :send_workflow_changed_notification, only: %i[ accepter en_cours terminer valider archiver ]
 
   # GET /interventions or /interventions.json
   def index
@@ -102,6 +103,7 @@ class InterventionsController < ApplicationController
 
   def accepter
     @intervention.accepter!
+    
     redirect_to @intervention, notice: "Intervention acceptée"
   end
 
@@ -129,6 +131,10 @@ class InterventionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_intervention
       @intervention = Intervention.find(params[:id])
+    end
+
+    def send_workflow_changed_notification
+      NotificationMailer.workflow_changed(@intervention).deliver_now
     end
 
     # Only allow a list of trusted parameters through.

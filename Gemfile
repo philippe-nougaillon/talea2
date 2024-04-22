@@ -80,3 +80,5 @@ gem "workflow-activerecord", "~> 6.0"
 gem "view_component", "~> 3.12"
 
 gem "audited", "~> 5.6"
+
+gem "mailgun-ruby", "~> 1.2"
