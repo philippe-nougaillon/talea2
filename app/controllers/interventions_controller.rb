@@ -120,7 +120,7 @@ class InterventionsController < ApplicationController
   def terminer
     if @intervention.can_terminer?
       @intervention.terminer!
-      flash[:notice] = "Intervention réalisée"
+      flash[:notice] = "Intervention terminée"
     end
     redirect_to @intervention
   end
