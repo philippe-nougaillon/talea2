@@ -8,22 +8,22 @@
     <%= link_to intervention.description, intervention %>
   </p>
 
+  <p class="mb-2">
+    <% intervention.tags.each do |tag| %>
+      <span class="badge "><%= tag.name.humanize %></span>
+    <% end %>
+  </p>
+
   <div class="flex gap-8">
     <div>
-      <p class="my-5">
-        <% intervention.tags.each do |tag| %>
-          <span class="badge "><%= tag.name.humanize %></span>
-        <% end %>
-      </p>
-
-      <p class="my-5">
+      <p class="my-2">
         <strong class="block text-slate-400 mb-1">Adhérent</strong>
         <%= intervention.adherent.try(:nom_prénom) %>
       </p>
     </div>
 
     <div>
-      <p class="my-5">
+      <p class="my-2">
         <strong class="block text-slate-400 mb-1">Agent</strong>
         <%= intervention.agent.try(:nom_prénom) %>
       </p>
@@ -35,7 +35,7 @@
     </div>
 
     <div>
-      <p class="my-5">
+      <p class="my-2">
         <strong class="block text-slate-400 mb-1">Début</strong>
         <%= l intervention.début if intervention.début %>
       </p>
@@ -47,19 +47,19 @@
     </div>
 
     <div>
-      <p class="my-5">
-        <strong class="block text-slate-400 mb-1">Temps total (h)</strong>
-        <%= intervention.temps_total %>
+      <p class="my-2">
+        <strong class="block text-slate-400 mb-1">Temps_total</strong>
+        <%= intervention.temps_total %>h
       </p>
 
       <p class="my-5">
-        <strong class="block text-slate-400 mb-1">Pause (h)</strong>
-        <%= intervention.temps_de_pause %>
+        <strong class="block text-slate-400 mb-1">Pause</strong>
+        <%= intervention.temps_de_pause %>h
       </p>
     </div>
 
     <div>
-      <p class="my-5">
+      <p class="my-2">
         <strong class="block text-slate-400 mb-1">Statut</strong>
         <span class="badge badge-lg text-nowrap <%= intervention.style %>">
           <%= intervention.workflow_state.humanize %>
@@ -68,21 +68,34 @@
     </div>
 
     <div class="avatar placeholder p-4">
-      <div class="bg-slate-400 text-neutral-content w-32">
+      <div class="bg-slate-300 text-neutral-content w-32">
         <span class="text-xl">Photo</span>
       </div>
     </div> 
 
-    <p class="my-5">
-      <strong class="block text-slate-400 mb-1">Commentaires</strong>
-      <%= intervention.commentaires %>
-    </p>
+
+    <div>
+      <p class="my-2">
+        <strong class="block text-slate-400 mb-1">Commentaires</strong>
+        <%= intervention.commentaires %>
+      </p>
+
+      <div class="rating rating-xs">
+        <input type="radio" name="rating-1" class="mask mask-star" />
+        <input type="radio" name="rating-1" class="mask mask-star" checked />
+        <input type="radio" name="rating-1" class="mask mask-star" />
+        <input type="radio" name="rating-1" class="mask mask-star" />
+        <input type="radio" name="rating-1" class="mask mask-star" />
+      </div>
+
+    </div>
+
   </div>
 
   <hr>
 
   <% if action_name == "show" %>
-    <div class="my-5">
+    <div class="mt-2 mb-5">
       <strong class="block text-slate-400 mb-1">Actions</strong>
       <p>
         <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |

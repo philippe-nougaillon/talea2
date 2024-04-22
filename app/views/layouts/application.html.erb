@@ -25,7 +25,7 @@
     </main>
     
     <div class="btm-nav btm-nav-xs">
-      <button class="<%= 'active' if params[:controller] == 'interventions' %>">
+      <button class="text-secondary <%= 'active' if params[:controller] == 'interventions' %>">
         <%= link_to interventions_path do %>
           <span class="material-symbols-outlined">
             home
@@ -33,7 +33,7 @@
         <% end %>
       </button>
 
-      <button class="<%= 'active' if params[:controller] == 'users' %>">
+      <button class="text-secondary <%= 'active' if params[:controller] == 'users' %>">
         <%= link_to users_path do %>
           <span class="material-symbols-outlined">
             group
@@ -41,7 +41,7 @@
         <% end %>
       </button>
 
-      <button class="<%= 'active' if params[:controller] == 'admin' %>">
+      <button class="text-secondary <%= 'active' if params[:controller] == 'admin' %>">
         <%= link_to admin_audits_path do %>
           <span class="material-symbols-outlined">
             history

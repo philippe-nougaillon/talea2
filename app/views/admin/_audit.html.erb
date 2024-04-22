@@ -10,7 +10,7 @@
         <%= audit.user.email %>
         (#<%= audit.user.id %>)
         <br>
-        <%= audit.user.rôle %>
+        <%= audit.user.rôle.humanize %>
         <br>
       <% end %>
     <% else %>
@@ -27,7 +27,7 @@
   <td>
     <%= audit.action.humanize %>
   </td>
-  <td>
+  <td class="w-1/2">
     <%= audit.audited_changes %>
   </td>
 </tr>
