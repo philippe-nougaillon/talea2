@@ -4,6 +4,7 @@ class InterventionsController < ApplicationController
   # GET /interventions or /interventions.json
   def index
     @interventions = Intervention.by_role_for(current_user)
+    @interventions_count = @interventions.count
     @tags = @interventions.tag_counts_on(:tags).order(:name)
 
     @adhérents = current_user.organisation.users.adhérent

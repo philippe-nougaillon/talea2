@@ -57,7 +57,7 @@
   </div>
 
   <p class="mt-8">
-    Affichage de <%= pluralize(@interventions.count, 'intervention', plural: 'interventions') %> sur <%= current_user.organisation.interventions.count %>
+    Affichage de <%= pluralize(@interventions.count, 'intervention', plural: 'interventions') %> sur <%= @interventions_count %>
   </p>
   <p>
     Statuts : <%= JSON.pretty_generate(Intervention.workflow_states_count(@interventions)) %>
