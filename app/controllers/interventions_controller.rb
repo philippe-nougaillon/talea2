@@ -102,29 +102,43 @@ class InterventionsController < ApplicationController
   end
 
   def accepter
-    @intervention.accepter!
-    
-    redirect_to @intervention, notice: "Intervention acceptée"
+    if @intervention.can_accepter?
+      @intervention.accepter!
+      flash[:notice] = "Intervention acceptée"
+    end
+    redirect_to @intervention
   end
 
   def en_cours
-    @intervention.en_cours!
-    redirect_to @intervention, notice: "Intervention en cours"
+    if @intervention.can_en_cours?
+      @intervention.en_cours!
+      flash[:notice] = "Intervention en cours"
+    end
+    redirect_to @intervention
   end
 
   def terminer
-    @intervention.terminer!
-    redirect_to @intervention, notice: "Intervention réalisée"
+    if @intervention.can_terminer?
+      @intervention.terminer!
+      flash[:notice] = "Intervention réalisée"
+    end
+    redirect_to @intervention
   end
 
   def valider
-    @intervention.valider!
-    redirect_to @intervention, notice: "Intervention validée"
+    if @intervention.can_valider?
+      @intervention.valider!
+      flash[:notice] = "Intervention validée"
+    end
+    redirect_to @intervention
   end
 
   def archiver
-    @intervention.archiver!
-    redirect_to @intervention, notice: "Intervention archivée"
+    if @intervention.can_archiver?
+      @intervention.archiver!
+      flash[:notice] = "Intervention archivée"
+    end
+    redirect_to @intervention
   end
 
   private
@@ -134,7 +148,7 @@ class InterventionsController < ApplicationController
     end
 
     def send_workflow_changed_notification
-      NotificationMailer.workflow_changed(@intervention).deliver_now
+      NotificationMailer.workflow_changed(@intervention, current_user.id).deliver_now
     end
 
     # Only allow a list of trusted parameters through.
