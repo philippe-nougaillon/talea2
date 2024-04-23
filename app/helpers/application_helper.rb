@@ -13,19 +13,41 @@ module ApplicationHelper
           when 'Integer'
             pretty_changes << "#{key} initialisé à '#{User.find(ids).nom_prénom}'"
           when 'Array'
-            pretty_changes << "#{key} changé de '#{User.find_by(id: ids.first).try(:nom_prénom) || "#{ids.first} (Utilisateur supprimé)"}' à '#{User.find_by(id: ids.last).try(:nom_prénom) || "#{ids.last} (Utilisateur supprimé)"}'"
+            pretty_changes << "#{key} changé de '#{User.find_by(id: ids.first).try(:nom_prénom) || "#{ids.first} (Utilisateur supprimé)" if ids.first}' à '#{User.find_by(id: ids.last).try(:nom_prénom) || "#{ids.last} (Utilisateur supprimé)" if ids.last}'"
           end 
         else
           case ids.class.name
           when 'NilClass'
             pretty_changes << "#{key} initialisé à vide"
           when 'Array'
-            pretty_changes << "#{key} changé de #{ids.join(' à ')} (Utilisateurs supprimés))"
+            pretty_changes << "#{key} changé de '#{ids.first}' à '#{ids.last}' (Utilisateurs supprimés)"
           when 'Integer'
-            pretty_changes << "#{key} initialisé à #{ids} (Utilisateur supprimé)"
+            pretty_changes << "#{key} initialisé à '#{ids}' (Utilisateur supprimé)"
+          end
+        end
+      when 'Workflow state'
+        if audit.action == 'update'
+          unless c.last.first.blank? && c.last.last.blank?    
+            pretty_changes << "Statut modifié de '#{c.last.first.humanize}' à '#{c.last.last.humanize}'"
+          end
+        else 
+          unless c.last.blank?
+            pretty_changes << "Statut #{audit.action == 'create' ? 'initialisé à' : 'était'} '#{c.last.humanize}'"
+          end
+        end
+      when 'Rôle'
+        rôles = User.rôles.invert
+        if audit.action == 'update'
+          unless c.last.first.blank? && c.last.last.blank?    
+            pretty_changes << "#{key} modifié de '#{rôles[c.last.first].humanize}' à '#{rôles[c.last.last].humanize}'"
+          end
+        else 
+          unless c.last.blank?
+            pretty_changes << "#{key} #{audit.action == 'create' ? 'initialisé à' : 'était'} '#{rôles[c.last].humanize}'"
           end
         end
       else
+        
         if audit.action == 'update'
           unless c.last.first.blank? && c.last.last.blank?    
             pretty_changes << "#{key} modifié de '#{c.last.first}' à '#{c.last.last}'"
