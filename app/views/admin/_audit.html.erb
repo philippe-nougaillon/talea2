@@ -21,8 +21,7 @@
     <%= audit.auditable_type %>
   </td>
   <td style="text-align: right;">
-    <%= audit.auditable_id %>
-    <%# link_to_if audited_view_path(audit), audit.auditable_id, audited_view_path(audit), class: 'text-primary hover:underline' %>
+    <%= link_to_if audited_view_path(audit), audit.auditable_id, audited_view_path(audit), class: 'text-primary hover:underline' %>
   </td>
   <td>
     <%= audit.action.humanize %>

@@ -62,4 +62,17 @@ module ApplicationHelper
     pretty_changes
   end
 
+  def audited_view_path(audit)
+    case audit.auditable_type
+    when "Intervention"
+      if Intervention.exists?(audit.auditable_id)
+        intervention_path(audit.auditable_id)
+      end
+    when "User"
+      if User.exists?(audit.auditable_id)
+        user_path(audit.auditable_id)
+      end
+    end
+  end
+
 end
