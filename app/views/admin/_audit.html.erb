@@ -28,6 +28,10 @@
     <%= audit.action.humanize %>
   </td>
   <td class="w-1/2">
-    <%= audit.audited_changes %>
+    <% unless audit.comment %>
+      <%= sanitize prettify(audit).join('<br>') %>
+    <% else %>
+      <%= audit.comment %>
+    <% end %>
   </td>
 </tr>
