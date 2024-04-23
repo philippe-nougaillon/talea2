@@ -68,7 +68,7 @@
     Somme de Temps total : <%= @interventions.sum(:temps_total) %> h.
   </p>
 
-  <%= link_to "Exporter vers Excel", url_for(params.merge(format: :xls)), class: "text-success hover:underline mb-12" %>
+  <%= link_to "Exporter vers Excel", url_for(params.merge(format: :xls, params: params.to_unsafe_h)), class: "text-success hover:underline mb-12" %>
 
 </div>
 
