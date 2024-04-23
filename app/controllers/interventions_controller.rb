@@ -1,7 +1,8 @@
 class InterventionsController < ApplicationController
   before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider archiver ]
-  after_action :send_workflow_changed_notification, only: %i[ accepter en_cours terminer valider archiver ]
   before_action :is_user_authorized
+  after_action :send_workflow_changed_notification, only: %i[ accepter en_cours terminer valider archiver ]
+  after_action :send_intervention_termine_notification, only: %i[ terminer ]
 
   # GET /interventions or /interventions.json
   def index
@@ -161,7 +162,15 @@ class InterventionsController < ApplicationController
     end
 
     def send_workflow_changed_notification
-      NotificationMailer.workflow_changed(@intervention, current_user.id).deliver_now
+      manager_emails = @intervention.organisation.users.where.not(id: current_user.id).manager.pluck(:email)
+      NotificationMailer.workflow_changed(@intervention, manager_emails).deliver_now
+    end
+
+    def send_intervention_termine_notification
+      if current_user.agent? && @intervention.adherent
+        adherent_email = User.where(id: @intervention.adherent_id).pluck(:email)
+        NotificationMailer.workflow_changed(@intervention, adherent_email).deliver_now
+      end
     end
 
     # Only allow a list of trusted parameters through.
