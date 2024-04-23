@@ -5,10 +5,12 @@
     </span>
   <% end %>
 
-  <%= link_to users_path, class: "text-secondary #{'active' if params[:controller] == 'users'}" do %>
-    <span class="material-symbols-outlined">
-      group
-    </span>
+  <% if policy(User).index? %>
+    <%= link_to users_path, class: "text-secondary #{'active' if params[:controller] == 'users'}" do %>
+      <span class="material-symbols-outlined">
+        group
+      </span>
+    <% end %>
   <% end %>
 
   <%= link_to admin_audits_path, class: "text-secondary #{'active' if params[:controller] == 'admin'}" do %>

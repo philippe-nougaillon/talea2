@@ -85,3 +85,5 @@ gem "mailgun-ruby", "~> 1.2"
 gem "exception_notification", "~> 4.5"
 
 gem "spreadsheet", "~> 1.3"
+
+gem "pundit", "~> 2.3"

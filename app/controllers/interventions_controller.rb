@@ -1,6 +1,7 @@
 class InterventionsController < ApplicationController
   before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider archiver ]
   after_action :send_workflow_changed_notification, only: %i[ accepter en_cours terminer valider archiver ]
+  before_action :is_user_authorized
 
   # GET /interventions or /interventions.json
   def index
@@ -166,5 +167,9 @@ class InterventionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def intervention_params
       params.require(:intervention).permit(:organisation_id, :agent_id, :agent_binome_id, :adherent_id, :début, :fin, :temps_de_pause, :description, :commentaires, :workflow_state, :tag_list)
+    end
+
+    def is_user_authorized
+      authorize @intervention ? @intervention : Intervention
     end
 end
