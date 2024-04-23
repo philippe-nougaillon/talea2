@@ -32,4 +32,24 @@ class InterventionPolicy < ApplicationPolicy
   def destroy?
     show? && user.manager?
   end
+
+  def accepter?
+    show?
+  end
+
+  def en_cours?
+    show?
+  end
+
+  def terminer?
+    show?
+  end
+
+  def valider?
+    show?
+  end
+
+  def archiver?
+    show?
+  end
 end
