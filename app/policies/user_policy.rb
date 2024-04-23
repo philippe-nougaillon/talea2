@@ -30,6 +30,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
-    show? && user.manager?
+    show?
   end
 end

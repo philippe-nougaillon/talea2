@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
   
   resources :users
-  resources :organisations
+  resources :organisations, only: %i[ show edit update ] 
   resources :interventions do
     member do
       get :accepter
