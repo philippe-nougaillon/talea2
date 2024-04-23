@@ -43,6 +43,18 @@ class InterventionsController < ApplicationController
     else
       session[:tags] = params[:tags] = []
     end
+
+    respond_to do |format|
+      format.html
+
+      format.xls do
+        book = InterventionsToXls.new(@interventions).call
+        file_contents = StringIO.new
+        book.write file_contents # => Now file_contents contains the rendered file output
+        filename = "Interventions_#{DateTime.now}.xls"
+        send_data file_contents.string.force_encoding('binary'), filename: filename 
+      end
+    end
   end
 
   # GET /interventions/1 or /interventions/1.json
