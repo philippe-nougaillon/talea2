@@ -6,8 +6,8 @@
 
     <%= render @user %>
 
-    <div class="flex flex-wrap gap-2">
-      <%= link_to "Modifier cet utilisateur", edit_user_path(@user), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <div class="flex flex-wrap gap-2 mt-2">
+      <%= link_to "Modifier cet utilisateur", edit_user_path(@user), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
       <%= button_to "Détruire cet utilisateur", user_path(@user), method: :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir supprimer cet utilisateur ?" }, class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
       <%= link_to "Retour vers Utilisateurs", users_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
