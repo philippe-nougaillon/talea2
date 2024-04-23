@@ -95,7 +95,9 @@ class InterventionsController < ApplicationController
   # PATCH/PUT /interventions/1 or /interventions/1.json
   def update
     respond_to do |format|
+      send_notif = ( current_user.adhérent? && (@intervention.commentaires_was != intervention_params[:commentaires]) && !intervention_params[:commentaires].blank? )
       if @intervention.update(intervention_params)
+        NotificationMailer.commentaires_changed(@intervention).deliver_now if send_notif
         format.html { redirect_to intervention_url(@intervention), notice: "Intervention modifiée avec succès." }
         format.json { render :show, status: :ok, location: @intervention }
       else
