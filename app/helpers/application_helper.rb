@@ -13,10 +13,17 @@ module ApplicationHelper
           when 'Integer'
             pretty_changes << "#{key} initialisé à '#{User.find(ids).nom_prénom}'"
           when 'Array'
-            pretty_changes << "#{key} changé de '#{User.find(ids.first).nom_prénom if ids.first}' à '#{User.find(ids.last).nom_prénom if ids.last}'"
+            pretty_changes << "#{key} changé de '#{User.find_by(id: ids.first).try(:nom_prénom) || "id n°#{ids.first} (Utilisateur supprimé)"}' à '#{User.find_by(id: ids.last).try(:nom_prénom) || "id n°#{ids.last} (Utilisateur supprimé)"}'"
           end 
         else
-          pretty_changes << "#{key} supprimé"
+          case ids.class.name
+          when 'NilClass'
+            pretty_changes << "#{key} vide"
+          when 'Array'
+            pretty_changes << "#{key.pluralize} supprimés (id n°#{ids.join(' et ')})"
+          when 'Integer'
+            pretty_changes << "#{key} initialisé à #{ids} (Utilisateur supprimé)"
+          end
         end
       else
         if audit.action == 'update'
