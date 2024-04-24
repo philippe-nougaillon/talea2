@@ -97,7 +97,11 @@ class InterventionsController < ApplicationController
     respond_to do |format|
       send_notif = ( current_user.adhérent? && (@intervention.commentaires_was != intervention_params[:commentaires]) && !intervention_params[:commentaires].blank? )
       if @intervention.update(intervention_params)
-        NotificationMailer.commentaires_changed(@intervention).deliver_now if send_notif
+        if send_notif
+          agent_emails = [@intervention.agent.email, @intervention.agent_binome.try(:email)].join(',')
+          mailer_response = NotificationMailer.commentaires_changed(@intervention, agent_emails).deliver_now
+          MailLog.create(organisation_id: @intervention.organisation_id, user_id: current_user.id, message_id: mailer_response.message_id, to: agent_emails, subject: "Nouveau commentaire")
+        end
         format.html { redirect_to intervention_url(@intervention), notice: "Intervention modifiée avec succès." }
         format.json { render :show, status: :ok, location: @intervention }
       else
@@ -165,13 +169,19 @@ class InterventionsController < ApplicationController
 
     def send_workflow_changed_notification
       manager_emails = @intervention.organisation.users.where.not(id: current_user.id).manager.pluck(:email)
-      NotificationMailer.workflow_changed(@intervention, manager_emails).deliver_now
+      if manager_emails.any?
+        mailer_response = NotificationMailer.workflow_changed(@intervention, manager_emails).deliver_now
+        MailLog.create(organisation_id: @intervention.organisation_id, user_id: current_user.id, message_id: mailer_response.message_id, to: manager_emails, subject: "Changement de statut")
+      end
     end
 
     def send_intervention_termine_notification
       if current_user.agent? && @intervention.adherent
         adherent_email = User.where(id: @intervention.adherent_id).pluck(:email)
-        NotificationMailer.workflow_changed(@intervention, adherent_email).deliver_now
+        if adherent_email.any?
+          mailer_response = NotificationMailer.workflow_changed(@intervention, adherent_email).deliver_now
+          MailLog.create(organisation_id: @intervention.organisation_id, user_id: current_user.id, message_id: mailer_response.message_id, to: adherent_email, subject: "Intervention terminée")
+        end
       end
     end
 

@@ -1,4 +1,4 @@
-<div class="btm-nav btm-nav-xs">
+<div class="btm-nav btm-nav-xs sm:btm-nav-sm">
   <%= link_to interventions_path, class: "text-secondary #{'active' if params[:controller] == 'interventions'}" do %>
     <span class="material-symbols-outlined">
       home
@@ -17,6 +17,14 @@
     <span class="material-symbols-outlined">
       history
     </span>
+  <% end %>
+
+  <% if policy(MailLog).index? %>
+    <%= link_to mail_logs_path, class: "text-secondary #{'active' if params[:controller] == 'mail_logs'}" do %>
+      <span class="material-symbols-outlined">
+        mark_email_read
+      </span>
+    <% end %>
   <% end %>
 
   <%= link_to destroy_user_session_path, 'data-turbo-method': :delete, title: "Fermer la session de #{current_user.email} (#{current_user.rôle})", class: 'text-secondary p-1.5' do %>

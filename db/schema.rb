@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_22_082852) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_24_084948) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_22_082852) do
     t.index ["agent_binome_id"], name: "index_interventions_on_agent_binome_id"
     t.index ["agent_id"], name: "index_interventions_on_agent_id"
     t.index ["organisation_id"], name: "index_interventions_on_organisation_id"
+  end
+
+  create_table "mail_logs", force: :cascade do |t|
+    t.string "to"
+    t.string "subject"
+    t.string "message_id"
+    t.bigint "organisation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["organisation_id"], name: "index_mail_logs_on_organisation_id"
   end
 
   create_table "organisations", force: :cascade do |t|
@@ -107,11 +118,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_22_082852) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "interventions", "organisations"
+  add_foreign_key "mail_logs", "organisations"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "organisations"
 end

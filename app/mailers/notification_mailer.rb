@@ -3,19 +3,20 @@ class NotificationMailer < ApplicationMailer
   def workflow_changed(intervention, emails)
     @intervention = intervention
 
-    if emails
-      mail(to: emails,
-          bcc: 'philippe.nougaillon@gmail.com, pierreemmanuel.dacquet@gmail.com',
-          subject: "[TALEA] Changement de statut")
-    end
+    mail(to: emails,
+        bcc: 'philippe.nougaillon@gmail.com, pierreemmanuel.dacquet@gmail.com',
+        subject: "[TALEA] Changement de statut")
   end
 
-  def commentaires_changed(intervention)
+  def commentaires_changed(intervention, emails)
     @intervention = intervention
-    agent_emails = [@intervention.agent.email, @intervention.agent_binome.try(:email)].join(',')
 
-    mail(to: agent_emails,
+    mail(to: emails,
           bcc: 'philippe.nougaillon@gmail.com, pierreemmanuel.dacquet@gmail.com',
-          subject: "[TALEA] Nouveau commentaire")
+          subject: "[TALEA] Nouveau commentaire").tap do |message|
+      message.mailgun_options = {
+        "tag" => [emails.first, emails.last, "nouveau commentaire"]
+      }
+    end
   end
 end
