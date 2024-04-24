@@ -5,7 +5,10 @@ class NotificationMailer < ApplicationMailer
 
     mail(to: emails,
         bcc: 'philippe.nougaillon@gmail.com, pierreemmanuel.dacquet@gmail.com',
-        subject: "[TALEA] Changement de statut")
+        subject: "[TALEA] Changement de statut").tap do |message|
+      message.mailgun_options = {
+        "tag" => ["changement de statut"]
+      }
   end
 
   def commentaires_changed(intervention, emails)
@@ -15,7 +18,7 @@ class NotificationMailer < ApplicationMailer
           bcc: 'philippe.nougaillon@gmail.com, pierreemmanuel.dacquet@gmail.com',
           subject: "[TALEA] Nouveau commentaire").tap do |message|
       message.mailgun_options = {
-        "tag" => [emails.first, emails.last, "nouveau commentaire"]
+        "tag" => ["nouveau commentaire"]
       }
     end
   end
