@@ -9,6 +9,7 @@ class NotificationMailer < ApplicationMailer
       message.mailgun_options = {
         "tag" => ["changement de statut"]
       }
+    end
   end
 
   def commentaires_changed(intervention, emails)
