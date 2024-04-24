@@ -102,11 +102,11 @@
     <div class="mt-2 mb-5">
       <strong class="block text-slate-400 mb-1">Actions</strong>
       <p>
-        <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white' %> |
-        <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white' %> |
-        <%= link_to_if intervention.can_terminer?, 'Terminer', terminer_intervention_path(intervention), class: 'btn btn-sm btn-error text-white' %> |
-        <%= link_to_if intervention.can_valider?,  'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white' %> |
-        <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white' %> 
+        <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white', 'data-turbo': false %> |
+        <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white', 'data-turbo': false %> |
+        <%= link_to_if intervention.can_terminer?, 'Terminer', terminer_intervention_path(intervention), class: 'btn btn-sm btn-error text-white', 'data-turbo': false %> |
+        <%= link_to_if intervention.can_valider?,  'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white', 'data-turbo': false %> |
+        <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white', 'data-turbo': false %> 
       </p>
     </div>
   <% end %>
