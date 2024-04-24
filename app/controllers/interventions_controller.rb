@@ -98,9 +98,11 @@ class InterventionsController < ApplicationController
       send_notif = ( current_user.adhérent? && (@intervention.commentaires_was != intervention_params[:commentaires]) && !intervention_params[:commentaires].blank? )
       if @intervention.update(intervention_params)
         if send_notif
-          agent_emails = [@intervention.agent.email, @intervention.agent_binome.try(:email)].join(',')
-          mailer_response = NotificationMailer.commentaires_changed(@intervention, agent_emails).deliver_now
-          MailLog.create(organisation_id: @intervention.organisation_id, user_id: current_user.id, message_id: mailer_response.message_id, to: agent_emails, subject: "Nouveau commentaire")
+          agent_emails = [@intervention.agent.try(:email), @intervention.agent_binome.try(:email)]
+          if agent_emails.any?
+            mailer_response = NotificationMailer.commentaires_changed(@intervention, agent_emails).deliver_now
+            MailLog.create(organisation_id: @intervention.organisation_id, user_id: current_user.id, message_id: mailer_response.message_id, to: agent_emails, subject: "Nouveau commentaire")
+          end
         end
         format.html { redirect_to intervention_url(@intervention), notice: "Intervention modifiée avec succès." }
         format.json { render :show, status: :ok, location: @intervention }
