@@ -6,11 +6,8 @@ class InterventionsController < ApplicationController
   def index
     @interventions = Intervention.by_role_for(current_user)
     @interventions_count = @interventions.count
-    @tags = @interventions.tag_counts_on(:tags).order(:name)
-
     @organisation_members = current_user.organisation.users
-    # @adhérents = current_user.organisation.users.adhérent
-    # @agents = current_user.organisation.users.agent
+    @tags = @interventions.tag_counts_on(:tags).order(:name)
 
     if params[:search].present?
       @interventions = @interventions.where("description ILIKE :search", {search: "%#{params[:search]}%"})
@@ -51,11 +48,8 @@ class InterventionsController < ApplicationController
       end
 
       format.xls do
-        book = InterventionsToXls.new(@interventions).call
-        file_contents = StringIO.new
-        book.write file_contents # => Now file_contents contains the rendered file output
-        filename = "Interventions_#{DateTime.now}.xls"
-        send_data file_contents.string.force_encoding('binary'), filename: filename 
+        xls_file = InterventionsToXls.new(@interventions).call
+        send_data xls_file, filename: "Interventions_#{DateTime.now}.xls"
       end
     end
   end
@@ -68,15 +62,11 @@ class InterventionsController < ApplicationController
   def new
     @intervention = Intervention.new
     @organisation_members = current_user.organisation.users
-    # @agents = current_user.organisation.users.agent
-    # @adhérents = current_user.organisation.users.adhérent
   end
 
   # GET /interventions/1/edit
   def edit
     @organisation_members = current_user.organisation.users
-    # @agents = current_user.organisation.users.agent
-    # @adhérents = current_user.organisation.users.adhérent
   end
 
   # POST /interventions or /interventions.json
@@ -121,66 +111,43 @@ class InterventionsController < ApplicationController
   end
 
   def accepter
-    if @intervention.can_accepter?
-      @intervention.accepter!
-      send_workflow_changed_notification
-      flash[:notice] = "Intervention acceptée"
-    end
-    redirect_to @intervention
+    @intervention.accepter!
+    send_workflow_changed_notification
+    redirect_to @intervention, notice: "Intervention acceptée"
   end
 
   def en_cours
-    if @intervention.can_en_cours?
-      @intervention.en_cours!
-      send_workflow_changed_notification
-      flash[:notice] = "Intervention en cours"
-    end
-    redirect_to @intervention
+    @intervention.en_cours!
+    send_workflow_changed_notification
+    redirect_to @intervention, notice: "Intervention en cours"
   end
 
   def terminer
-    if @intervention.can_terminer?
-      @intervention.terminer!
-      send_workflow_changed_notification
-      send_intervention_termine_notification
-      flash[:notice] = "Intervention terminée"
-    end
-    redirect_to @intervention
+    @intervention.terminer!
+    send_workflow_changed_notification
+    send_intervention_termine_notification
+    redirect_to @intervention, notice: "Intervention terminée"
   end
 
   def valider
-    if @intervention.can_valider?
-      @intervention.valider!
-      send_workflow_changed_notification
-      flash[:notice] = "Intervention validée"
-    end
-    redirect_to @intervention
+    @intervention.valider!
+    send_workflow_changed_notification
+    redirect_to @intervention, notice: "Intervention validée"
   end
 
   def refuser
-    # TODO : enlever ce test car on sait que le problème venait de turbolinks
-    if @intervention.can_refuser?
-      @intervention.refuser!
-      send_workflow_changed_notification
-      flash[:notice] = "Intervention refusée"
-    end
-    redirect_to @intervention
+    @intervention.refuser!
+    send_workflow_changed_notification
+    redirect_to @intervention, notice: "Intervention refusée"
   end
 
   def archiver
-    if @intervention.can_archiver?
-      @intervention.archiver!
-      send_workflow_changed_notification
-      flash[:notice] = "Intervention archivée"
-    end
-    redirect_to @intervention
+    @intervention.archiver!
+    send_workflow_changed_notification
+    redirect_to @intervention, notice: "Intervention archivée"
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_intervention
-      @intervention = Intervention.find(params[:id])
-    end
 
     def send_workflow_changed_notification
       Events.instance.publish('intervention.workflow_changed', payload: {intervention_id: @intervention.id, user_id: current_user.id})
@@ -188,6 +155,11 @@ class InterventionsController < ApplicationController
 
     def send_intervention_termine_notification
       Events.instance.publish('intervention.termine', payload: {intervention_id: @intervention.id, user_id: current_user.id})
+    end
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_intervention
+      @intervention = Intervention.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
@@ -198,4 +170,5 @@ class InterventionsController < ApplicationController
     def is_user_authorized
       authorize @intervention ? @intervention : Intervention
     end
+
 end
