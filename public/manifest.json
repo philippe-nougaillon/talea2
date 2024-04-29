@@ -1,0 +1,9 @@
+{
+  "short_name": "Talea",
+  "name": "Talea",
+  "start_url": "/",
+  "background_color": "#F9FAFB",
+  "display": "fullscreen",
+  "scope": "/",
+  "theme_color": "#F9FAFB"
+}
