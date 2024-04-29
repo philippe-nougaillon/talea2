@@ -49,6 +49,10 @@ class InterventionPolicy < ApplicationPolicy
     show?
   end
 
+  def refuser?
+    show?
+  end
+
   def archiver?
     show?
   end

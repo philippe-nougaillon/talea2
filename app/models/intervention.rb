@@ -21,6 +21,7 @@ class Intervention < ApplicationRecord
   EN_COURS  = 'en cours'
   TERMINE   = 'terminé'
   VALIDE    = 'validé'
+  REFUSE    = 'refusé'
   ARCHIVE   = 'archivé'
 
   workflow do
@@ -36,11 +37,17 @@ class Intervention < ApplicationRecord
       event :terminer, transitions_to: TERMINE
     end
 
-    state TERMINE, meta: {style: 'badge-error text-white'} do
+    state TERMINE, meta: {style: 'badge-accent'} do
       event :valider, transitions_to: VALIDE
+      event :refuser, transitions_to: REFUSE
     end
 
     state VALIDE, meta: {style: 'badge-success text-white'} do
+      event :archiver, transitions_to: ARCHIVE
+    end
+
+    state REFUSE, meta: {style: 'badge-error text-white'} do
+      event :accepter, transitions_to: ACCEPTE
       event :archiver, transitions_to: ARCHIVE
     end
 
@@ -61,6 +68,7 @@ class Intervention < ApplicationRecord
     interventions.reorder(:workflow_state).select(:id).group(:workflow_state).count(:id)
   end
 
+  # retourne les interventions selon le scope de l'utilisateur
   def self.by_role_for(user)
     case user.rôle
     when 'manager'
