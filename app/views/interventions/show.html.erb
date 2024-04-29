@@ -11,7 +11,7 @@
       <% if policy(@intervention).destroy? %>
         <%= button_to "Détruire cette intervention", intervention_path(@intervention), method: :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir supprimer cette intervention ?" }, class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
       <% end %>
-      <%= link_to "Retour aux Interventions", interventions_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= link_to "Retour vers toutes les interventions", interventions_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
 
     <h2 class="text-2xl mt-8">Audits</h2>

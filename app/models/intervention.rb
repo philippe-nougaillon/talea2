@@ -68,6 +68,10 @@ class Intervention < ApplicationRecord
     interventions.reorder(:workflow_state).select(:id).group(:workflow_state).count(:id)
   end
 
+  def self.workflow_state_humanized
+    self.workflow_spec.states.keys.map{|i| i.to_s.humanize }
+  end
+
   # retourne les interventions selon le scope de l'utilisateur
   def self.by_role_for(user)
     case user.rôle

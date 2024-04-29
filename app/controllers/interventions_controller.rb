@@ -8,8 +8,9 @@ class InterventionsController < ApplicationController
     @interventions_count = @interventions.count
     @tags = @interventions.tag_counts_on(:tags).order(:name)
 
-    @adhérents = current_user.organisation.users.adhérent
-    @agents = current_user.organisation.users.agent
+    @organisation_members = current_user.organisation.users
+    # @adhérents = current_user.organisation.users.adhérent
+    # @agents = current_user.organisation.users.agent
 
     if params[:search].present?
       @interventions = @interventions.where("description ILIKE :search", {search: "%#{params[:search]}%"})
@@ -45,7 +46,9 @@ class InterventionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html
+      format.html do
+        @interventions = @interventions.includes(:tags)
+      end
 
       format.xls do
         book = InterventionsToXls.new(@interventions).call
@@ -64,14 +67,16 @@ class InterventionsController < ApplicationController
   # GET /interventions/new
   def new
     @intervention = Intervention.new
-    @agents = current_user.organisation.users.agent
-    @adhérents = current_user.organisation.users.adhérent
+    @organisation_members = current_user.organisation.users
+    # @agents = current_user.organisation.users.agent
+    # @adhérents = current_user.organisation.users.adhérent
   end
 
   # GET /interventions/1/edit
   def edit
-    @agents = current_user.organisation.users.agent
-    @adhérents = current_user.organisation.users.adhérent
+    @organisation_members = current_user.organisation.users
+    # @agents = current_user.organisation.users.agent
+    # @adhérents = current_user.organisation.users.adhérent
   end
 
   # POST /interventions or /interventions.json

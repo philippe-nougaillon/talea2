@@ -30,7 +30,7 @@
       <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/12">
         <%= label_tag :workflow_state, "Statut" %>
         <%= select_tag :workflow_state, 
-                            options_for_select(Intervention.workflow_spec.states.keys.to_a, params[:workflow_state]), 
+                            options_for_select(Intervention.workflow_state_humanized, params[:workflow_state]), 
                             include_blank: true,
                             class: 'select select-bordered select-sm w-full', 
                             onchange: 'this.form.submit()' %>
@@ -38,12 +38,12 @@
 
       <div class="w-full sm:max-w-72">
         <%= label_tag :adherent_id, "Adhérent" %>
-        <%= select_tag :adherent_id, options_from_collection_for_select(@adhérents, :id, :nom_prénom, params[:adherent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+        <%= select_tag :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, params[:adherent_id]), include_blank: true, onchange: 'this.form.submit()' %>
       </div>
 
       <div class="w-full sm:max-w-72">
         <%= label_tag :agent_id, "Agent" %>
-        <%= select_tag :agent_id, options_from_collection_for_select(@agents, :id, :nom_prénom, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+        <%= select_tag :agent_id, options_from_collection_for_select(@organisation_members.agent, :id, :nom_prénom, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
       </div>
 
       <div class="flex flex-wrap gap-1">
