@@ -87,3 +87,7 @@ gem "exception_notification", "~> 4.5"
 gem "spreadsheet", "~> 1.3"
 
 gem "pundit", "~> 2.3"
+
+gem "solid_queue", "~> 0.3.0"
+
+gem "mission_control-jobs", "~> 0.2.1"

@@ -22,4 +22,8 @@ class User < ApplicationRecord
   def nom_prénom
     "#{self.nom} #{self.prénom}"
   end
+
+  def super_admin?
+    %w[philippe.nougaillon@gmail.com pierreemmanuel.dacquet@gmail.com].include?(self.email)
+  end
 end

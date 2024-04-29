@@ -100,8 +100,7 @@ class InterventionsController < ApplicationController
         if send_notif
           agent_emails = [@intervention.agent.try(:email), @intervention.agent_binome.try(:email)]
           if agent_emails.any?
-            mailer_response = NotificationMailer.commentaires_changed(@intervention, agent_emails).deliver_now
-            MailLog.create(organisation_id: @intervention.organisation_id, user_id: current_user.id, message_id: mailer_response.message_id, to: agent_emails, subject: "Nouveau commentaire")
+            NotifAgentsCommentairesChangedJob.perform_later(@intervention, agent_emails, current_user.id)
           end
         end
         format.html { redirect_to intervention_url(@intervention), notice: "Intervention modifiée avec succès." }
@@ -181,8 +180,7 @@ class InterventionsController < ApplicationController
     def send_workflow_changed_notification
       manager_emails = @intervention.organisation.users.where.not(id: current_user.id).manager.pluck(:email)
       if manager_emails.any?
-        mailer_response = NotificationMailer.workflow_changed(@intervention, manager_emails).deliver_now
-        MailLog.create(organisation_id: @intervention.organisation_id, user_id: current_user.id, message_id: mailer_response.message_id, to: manager_emails, subject: "Changement de statut")
+        NotifManagersWorkflowChangedJob.perform_later(@intervention, manager_emails, current_user.id)
       end
     end
 
@@ -190,8 +188,7 @@ class InterventionsController < ApplicationController
       if current_user.agent? && @intervention.adherent
         adherent_email = User.where(id: @intervention.adherent_id).pluck(:email)
         if adherent_email.any?
-          mailer_response = NotificationMailer.workflow_changed(@intervention, adherent_email).deliver_now
-          MailLog.create(organisation_id: @intervention.organisation_id, user_id: current_user.id, message_id: mailer_response.message_id, to: adherent_email, subject: "Intervention terminée")
+          NotifAdherentInterventionTermineeJob.perform_later(@intervention, adherent_email, current_user.id)
         end
       end
     end
