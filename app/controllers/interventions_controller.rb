@@ -1,8 +1,6 @@
 class InterventionsController < ApplicationController
   before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider refuser archiver ]
   before_action :is_user_authorized
-  after_action :send_workflow_changed_notification, only: %i[ accepter en_cours terminer valider refuser archiver ]
-  after_action :send_intervention_termine_notification, only: %i[ terminer ]
 
   # GET /interventions or /interventions.json
   def index
@@ -95,14 +93,9 @@ class InterventionsController < ApplicationController
   # PATCH/PUT /interventions/1 or /interventions/1.json
   def update
     respond_to do |format|
-      send_notif = ( current_user.adhérent? && (@intervention.commentaires_was != intervention_params[:commentaires]) && !intervention_params[:commentaires].blank? )
+      old_commentaires = @intervention.commentaires_was
       if @intervention.update(intervention_params)
-        if send_notif
-          agent_emails = [@intervention.agent.try(:email), @intervention.agent_binome.try(:email)]
-          if agent_emails.any?
-            NotifAgentsCommentairesChangedJob.perform_later(@intervention, agent_emails, current_user.id)
-          end
-        end
+        Events.instance.publish('intervention.commentaires_changed', payload: {intervention_id: @intervention.id, old_commentaires: old_commentaires, user_id: current_user.id})
         format.html { redirect_to intervention_url(@intervention), notice: "Intervention modifiée avec succès." }
         format.json { render :show, status: :ok, location: @intervention }
       else
@@ -125,6 +118,7 @@ class InterventionsController < ApplicationController
   def accepter
     if @intervention.can_accepter?
       @intervention.accepter!
+      send_workflow_changed_notification
       flash[:notice] = "Intervention acceptée"
     end
     redirect_to @intervention
@@ -133,6 +127,7 @@ class InterventionsController < ApplicationController
   def en_cours
     if @intervention.can_en_cours?
       @intervention.en_cours!
+      send_workflow_changed_notification
       flash[:notice] = "Intervention en cours"
     end
     redirect_to @intervention
@@ -141,6 +136,8 @@ class InterventionsController < ApplicationController
   def terminer
     if @intervention.can_terminer?
       @intervention.terminer!
+      send_workflow_changed_notification
+      send_intervention_termine_notification
       flash[:notice] = "Intervention terminée"
     end
     redirect_to @intervention
@@ -149,6 +146,7 @@ class InterventionsController < ApplicationController
   def valider
     if @intervention.can_valider?
       @intervention.valider!
+      send_workflow_changed_notification
       flash[:notice] = "Intervention validée"
     end
     redirect_to @intervention
@@ -158,6 +156,7 @@ class InterventionsController < ApplicationController
     # TODO : enlever ce test car on sait que le problème venait de turbolinks
     if @intervention.can_refuser?
       @intervention.refuser!
+      send_workflow_changed_notification
       flash[:notice] = "Intervention refusée"
     end
     redirect_to @intervention
@@ -166,6 +165,7 @@ class InterventionsController < ApplicationController
   def archiver
     if @intervention.can_archiver?
       @intervention.archiver!
+      send_workflow_changed_notification
       flash[:notice] = "Intervention archivée"
     end
     redirect_to @intervention
@@ -178,19 +178,11 @@ class InterventionsController < ApplicationController
     end
 
     def send_workflow_changed_notification
-      manager_emails = @intervention.organisation.users.where.not(id: current_user.id).manager.pluck(:email)
-      if manager_emails.any?
-        NotifManagersWorkflowChangedJob.perform_later(@intervention, manager_emails, current_user.id)
-      end
+      Events.instance.publish('intervention.workflow_changed', payload: {intervention_id: @intervention.id, user_id: current_user.id})
     end
 
     def send_intervention_termine_notification
-      if current_user.agent? && @intervention.adherent
-        adherent_email = User.where(id: @intervention.adherent_id).pluck(:email)
-        if adherent_email.any?
-          NotifAdherentInterventionTermineeJob.perform_later(@intervention, adherent_email, current_user.id)
-        end
-      end
+      Events.instance.publish('intervention.termine', payload: {intervention_id: @intervention.id, user_id: current_user.id})
     end
 
     # Only allow a list of trusted parameters through.
