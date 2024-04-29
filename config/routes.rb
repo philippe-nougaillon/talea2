@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :mail_logs
 
   devise_for :users, controllers: { 
     registrations: 'users/registrations'
@@ -17,12 +16,15 @@ Rails.application.routes.draw do
   
   resources :users
   resources :organisations, only: %i[ show edit update ] 
+  resources :mail_logs
+
   resources :interventions do
     member do
       get :accepter
       get :en_cours
       get :terminer
       get :valider
+      get :refuser
       get :archiver
     end
   end

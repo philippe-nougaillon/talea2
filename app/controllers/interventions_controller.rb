@@ -1,7 +1,7 @@
 class InterventionsController < ApplicationController
-  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider archiver ]
+  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider refuser archiver ]
   before_action :is_user_authorized
-  after_action :send_workflow_changed_notification, only: %i[ accepter en_cours terminer valider archiver ]
+  after_action :send_workflow_changed_notification, only: %i[ accepter en_cours terminer valider refuser archiver ]
   after_action :send_intervention_termine_notification, only: %i[ terminer ]
 
   # GET /interventions or /interventions.json
@@ -151,6 +151,15 @@ class InterventionsController < ApplicationController
     if @intervention.can_valider?
       @intervention.valider!
       flash[:notice] = "Intervention validée"
+    end
+    redirect_to @intervention
+  end
+
+  def refuser
+    # TODO : enlever ce test car on sait que le problème venait de turbolinks
+    if @intervention.can_refuser?
+      @intervention.refuser!
+      flash[:notice] = "Intervention refusée"
     end
     redirect_to @intervention
   end
