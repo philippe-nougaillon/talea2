@@ -11,7 +11,7 @@ class Intervention < ApplicationRecord
   belongs_to :agent_binome, class_name: :User, foreign_key: :agent_binome_id, optional: true 
   belongs_to :adherent, class_name: :User, foreign_key: :adherent_id, optional: true 
 
-  before_save :calcul_temps_total
+  before_save :calcul_temps_passé
 
   scope :ordered, -> { order(updated_at: :desc) }
 
@@ -86,7 +86,7 @@ class Intervention < ApplicationRecord
 
   private
 
-  def calcul_temps_total
+  def calcul_temps_passé
     total = 0
     if self.fin && self.début
       total = ((self.fin - self.début).to_i / 3600.0) - self.temps_de_pause
