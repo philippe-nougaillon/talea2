@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.3.0"
+ruby "3.3.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
@@ -87,3 +87,7 @@ gem "exception_notification", "~> 4.5"
 gem "spreadsheet", "~> 1.3"
 
 gem "pundit", "~> 2.3"
+
+gem "solid_queue", "~> 0.3.0"
+
+gem "mission_control-jobs", "~> 0.2.1"

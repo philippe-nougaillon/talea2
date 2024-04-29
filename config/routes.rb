@@ -13,6 +13,9 @@ Rails.application.routes.draw do
       root 'devise/sessions#new', as: :unauthenticated_root
     end
   end
+
+  # Mount Mission Control Job's engine where you wish to have it accessible
+  mount MissionControl::Jobs::Engine, at: "/jobs"
   
   resources :users
   resources :organisations, only: %i[ show edit update ] 
