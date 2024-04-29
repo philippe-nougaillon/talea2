@@ -5,6 +5,6 @@ class Events
   include Dry::Events::Publisher[:my_publisher]
 
   register_event('intervention.workflow_changed')
-  register_event('intervention.termine')
-  register_event('intervention.commentaires_changed')
+  register_event('intervention.updated')
+  register_event('intervention.done')
 end

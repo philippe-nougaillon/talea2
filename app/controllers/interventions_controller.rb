@@ -88,9 +88,8 @@ class InterventionsController < ApplicationController
   # PATCH/PUT /interventions/1 or /interventions/1.json
   def update
     respond_to do |format|
-      old_commentaires = @intervention.commentaires_was
       if @intervention.update(intervention_params)
-        Events.instance.publish('intervention.commentaires_changed', payload: {intervention_id: @intervention.id, old_commentaires: old_commentaires, user_id: current_user.id})
+        Events.instance.publish('intervention.updated', payload: {intervention_id: @intervention.id})
         format.html { redirect_to intervention_url(@intervention), notice: "Intervention modifiée avec succès." }
         format.json { render :show, status: :ok, location: @intervention }
       else
@@ -150,11 +149,11 @@ class InterventionsController < ApplicationController
   private
 
     def send_workflow_changed_notification
-      Events.instance.publish('intervention.workflow_changed', payload: {intervention_id: @intervention.id, user_id: current_user.id})
+      Events.instance.publish('intervention.workflow_changed', payload: {intervention_id: @intervention.id})
     end
 
     def send_intervention_termine_notification
-      Events.instance.publish('intervention.termine', payload: {intervention_id: @intervention.id, user_id: current_user.id})
+      Events.instance.publish('intervention.done', payload: {intervention_id: @intervention.id})
     end
 
     # Use callbacks to share common setup or constraints between actions.
