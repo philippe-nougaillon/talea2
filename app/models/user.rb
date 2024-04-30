@@ -13,6 +13,7 @@ class User < ApplicationRecord
   normalizes :nom,    with: -> nom { nom.humanize.strip }
   normalizes :prénom, with: -> prénom { prénom.humanize.strip }
 
+
   enum rôle: {
     adhérent: 0,
     agent: 1,

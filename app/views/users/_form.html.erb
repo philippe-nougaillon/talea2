@@ -37,14 +37,18 @@
     </div>
   <% end %>
 
-  <div class="my-4">
-    <%= form.label :rôle, "Rôle" %>
-    <%= form.select :rôle, options_for_select(User.rôles.keys, @user.rôle), {}, class: 'select select-bordered select-sm w-full' %>
-  </div>
+  <div data-controller="toggle-agent-service">
+    <div class="my-4">
+      <%= form.label :rôle, "Rôle" %>
+      <span data-action="change->toggle-agent-service#change">
+        <%= form.select :rôle, options_for_select(User.rôles.keys, @user.rôle), {}, class: 'select select-bordered select-sm w-full', data: { 'toggle-agent-service-target': 'role' } %>
+      </span>
+    </div>
 
-  <div class="my-4">
-    <%= form.label :service, "Service" %>
-    <%= form.select :service, options_for_select(User.services.keys, @user.service), {include_blank: true}, class: 'select select-bordered select-sm w-full' %>
+    <div data-toggle-agent-service-target='service' class="my-4">
+      <%= form.label :service, "Service" %>
+      <%= form.select :service, options_for_select(User.services.keys, @user.service), {include_blank: true}, class: 'select select-bordered select-sm w-full' %>
+    </div>
   </div>
 
   <div class="inline">
