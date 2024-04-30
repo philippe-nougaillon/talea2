@@ -39,7 +39,7 @@
 
       <div class="w-full sm:max-w-72">
         <%= label_tag :agent_id, "Agent" %>
-        <%= select_tag :agent_id, options_from_collection_for_select(@organisation_members.agent, :id, :nom_prénom, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+        <%= select_tag :agent_id, grouped_options_for_select(@grouped_agents, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
       </div>
 
       <div class="flex flex-wrap gap-1">

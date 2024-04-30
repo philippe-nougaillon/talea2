@@ -19,6 +19,20 @@ class User < ApplicationRecord
     manager: 2
   }
 
+  enum service: {
+    technique: 0,
+    comptabilité: 1,
+    informatique: 2
+  }
+
+  def self.grouped_agents(users)
+    h = {}
+    User.services.keys.each do |key|
+      h[key.humanize] = users.agent.where(service: key).order(:nom).pluck(:nom, :id)
+    end
+    return h
+  end
+
   def nom_prénom
     "#{self.nom} #{self.prénom}"
   end

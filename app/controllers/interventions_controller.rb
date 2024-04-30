@@ -7,6 +7,7 @@ class InterventionsController < ApplicationController
     @interventions = Intervention.by_role_for(current_user)
     @interventions_count = @interventions.count
     @organisation_members = current_user.organisation.users
+    @grouped_agents = User.grouped_agents(@organisation_members)
     @tags = @interventions.tag_counts_on(:tags).order(:name)
 
     if params[:search].present?
@@ -62,11 +63,13 @@ class InterventionsController < ApplicationController
   def new
     @intervention = Intervention.new
     @organisation_members = current_user.organisation.users
+    @grouped_agents = User.grouped_agents(@organisation_members)
   end
 
   # GET /interventions/1/edit
   def edit
     @organisation_members = current_user.organisation.users
+    @grouped_agents = User.grouped_agents(@organisation_members)
   end
 
   # POST /interventions or /interventions.json

@@ -29,12 +29,12 @@
   <div class="flex gap-8 my-5">
     <div class="flex-1">
       <%= form.label :agent_id %>
-      <%= form.select :agent_id, options_from_collection_for_select(@organisation_members.agent, :id, :nom_prénom, intervention.agent_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
 
     <div class="flex-1">
       <%= form.label :agent_binome_id, "Agent binôme" %>
-      <%= form.select :agent_binome_id, options_from_collection_for_select(@organisation_members.agent, :id, :nom_prénom, intervention.agent_binome_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.select :agent_binome_id, grouped_options_for_select(@grouped_agents, intervention.agent_binome_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
   </div>
 
