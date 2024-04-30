@@ -61,5 +61,8 @@
 </div>
 
 <% unless params[:ko].present? %>
-  <p class="mt-8">Affichage de <%= pluralize(@mail_logs.count, 'mail', plural: 'mails') %> sur <%= @organisation_mail_logs.count %> au total</p>
+  <div class="mt-6">
+    <%== pagy_info(@pagy) %>
+    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+  </div>
 <% end %>

@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
 
   def prettify(audit)
     pretty_changes = []

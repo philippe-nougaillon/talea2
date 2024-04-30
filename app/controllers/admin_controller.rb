@@ -1,6 +1,4 @@
 class AdminController < ApplicationController
-  include Pagy::Backend
-
   def audits
     @organisation_audits = Audited::Audit.where(user_id: current_user.organisation.users.pluck(:id))
     @audits = @organisation_audits.order("id DESC")
