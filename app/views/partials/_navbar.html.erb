@@ -1,33 +1,33 @@
 <div class="btm-nav">
-  <%= link_to interventions_path, class: "text-primary #{'active' if params[:controller] == 'interventions'}" do %>
+  <%= link_to interventions_path, class: "text-primary #{'active shadow' if params[:controller] == 'interventions'}" do %>
     <span class="material-symbols-outlined">
       home
     </span>
   <% end %>
 
   <% if policy(User).index? %>
-    <%= link_to users_path, class: "text-primary #{'active' if params[:controller] == 'users'}" do %>
+    <%= link_to users_path, class: "text-primary #{'active shadow' if params[:controller] == 'users'}" do %>
       <span class="material-symbols-outlined">
         group
       </span>
     <% end %>
   <% end %>
 
-  <%= link_to admin_audits_path, class: "text-primary #{'active' if params[:controller] == 'admin'}" do %>
+  <%= link_to admin_audits_path, class: "text-primary #{'active shadow' if params[:controller] == 'admin'}" do %>
     <span class="material-symbols-outlined">
       history
     </span>
   <% end %>
 
   <% if policy(MailLog).index? %>
-    <%= link_to mail_logs_path, class: "text-primary #{'active' if params[:controller] == 'mail_logs'}" do %>
+    <%= link_to mail_logs_path, class: "text-primary #{'active shadow' if params[:controller] == 'mail_logs'}" do %>
       <span class="material-symbols-outlined">
         mark_email_read
       </span>
     <% end %>
   <% end %>
 
-  <%= link_to destroy_user_session_path, 'data-turbo-method': :delete, title: "Fermer la session de #{current_user.email} (#{current_user.rôle})", class: 'text-primary p-1.5' do %>
+  <%= link_to destroy_user_session_path, 'data-turbo-method': :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir fermer cette session ?" }, title: "Fermer la session de #{current_user.email} (#{current_user.rôle})", class: 'text-primary p-1.5' do %>
     <span class="material-symbols-outlined">
       logout
     </span>
