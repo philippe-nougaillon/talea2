@@ -1,7 +1,8 @@
 <div class="w-full">
   <div class="flex flex-wrap justify-between items-center">
     <h1 class="font-bold text-4xl">Interventions</h1>
-    <%= link_to "Nouvelle Intervention", new_intervention_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to "Nouvelle Intervention", new_intervention_path, class: "hidden sm:block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+    <%= link_to "+", new_intervention_path, class: "block sm:hidden rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
   </div>
 
   <%= form_tag request.path, method: :get do %>
