@@ -92,8 +92,10 @@ class InterventionsController < ApplicationController
   def update
     respond_to do |format|
       if @intervention.update(intervention_params)
-        Events.instance.publish('intervention.updated', payload: {intervention_id: @intervention.id})
-        format.html { redirect_to intervention_url(@intervention), notice: "Intervention modifiée avec succès." }
+        unless Rails.env.development?
+          Events.instance.publish('intervention.updated', payload: {intervention_id: @intervention.id})
+        end
+          format.html { redirect_to intervention_url(@intervention), notice: "Intervention modifiée avec succès." }
         format.json { render :show, status: :ok, location: @intervention }
       else
         format.html { render :edit, status: :unprocessable_entity }
