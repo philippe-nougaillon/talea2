@@ -51,5 +51,8 @@
     </table>
   </div>
 
-  <p class="mt-8">Affichage de <%= pluralize(@audits.count, 'audit', plural: 'audits') %> sur <%= @organisation_audits.count %> au total</p>
+  <div class="mt-6">
+    <%== pagy_info(@pagy) %>
+    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+  </div>
 </div>    

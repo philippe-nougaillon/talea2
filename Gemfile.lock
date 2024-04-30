@@ -195,6 +195,7 @@ GEM
     nokogiri (1.16.4-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pagy (8.3.0)
     pg (1.5.6)
     psych (5.1.2)
       stringio
@@ -352,6 +353,7 @@ DEPENDENCIES
   jbuilder
   mailgun-ruby (~> 1.2)
   mission_control-jobs (~> 0.2.1)
+  pagy (~> 8.3)
   pg (~> 1.1)
   puma (>= 5.0)
   pundit (~> 2.3)
