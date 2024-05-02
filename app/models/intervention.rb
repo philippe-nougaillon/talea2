@@ -11,6 +11,8 @@ class Intervention < ApplicationRecord
   belongs_to :agent_binome, class_name: :User, foreign_key: :agent_binome_id, optional: true 
   belongs_to :adherent, class_name: :User, foreign_key: :adherent_id, optional: true 
 
+  has_many_attached :photos
+
   before_save :calcul_temps_passé
 
   scope :ordered, -> { order(updated_at: :desc) }

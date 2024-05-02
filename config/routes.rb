@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       get :valider
       get :refuser
       get :archiver
+      delete :purge
     end
   end
 

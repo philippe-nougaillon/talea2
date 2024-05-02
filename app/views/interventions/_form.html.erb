@@ -54,6 +54,15 @@
     </div>
   </div>
 
+  <% @intervention.photos.each do |photo| %>
+    <%= form.hidden_field :photos, multiple: true, value: photo.signed_id %>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :photos %>
+    <%= form.file_field :photos, multiple: true, accept: 'image/png,image/gif,image/jpeg', class: 'file-input file-input-sm file-input-bordered file-input-primary w-full max-w-xs' %>
+  </div>
+
   <div class="my-5">
     <%= form.label :commentaires %>
     <%= form.text_area :commentaires, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", 'data-controller': 'textarea-autogrow' %>

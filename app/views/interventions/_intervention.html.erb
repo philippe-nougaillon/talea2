@@ -70,11 +70,15 @@
     </div>
 
     <div class="sm:flex gap-8 sm:w-2/5">
-      <div class="avatar placeholder">
-        <div class="bg-slate-300 text-neutral-content h-32">
-          <span class="text-xl">Photo</span>
-        </div>
-      </div> 
+      <% unless params[:action] == 'show' %>
+        <% if intervention.photos.attached? %>
+          <div class="avatar">
+            <div class="w-36 rounded">
+              <%= link_to image_tag(intervention.photos.last), intervention.photos.last, target: "_blank", loading: "lazy" %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
 
 
       <div>
