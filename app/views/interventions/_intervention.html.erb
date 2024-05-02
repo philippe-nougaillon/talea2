@@ -88,11 +88,9 @@
         </p>
 
         <div class="rating rating-xs">
-          <input type="radio" name="rating-<%= intervention.id %>" class="mask mask-star" />
-          <input type="radio" name="rating-<%= intervention.id %>" class="mask mask-star" />
-          <input type="radio" name="rating-<%= intervention.id %>" class="mask mask-star" />
-          <input type="radio" name="rating-<%= intervention.id %>" class="mask mask-star" checked/>
-          <input type="radio" name="rating-<%= intervention.id %>" class="mask mask-star" />
+          <% 5.times do |index| %>
+            <input type="radio" name="rating-<%= intervention.id %>" class="mask mask-star bg-yellow-400" <%= "checked" if intervention.note == index + 1 %> disabled/>
+          <% end %>
         </div>
 
       </div>
