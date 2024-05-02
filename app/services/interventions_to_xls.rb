@@ -14,7 +14,7 @@ class InterventionsToXls < ApplicationService
     sheet = book.create_worksheet name: @interventions.name
     bold = Spreadsheet::Format.new :weight => :bold, :size => 11
 
-    headers = %w{id description tags statut adhérent agent agent_binome début fin temps_passé temps_de_pause commentaires créé_le modifiée_le}
+    headers = %w{id description tags statut adhérent agent agent_binome début fin temps_passé temps_de_pause commentaires note créé_le modifiée_le}
 
     sheet.row(0).concat headers
     sheet.row(0).default_format = bold
@@ -35,6 +35,7 @@ class InterventionsToXls < ApplicationService
         intervention.temps_total,
         intervention.temps_de_pause,
         intervention.commentaires,
+        intervention.note,
         I18n.l(intervention.created_at),
         I18n.l(intervention.updated_at),
       ]
