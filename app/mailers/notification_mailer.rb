@@ -23,4 +23,16 @@ class NotificationMailer < ApplicationMailer
       }
     end
   end
+
+  def relance(intervention)
+    @intervention = intervention
+
+    mail(to: intervention.adherent.email,
+          bcc: 'philippe.nougaillon@gmail.com, pierreemmanuel.dacquet@gmail.com',
+          subject: "[TALEA] Relance. Intervention à valider").tap do |message|
+      message.mailgun_options = {
+        "tag" => ["relance"]
+      }
+    end
+  end
 end
