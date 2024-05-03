@@ -9,6 +9,9 @@ class User < ApplicationRecord
          :trackable
 
   belongs_to :organisation, optional: true
+  has_many :interventions_agent, class_name: :Intervention, foreign_key: :agent_id
+  has_many :interventions_agent_binome, class_name: :Intervention, foreign_key: :agent_binome_id
+  has_many :interventions_adherent, class_name: :Intervention, foreign_key: :adherent_id
 
   normalizes :nom,    with: -> nom { nom.humanize.strip }
   normalizes :prénom, with: -> prénom { prénom.humanize.strip }
@@ -40,5 +43,9 @@ class User < ApplicationRecord
 
   def super_admin?
     %w[philippe.nougaillon@gmail.com contact@philnoug.com pierreemmanuel.dacquet@gmail.com].include?(self.email)
+  end
+
+  def moyenne
+    ((self.interventions_agent.average(:note).to_f + self.interventions_agent_binome.average(:note).to_f) / 2).round(2)
   end
 end
