@@ -1,6 +1,10 @@
 class AdminController < ApplicationController
   def audits
-    @organisation_audits = Audited::Audit.where(user_id: current_user.organisation.users.pluck(:id))
+    if current_user.manager?
+      @organisation_audits = Audited::Audit.where(user_id: current_user.organisation.users.pluck(:id))
+    else
+      @organisation_audits = Audited::Audit.where(user_id: current_user.id)
+    end
     @audits = @organisation_audits.order("id DESC")
     @types  = @organisation_audits.pluck(:auditable_type).uniq.sort
     @actions= %w[update create destroy]

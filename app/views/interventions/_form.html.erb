@@ -64,14 +64,16 @@
       <%= form.file_field :photos, multiple: true, accept: 'image/png,image/gif,image/jpeg', class: 'file-input file-input-sm file-input-bordered file-input-primary w-full max-w-xs' %>
     </div>
 
-    <div class="flex-1">
-      <%= form.label :note, 'Évaluation :' %>
-      <div class="rating">
-        <% 1.upto(5) do |i| %>
-          <%= form.radio_button :note, i, class:"mask mask-star bg-yellow-400" %>
-        <% end %> 
+    <% unless current_user.agent? %>
+      <div class="flex-1">
+        <%= form.label :note, 'Évaluation :' %>
+        <div class="rating">
+          <% 1.upto(5) do |i| %>
+            <%= form.radio_button :note, i, class:"mask mask-star bg-yellow-400" %>
+          <% end %> 
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 
   <div class="my-5">
