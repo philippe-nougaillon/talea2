@@ -70,15 +70,29 @@
     </div>
 
     <div class="sm:flex gap-8 sm:w-2/5">
-      <% unless params[:action] == 'show' %>
+      <div>
         <% if intervention.photos.attached? %>
-          <div class="avatar">
-            <div class="w-36 rounded">
-              <%= link_to image_tag(intervention.photos.last), intervention.photos.last, target: "_blank", loading: "lazy" %>
+          <% if intervention.photos.count > 1 %>
+            <button onclick="my_modal_<%= intervention.id %>.showModal()">
+              <div class="stack w-36">
+                <% intervention.photos.each do |photo| %>
+                  <div class="avatar">
+                    <div class="w-36 rounded">
+                      <%= image_tag(photo) %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </button>
+          <% else %>
+            <div class="avatar">
+              <div class="w-36 rounded">
+                <%= link_to image_tag(intervention.photos.last), intervention.photos.last, target: "_blank", loading: "lazy" %>
+              </div>
             </div>
-          </div>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
 
 
       <div>
@@ -113,6 +127,20 @@
       </p>
     </div>
   <% end %>
+
+
+  <dialog id="my_modal_<%= intervention.id %>" class="modal w-full mx-auto my-auto mx-24">
+    <div class="flex justify-end">
+      <button class="text-2xl text-white font-black" onclick="my_modal_<%= intervention.id %>.close()">(X)</button>
+    </div>
+    <div class="carousel">
+      <% intervention.photos.each do |photo| %>
+        <div class="carousel-item">
+          <%= image_tag(photo, class: "h-96") %>
+        </div>
+      <% end %>
+    </div>
+  </dialog>
 
 </div>
 
