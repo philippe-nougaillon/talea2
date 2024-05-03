@@ -45,7 +45,7 @@ class InterventionsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @interventions = @interventions.includes(:tags).with_attached_photos
+        @pagy, @interventions = pagy(@interventions.includes(:tags).with_attached_photos)
       end
 
       format.xls do
