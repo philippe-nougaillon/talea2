@@ -46,6 +46,9 @@ class User < ApplicationRecord
   end
 
   def moyenne
-    ((self.interventions_agent.average(:note).to_f + self.interventions_agent_binome.average(:note).to_f) / 2).round(2)
+    sum = self.interventions_agent.sum(:note) + self.interventions_agent_binome.sum(:note)
+    count = self.interventions_agent.count + self.interventions_agent_binome.count
+    
+    return count != 0 ? (sum.to_f / count).round(1) : 0
   end
 end
