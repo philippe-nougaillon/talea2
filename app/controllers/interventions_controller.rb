@@ -153,6 +153,7 @@ class InterventionsController < ApplicationController
 
   def purge
     @intervention.photos.find(params[:photo_id]).purge
+    @intervention.update(audit_comment: "Photo n°#{params[:photo_id]} supprimée")
     redirect_to @intervention, notice: "Photo supprimée"
   end
 
