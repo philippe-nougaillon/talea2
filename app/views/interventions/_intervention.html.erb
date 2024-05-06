@@ -78,7 +78,7 @@
                 <% intervention.photos.limit(3).each do |photo| %>
                   <div class="avatar">
                     <div class="w-36 rounded">
-                      <%= image_tag(photo) %>
+                      <%= image_tag(photo), loading: 'lazy' %>
                     </div>
                   </div>
                 <% end %>
