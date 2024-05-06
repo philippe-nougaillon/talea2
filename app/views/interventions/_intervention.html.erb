@@ -136,7 +136,7 @@
     <div class="carousel">
       <% intervention.photos.each do |photo| %>
         <div class="carousel-item">
-          <%= image_tag(photo, class: "h-96") %>
+          <%= image_tag(photo, class: "h-96", loading: 'lazy') %>
         </div>
       <% end %>
     </div>
