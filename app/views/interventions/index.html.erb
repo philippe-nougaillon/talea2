@@ -60,9 +60,11 @@
     <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
   </div>
 
-  <p>
-    <%= link_to "Exporter vers Excel", url_for(params.permit!.merge(format: :xls)), class: "text-success hover:underline" %>
-  </p>
+  <% if @interventions.any? %>
+    <p>
+      <%= link_to "Exporter vers Excel", url_for(params.permit!.merge(format: :xls)), class: "text-success hover:underline" %>
+    </p>
+  <% end %>
 
 </div>
 

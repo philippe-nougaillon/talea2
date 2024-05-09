@@ -64,6 +64,8 @@ class InterventionsController < ApplicationController
     @intervention = Intervention.new
     @organisation_members = current_user.organisation.users
     @grouped_agents = User.grouped_agents(@organisation_members)
+    @intervention.adherent_id = current_user.id if current_user.adhérent?
+    @intervention.agent_id = current_user.id if current_user.agent?
   end
 
   # GET /interventions/1/edit
