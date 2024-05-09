@@ -54,6 +54,7 @@
     </div>
   </div>
 
+  <!-- KESAKO ??? -->
   <% @intervention.photos.each do |photo| %>
     <%= form.hidden_field :photos, multiple: true, value: photo.signed_id %>
   <% end %>

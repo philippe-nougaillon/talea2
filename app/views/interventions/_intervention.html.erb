@@ -133,7 +133,11 @@
 
   <dialog id="my_modal_<%= intervention.id %>" class="modal w-full mx-auto my-auto mx-24">
     <div class="flex justify-end">
-      <button class="text-2xl text-white font-black" onclick="my_modal_<%= intervention.id %>.close()">(X)</button>
+      <button onclick="my_modal_<%= intervention.id %>.close()">
+        <span class="material-symbols-outlined text-5xl text-white font-black">
+          cancel
+        </span>      
+      </button>
     </div>
     <div class="carousel">
       <% intervention.photos.each do |photo| %>
