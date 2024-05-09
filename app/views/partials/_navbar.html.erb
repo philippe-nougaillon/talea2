@@ -1,12 +1,12 @@
 <div class="btm-nav">
-  <%= link_to interventions_path, class: "text-primary #{'active shadow' if params[:controller] == 'interventions'}" do %>
+  <%= link_to interventions_path, class: "text-primary #{'active shadow' if params[:controller] == 'interventions'}", title: "Liste des interventions" do %>
     <span class="material-symbols-outlined">
       home
     </span>
   <% end %>
 
   <% if policy(User).index? %>
-    <%= link_to users_path, class: "text-primary #{'active shadow' if params[:controller] == 'users'}" do %>
+    <%= link_to users_path, class: "text-primary #{'active shadow' if params[:controller] == 'users'}", title: "Liste des utilisateurs" do %>
       <span class="material-symbols-outlined">
         group
       </span>
@@ -14,7 +14,7 @@
   <% end %>
 
   <% if policy(MailLog).index? %>
-    <%= link_to mail_logs_path, class: "text-primary #{'active shadow' if params[:controller] == 'mail_logs'}" do %>
+    <%= link_to mail_logs_path, class: "text-primary #{'active shadow' if params[:controller] == 'mail_logs'}", title: "MailLog (historique des envois d'email)" do %>
       <span class="material-symbols-outlined">
         mark_email_read
       </span>
