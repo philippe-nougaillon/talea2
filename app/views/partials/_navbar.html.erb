@@ -21,7 +21,7 @@
     <% end %>
   <% end %>
 
-  <%= link_to admin_audits_path, class: "text-primary #{'active shadow' if params[:controller] == 'admin'}" do %>
+  <%= link_to admin_audits_path, class: "text-primary #{'active shadow' if params[:controller] == 'admin'}", title: 'Activité (historique des modifications)' do %>
     <span class="material-symbols-outlined">
       history
     </span>
