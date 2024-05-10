@@ -1,4 +1,4 @@
-<h1 class="text-4xl font-bold mb-4">Mail Logs</h1>
+<h1 class="text-4xl text-primary font-bold mb-4">Mail Logs</h1>
 
 <p class="mb-4">
   Historique des mails envoyés via 
@@ -61,5 +61,8 @@
 </div>
 
 <% unless params[:ko].present? %>
-  <p class="mt-8">Affichage de <%= pluralize(@mail_logs.count, 'mail', plural: 'mails') %> sur <%= @organisation_mail_logs.count %> au total</p>
+  <div class="mt-6">
+    <%== pagy_info(@pagy) %>
+    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+  </div>
 <% end %>

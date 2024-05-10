@@ -56,4 +56,8 @@ class InterventionPolicy < ApplicationPolicy
   def archiver?
     show?
   end
+
+  def purge?
+    show?
+  end
 end

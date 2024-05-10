@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_29_082711) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_02_115216) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -50,6 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_082711) do
     t.integer "adherent_id"
     t.decimal "temps_total", precision: 4, scale: 2, default: "0.0"
     t.text "commentaires"
+    t.integer "note", default: 5
     t.index ["adherent_id"], name: "index_interventions_on_adherent_id"
     t.index ["agent_binome_id"], name: "index_interventions_on_agent_binome_id"
     t.index ["agent_id"], name: "index_interventions_on_agent_id"
@@ -223,11 +252,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_082711) do
     t.string "last_sign_in_ip"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
+    t.integer "service"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "interventions", "organisations"
   add_foreign_key "mail_logs", "organisations"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

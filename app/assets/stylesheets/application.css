@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+[type=radio]:checked,
+[type=radio]:checked:focus,
+[type=radio]:checked:hover {
+  /* Noir */
+  /* background-color: var(--fallback-bc, oklch(var(--bc) / var(--tw-bg-opacity)));; */
+  background-color: rgb(250 204 21 / var(--tw-bg-opacity));
+}

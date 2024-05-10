@@ -1,11 +1,8 @@
 <div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
   <div class="flex flex-wrap justify-between items-center">
-    <h1 class="font-bold text-4xl">Interventions</h1>
-    <%= link_to "Nouvelle Intervention", new_intervention_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <h1 class="text-4xl text-primary font-bold">Interventions</h1>
+    <%= link_to "Ajouter une Intervention", new_intervention_path, class: "hidden sm:block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+    <%= link_to "+", new_intervention_path, class: "block sm:hidden rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
   </div>
 
   <%= form_tag request.path, method: :get do %>
@@ -13,6 +10,31 @@
       <div class="w-full sm:max-w-48">
         <%= label_tag :search, "Rechercher" %>
         <%= text_field_tag :search, params[:search], include_blank:true, onchange:'this.form.submit()', class: 'input input-bordered input-sm w-full', placeholder: 'Description' %>
+      </div>
+
+      <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/12">
+        <%= label_tag :workflow_state, "Statut" %>
+        <%= select_tag :workflow_state, 
+                        options_for_select(Intervention.workflow_state_humanized, params[:workflow_state]), 
+                        include_blank: true,
+                        class: 'select select-bordered select-sm w-full', 
+                        onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="flex gap-4 w-full md:w-2/3 lg:w-1/4">
+        <% if current_user.manager? || current_user.agent? %>
+          <div class="flex-1">
+            <%= label_tag :adherent_id, "Adhérent" %>
+            <%= select_tag :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, params[:adherent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+          </div>
+        <% end %>
+
+        <% if current_user.manager? || current_user.adhérent? %>
+          <div class="flex-1">
+            <%= label_tag :agent_id, "Agent" %>
+            <%= select_tag :agent_id, grouped_options_for_select(@grouped_agents, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+          </div>
+        <% end %>
       </div>
 
       <div class="flex gap-4 w-full md:w-2/3 lg:w-1/4">
@@ -27,24 +49,6 @@
         </div>
       </div>
 
-      <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/12">
-        <%= label_tag :workflow_state, "Statut" %>
-        <%= select_tag :workflow_state, 
-                            options_for_select(Intervention.workflow_spec.states.keys.to_a, params[:workflow_state]), 
-                            include_blank: true,
-                            class: 'select select-bordered select-sm w-full', 
-                            onchange: 'this.form.submit()' %>
-      </div>
-
-      <div class="w-full sm:max-w-72">
-        <%= label_tag :adherent_id, "Adhérent" %>
-        <%= select_tag :adherent_id, options_from_collection_for_select(@adhérents, :id, :nom_prénom, params[:adherent_id]), include_blank: true, onchange: 'this.form.submit()' %>
-      </div>
-
-      <div class="w-full sm:max-w-72">
-        <%= label_tag :agent_id, "Agent" %>
-        <%= select_tag :agent_id, options_from_collection_for_select(@agents, :id, :nom_prénom, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
-      </div>
 
       <div class="flex flex-wrap gap-1">
         <%= render TagCloudComponent.new(tags: @tags) %>
@@ -58,20 +62,16 @@
     <%= render @interventions %>
   </div>
 
-  <p class="mt-8">
-    Affichage de <%= pluralize(@interventions.count, 'intervention', plural: 'interventions') %> sur <%= @interventions_count %>
-  </p>
-  <p>
-    Statuts : <%= JSON.pretty_generate(Intervention.workflow_states_count(@interventions)) %>
-  </p>
+  <div class="my-6">
+    <%== pagy_info(@pagy) %>
+    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+  </div>
 
-  <p class="mt-8">
-    Somme de Temps total : <%= @interventions.sum(:temps_total) %> h.
-  </p>
-
-  <p>
-    <%= link_to "Exporter vers Excel", url_for(params.permit!.merge(format: :xls)), class: "text-success hover:underline" %>
-  </p>
+  <% if @interventions.any? %>
+    <p>
+      <%= link_to "Exporter vers Excel", url_for(params.permit!.merge(format: :xls)), class: "text-success hover:underline" %>
+    </p>
+  <% end %>
 
 </div>
 

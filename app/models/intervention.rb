@@ -11,7 +11,9 @@ class Intervention < ApplicationRecord
   belongs_to :agent_binome, class_name: :User, foreign_key: :agent_binome_id, optional: true 
   belongs_to :adherent, class_name: :User, foreign_key: :adherent_id, optional: true 
 
-  before_save :calcul_temps_total
+  has_many_attached :photos
+
+  before_save :calcul_temps_passé
 
   scope :ordered, -> { order(updated_at: :desc) }
 
@@ -68,6 +70,10 @@ class Intervention < ApplicationRecord
     interventions.reorder(:workflow_state).select(:id).group(:workflow_state).count(:id)
   end
 
+  def self.workflow_state_humanized
+    self.workflow_spec.states.keys.map{|i| i.to_s.humanize }
+  end
+
   # retourne les interventions selon le scope de l'utilisateur
   def self.by_role_for(user)
     case user.rôle
@@ -82,7 +88,7 @@ class Intervention < ApplicationRecord
 
   private
 
-  def calcul_temps_total
+  def calcul_temps_passé
     total = 0
     if self.fin && self.début
       total = ((self.fin - self.début).to_i / 3600.0) - self.temps_de_pause

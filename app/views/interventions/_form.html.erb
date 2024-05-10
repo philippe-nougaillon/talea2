@@ -13,7 +13,7 @@
 
   <div class="my-5">
     <%= form.label :description %>
-    <%= form.text_area :description, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: :true %>
+    <%= form.text_field :description, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: :true %>
   </div>
 
   <div class="my-5">
@@ -23,18 +23,18 @@
 
   <div class="my-5">
     <%= form.label :adherent_id, "Adhérent" %>
-    <%= form.select :adherent_id, options_from_collection_for_select(@adhérents, :id, :nom_prénom, intervention.adherent_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="flex gap-8 my-5">
     <div class="flex-1">
       <%= form.label :agent_id %>
-      <%= form.select :agent_id, options_from_collection_for_select(@agents, :id, :nom_prénom, intervention.agent_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
 
     <div class="flex-1">
-      <%= form.label :agent_binome_id, "Agent binôme" %>
-      <%= form.select :agent_binome_id, options_from_collection_for_select(@agents, :id, :nom_prénom, intervention.agent_binome_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.label :agent_binome_id, "Binôme" %>
+      <%= form.select :agent_binome_id, grouped_options_for_select(@grouped_agents, intervention.agent_binome_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
   </div>
 
@@ -54,9 +54,32 @@
     </div>
   </div>
 
+  <!-- KESAKO ??? -->
+  <% @intervention.photos.each do |photo| %>
+    <%= form.hidden_field :photos, multiple: true, value: photo.signed_id %>
+  <% end %>
+
+  <div class="flex flex-wrap gap-8 my-5 items-end">
+    <div class="flex-1">
+      <%= form.label :photos, 'Photos: ' %>
+      <%= form.file_field :photos, multiple: true, accept: 'image/png,image/gif,image/jpeg', class: 'file-input file-input-sm file-input-bordered w-full max-w-xs' %>
+    </div>
+
+    <% unless current_user.agent? %>
+      <div class="flex-1">
+        <%= form.label :note, 'Évaluation: ' %>
+        <div class="rating">
+          <% 1.upto(5) do |i| %>
+            <%= form.radio_button :note, i, class:"mask mask-star bg-yellow-400" %>
+          <% end %> 
+        </div>
+      </div>
+    <% end %>
+  </div>
+
   <div class="my-5">
     <%= form.label :commentaires %>
-    <%= form.text_area :commentaires, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_area :commentaires, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", 'data-controller': 'textarea-autogrow' %>
   </div>
 
   <div class="flex flex-wrap gap-2">
@@ -64,7 +87,7 @@
     <% if params[:action] == 'edit' %>
       <%= link_to "Voir cette intervention", @intervention, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <% end %>
-    <%= link_to "Retour vers Interventions", interventions_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Retour vers toutes les interventions", interventions_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
 <% end %>
 
