@@ -73,10 +73,18 @@ $ sudo docker-compose build
 ## Créer la base de données TALEA
 $ sudo docker-compose run --rm web bin/rails db:setup
 
+## Créer le premier utilisateur (Administrateur)
+
+$ sudo docker-compose run --rm web bin/rails c
+
+> User.create(email: 'philippe.nougaillon@gmail.com', admin: true, password: '1234567890', confirmed_at: DateTime.now)
+
+> exit
+
 ## Démarrer le serveur dans le conteneur
 $ sudo docker-compose up
 
 ## Lancer TALEA
 Ouvrir un navigateur et aller sur http://ip_du_serveur:3000 
 
-
+Se connecter avec l'utilisateur/adminstrateur nouvellement créé 
