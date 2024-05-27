@@ -2,11 +2,12 @@ class User < ApplicationRecord
   audited
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :rememberable, :timeoutable, :registerable and :omniauthable
+  # :confirmable, :lockable, :rememberable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :recoverable,
          :validatable,
-         :trackable
+         :trackable,
+         :registerable
 
   belongs_to :organisation, optional: true
   has_many :interventions_agent, class_name: :Intervention, foreign_key: :agent_id

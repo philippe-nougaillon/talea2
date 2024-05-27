@@ -1,0 +1,61 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Nouvel utilisateur</h1>
+
+  <%= form_with(model: @user, class: "contents", url: "create_new_user_do", html: { autocomplete: "off" }) do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% @user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mt-4">
+    <%= form.label :nom, style: "display: block" %>
+    <%= form.text_field :nom, class: 'input input-bordered input-sm w-full', required: true %>
+  </div>
+
+  <div class="mt-4">
+    <%= form.label :prénom, style: "display: block" %>
+    <%= form.text_field :prénom, class: 'input input-bordered input-sm w-full', required: true %>
+  </div>
+
+  <div class="mt-4">
+    <%= form.label :email, style: "display: block" %>
+    <%= form.email_field :email, class: 'input input-bordered input-sm w-full', required: true %>
+  </div>
+
+  <div class="mt-4">
+    <%= form.label :password, style: "display: block" %>
+    <%= form.password_field :password, class: 'input input-bordered input-sm w-full' %>
+  </div>
+  <div class="mt-4">
+    <%= form.label :password_confirmation, style: "display: block" %>
+    <%= form.password_field :password_confirmation, class: 'input input-bordered input-sm w-full' %>
+  </div>
+
+  <div data-controller="toggle-agent-service">
+    <div class="my-4">
+      <%= form.label :rôle, "Rôle" %>
+      <span data-action="change->toggle-agent-service#change">
+        <%= form.select :rôle, options_for_select(User.rôles.keys, @user.rôle), {}, class: 'select select-bordered select-sm w-full', data: { 'toggle-agent-service-target': 'role' } %>
+      </span>
+    </div>
+
+    <div data-toggle-agent-service-target='service' class="my-4">
+      <%= form.label :service, "Service" %>
+      <%= form.select :service, options_for_select(User.services.keys, @user.service), {include_blank: true}, class: 'select select-bordered select-sm w-full' %>
+    </div>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer mt-4" %>
+  </div>
+<% end %>
+
+  <%= link_to "Retour vers utilisateurs", users_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+</div>
