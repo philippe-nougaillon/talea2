@@ -1,4 +1,6 @@
 class AdminController < ApplicationController
+  before_action :is_user_authorized
+
   def audits
     if current_user.manager?
       @organisation_audits = Audited::Audit.where(user_id: current_user.organisation.users.pluck(:id))
@@ -26,5 +28,30 @@ class AdminController < ApplicationController
     end
 
     @pagy, @audits = pagy(@audits)
+  end
+
+  def create_new_user
+    @user = User.new
+  end
+
+  def create_new_user_do
+    @user = User.new(params.require(:user).permit(:nom, :prénom, :email, :password, :rôle, :service))
+    @user.organisation = current_user.organisation
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to users_url, notice: "Participant créé avec succès." }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :create_new_admin, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  private
+
+  def is_user_authorized
+    authorize :admin
   end
 end
