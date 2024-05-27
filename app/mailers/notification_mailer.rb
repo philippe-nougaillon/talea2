@@ -35,4 +35,9 @@ class NotificationMailer < ApplicationMailer
       }
     end
   end
+
+  def new_organisation(organisation)
+    @organisation = organisation
+    mail(to: 'philippe.nougaillon@gmail.com, pierreemmanuel.dacquet@gmail.com', subject: '[TALEA] Nouvelle Organisation')
+  end
 end

@@ -7,4 +7,5 @@ class Events
   register_event('intervention.workflow_changed')
   register_event('intervention.updated')
   register_event('intervention.done')
+  register_event('organisation.created')
 end

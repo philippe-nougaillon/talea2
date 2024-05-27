@@ -32,4 +32,9 @@ class EmailSubscription
     end
   end
 
+  def on_organisation_created(event)
+    organisation = Organisation.find(event[:payload][:organisation_id])
+    NewOrganisationNotificationJob.perform_later(organisation)
+  end
+
 end

@@ -15,6 +15,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user.organisation = Organisation.create(nom: "Organisation_#{SecureRandom.hex(5)}")
     @user.rôle = "manager"
     @user.save
+    Events.instance.publish('organisation.created', payload: {organisation_id: @user.organisation.id})
   end
 
   # GET /resource/edit
