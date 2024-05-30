@@ -38,7 +38,7 @@
           <%= intervention.agent.try(:nom_prénom) %>
         </p>
 
-        <p class="my-5">
+        <p class="<%= (params[:action] == "index") ? 'hidden sm:block' : 'my-5' %>">
           <strong class="block text-slate-400 mb-1">Binôme</strong>
           <%= intervention.agent_binome.try(:nom_prénom) %>
         </p>
