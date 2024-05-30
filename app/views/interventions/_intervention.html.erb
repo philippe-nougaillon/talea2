@@ -28,14 +28,14 @@
       <div>
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Adhérent</strong>
-          <%= intervention.adherent.try(:nom_prénom) %>
+          <b><%= intervention.adherent.try(:nom_prénom) %></b>
         </p>
       </div>
 
       <div>
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Agent</strong>
-          <%= intervention.agent.try(:nom_prénom) %>
+          <b><%= intervention.agent.try(:nom_prénom) %></b>
         </p>
 
         <p class="<%= (params[:action] == "index") ? 'hidden sm:block' : 'my-5' %>">
