@@ -2,7 +2,7 @@ namespace :interventions do
     
     desc "Relancer par email"
     task :relancer, [:enregistrer] => :environment do |task, args|
-        interventions = Intervention.with_terminé_state.where("updated_at::DATE - NOW()::DATE = ?", 3)
+        interventions = Intervention.with_terminé_state.where("updated_at::DATE - NOW()::DATE >= ?", 3)
 
         interventions.each do |intervention|
             if intervention.adherent

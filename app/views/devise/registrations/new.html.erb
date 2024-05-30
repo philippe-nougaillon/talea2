@@ -1,6 +1,6 @@
 <div class="hero min-h-screen bg-base-200">
-  <div class="flex flex-row gap-24">
-    <div class="sm:basis-1/3">
+  <div class="flex flex-row flex-wrap gap-12 px-4 mt-8">
+    <div class="mx-auto w-full lg:max-w-72">
       <div class="flex flex-col justify-center max-w-96 mx-auto">
 
         <div class="card shadow-2xl bg-base-100 p-8">
@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <div class="hidden sm:block basis-2/3">
+    <div class="mx-auto">
       <h1 class="text-4xl text-primary font-black">
         TALEA
       </h1>
@@ -50,15 +50,18 @@
         Application de gestion des Interventions
       </h2>
 
-      <h3 class="text-xl text-secondary font-black my-6">
-        Une fois votre compte 'Manager' créé, vous pourrez ajouter des comptes utilisateurs pour les Adhérents (Syndics, Clients, etc.) et les Agents (Prestataires, Artisans, etc.).
+      <h3 class="text-xl text-secondary font-black my-6 max-w-full">
+        Une fois votre compte 'Manager' créé, vous pourrez ajouter des comptes utilisateurs
+        <br>
+        pour les Adhérents (Syndics, Clients, etc.) et les Agents (Prestataires, Artisans, etc.).
         <br><br>
         Rappel; une notification sera envoyée aux :
         <br><br>
         <ul class="list-disc list-inside">
           <li>Managers quand un changement de statut a eu lieu</li>
-          <li>Adhérents quand une intervention est terminée par un agent</li>
           <li>Agents quand un commentaire est ajouté par un adhérent</li>
+          <li>Adhérents quand une intervention est terminée par un agent</li>
+          <li>Adhérents quand une intervention terminée depuis plus de 3 jours n'est pas validée</li>
         </ul>
       </h3>
     </div>
