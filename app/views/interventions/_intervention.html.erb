@@ -28,23 +28,23 @@
       <div>
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Adhérent</strong>
-          <%= intervention.adherent.try(:nom_prénom) %>
+          <b><%= intervention.adherent.try(:nom_prénom) %></b>
         </p>
       </div>
 
       <div>
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Agent</strong>
-          <%= intervention.agent.try(:nom_prénom) %>
+          <b><%= intervention.agent.try(:nom_prénom) %></b>
         </p>
 
-        <p class="my-5">
+        <p class="<%= (params[:action] == "index") ? 'hidden sm:block' : 'my-5' %>">
           <strong class="block text-slate-400 mb-1">Binôme</strong>
           <%= intervention.agent_binome.try(:nom_prénom) %>
         </p>
       </div>
 
-      <div>
+      <div class="<%= (params[:action] == "index") ? 'hidden sm:block' : '' %>">
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Début</strong>
           <%= l intervention.début if intervention.début %>
@@ -56,7 +56,7 @@
         </p>
       </div>
 
-      <div>
+      <div class="<%= (params[:action] == "index") ? 'hidden sm:block' : '' %>">
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Temps_passé</strong>
           <%= intervention.temps_total %> h
@@ -69,7 +69,7 @@
       </div>
     </div>
 
-    <div class="sm:flex gap-8 sm:w-2/5">
+    <div class="<%= (params[:action] == "index") ? 'hidden sm:block' : 'sm:flex gap-8 sm:w-2/5' %>">
       <div>
         <% if intervention.photos.attached? %>
           <% if intervention.photos.count > 1 %>
@@ -94,7 +94,7 @@
         <% end %>
       </div>
 
-      <div>
+      <div class="<%= (params[:action] == "index") ? 'hidden sm:block' : '' %>">
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Commentaires</strong>
           <%= intervention.commentaires %>
@@ -118,8 +118,8 @@
 
   <% if action_name == "show" %>
     <div class="mt-2 mb-5">
-      <strong class="block text-slate-400 mb-1">Actions</strong>
-      <p>
+      <strong class="block text-slate-400 mb-1">Changer le Statut de l'intervention</strong>
+      <p class="hidden sm:block">
         <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white', 'data-turbo': false %> |
         <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white', 'data-turbo': false %> |
         <%= link_to_if intervention.can_terminer?, 'Terminer', terminer_intervention_path(intervention), class: 'btn btn-sm btn-accent', 'data-turbo': false %> |
@@ -127,9 +127,31 @@
         <%= link_to_if intervention.can_refuser?,  'Refuser', refuser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white', 'data-turbo': false %> |
         <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white', 'data-turbo': false %> 
       </p>
-    </div>
-  <% end %>
 
+      <p class="sm:hidden">
+        <% if intervention.can_accepter? %>
+          <%= link_to 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-primary text-white', 'data-turbo': false %>
+        <% end %>
+        <% if intervention.can_en_cours? %>
+          <%= link_to 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-warning text-white', 'data-turbo': false %>
+        <% end %>
+        <% if intervention.can_terminer? %>
+          <%= link_to 'Terminer', terminer_intervention_path(intervention), class: 'btn btn-accent', 'data-turbo': false %>
+        <% end %>
+        <% if intervention.can_valider? %>
+          <%= link_to 'Valider', valider_intervention_path(intervention), class: 'btn btn-success text-white', 'data-turbo': false %>
+        <% end %>
+        <% if intervention.can_refuser? %>
+          <%= link_to 'Refuser', refuser_intervention_path(intervention), class: 'btn btn-error text-white', 'data-turbo': false %>
+        <% end %>
+        <% if intervention.can_archiver? %>
+          <%= link_to 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-secondary text-white', 'data-turbo': false %>
+        <% end %>
+      </p>
+    </div>
+
+    <div class="divider"></div>
+  <% end %>
 
   <dialog id="my_modal_<%= intervention.id %>" class="modal w-full mx-auto my-auto mx-24">
     <div class="flex justify-end">

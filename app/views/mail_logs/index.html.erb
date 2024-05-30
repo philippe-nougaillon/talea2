@@ -11,7 +11,7 @@
 
     <div class="w-full sm:w-1/4 pr-4">
       <%= label_tag :search, "Destinataire" %>
-      <%= text_field_tag :search, params[:search], include_blank: true, onchange:'this.form.submit()', class:"input input-bordered input-sm w-full" %>
+      <%= select_tag :search, options_for_select(@emails, params[:search]), include_blank: true, onchange:'this.form.submit()', class:"input input-bordered input-sm w-full" %>
     </div>
 
     <div class="relative max-w-full">
@@ -20,7 +20,7 @@
     </div>
 
     <div class="sm:w-1/4 pr-4">
-      <%= label_tag :ko, "Afficher que les KO ?" %>
+      <%= label_tag :ko, "Afficher que les échecs (statut = KO) ?" %>
       <br>
       <%= check_box_tag :ko, 1, params[:ko], onchange:'this.form.submit()' %>
     </div>

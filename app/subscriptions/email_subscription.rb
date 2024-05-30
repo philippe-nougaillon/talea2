@@ -1,5 +1,6 @@
 class EmailSubscription
 
+  # Notifier les managers qu'un changement de statut a eu lieu
   def on_intervention_workflow_changed(event)
     intervention = Intervention.find(event[:payload][:intervention_id])
     user_id = intervention.audits.last.user_id
@@ -9,6 +10,7 @@ class EmailSubscription
     end
   end
 
+  # Notifier les adhérents qu'une intervention a été terminée par un agent
   def on_intervention_done(event)
     intervention = Intervention.find(event[:payload][:intervention_id])
     user = User.find(intervention.audits.last.user_id)
@@ -20,6 +22,7 @@ class EmailSubscription
     end
   end
 
+  # Notifier les agents qu'un commentaire a été ajouté par un adhérent
   def on_intervention_updated(event)
     intervention = Intervention.find(event[:payload][:intervention_id])
     last_audit = intervention.audits.last
