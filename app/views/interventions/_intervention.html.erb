@@ -4,8 +4,8 @@
     <i>il y a <%= time_ago_in_words intervention.updated_at %></i>
   </small>
 
-  <p class="text-3xl text-primary font-black">
-    <%= link_to intervention.description, intervention, class: 'hover:underline hover:text-base-content' %>
+  <p class="text-4xl text-<%= intervention.style.split.first.split('-').last %> font-black">
+    <%= link_to intervention.description.humanize, intervention, class: 'hover:underline hover:text-base-content' %>
   </p>
 
   <p class="mb-2">
@@ -38,7 +38,7 @@
           <b><%= intervention.agent.try(:nom_prénom) %></b>
         </p>
 
-        <p class="<%= (params[:action] == "index") ? 'hidden sm:block' : 'my-5' %>">
+        <p class="<%= (params[:action] == "index") ? 'hidden sm:block' : 'my-2' %>">
           <strong class="block text-slate-400 mb-1">Binôme</strong>
           <%= intervention.agent_binome.try(:nom_prénom) %>
         </p>
@@ -50,7 +50,7 @@
           <%= l intervention.début if intervention.début %>
         </p>
 
-        <p class="my-5">
+        <p class="my-2">
           <strong class="block text-slate-400 mb-1">Fin</strong>
           <%= l intervention.fin if intervention.fin%>
         </p>
@@ -62,7 +62,7 @@
           <%= intervention.temps_total %> h
         </p>
 
-        <p class="my-5">
+        <p class="my-2">
           <strong class="block text-slate-400 mb-1">Pause</strong>
           <%= intervention.temps_de_pause %> h
         </p>
