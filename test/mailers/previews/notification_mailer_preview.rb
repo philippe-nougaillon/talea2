@@ -5,4 +5,8 @@ class NotificationMailerPreview < ActionMailer::Preview
     NotificationMailer.commentaire_changed(Intervention.last)
   end
 
+  def workflow_changed
+    NotificationMailer.workflow_changed(Intervention.last, User.last.email)
+  end
+
 end
