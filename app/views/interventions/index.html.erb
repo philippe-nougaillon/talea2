@@ -69,16 +69,16 @@
     <%== pagy_nav(@pagy) %>
   </div>
 
-  <p class="mb-4">
-    Nbr interventions par statut : <%= JSON.pretty_generate(Intervention.workflow_states_count(@interventions)) %>
-  </p>
 
 
   <% if @interventions.any? %>
-    <p>
+    <p class="text-sm mt-4">
       <%= link_to "Exporter les interventions en XLS", url_for(params.permit!.merge(format: :xls)), class: "text-sm text-success hover:underline" %>
+      <br><br>
+      Nbr interventions par statut : <%= JSON.pretty_generate(Intervention.workflow_states_count(@interventions)) %>
     </p>
   <% end %>
+
 </div>
 
 <script>
