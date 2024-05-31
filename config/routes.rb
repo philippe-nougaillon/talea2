@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   mount MissionControl::Jobs::Engine, at: "/jobs"
   
   resources :users
-  resources :organisations, only: %i[ show edit update ] 
+  # resources :organisations, only: %i[ show edit update ] 
   resources :mail_logs
 
   resources :interventions do
