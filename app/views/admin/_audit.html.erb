@@ -6,11 +6,11 @@
   </td>
   <td>
     <% if audit.user_id %>
-      <% if audit.user %>
-        <%= audit.user.email %>
-        (#<%= audit.user.id %>)
+      <% if user = audit.user %>
+        <%= user.email %>
+        (#<%= user.id %>)
         <br>
-        <%= audit.user.rôle.humanize %>
+        <%= user.rôle.humanize %>
         <br>
       <% end %>
     <% else %>

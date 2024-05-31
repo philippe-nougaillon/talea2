@@ -27,14 +27,14 @@
         <% if current_user.manager? || current_user.agent? %>
           <div class="flex-1">
             <%= label_tag :adherent_id, "Adhérent" %>
-            <%= select_tag :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, params[:adherent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+            <%= select_tag :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, params[:adherent_id]), include_blank: true, class: 'input input-bordered input-sm w-full', onchange: 'this.form.submit()' %>
           </div>
         <% end %>
 
         <% if current_user.manager? || current_user.adhérent? %>
           <div class="flex-1">
             <%= label_tag :agent_id, "Agent" %>
-            <%= select_tag :agent_id, grouped_options_for_select(@grouped_agents, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+            <%= select_tag :agent_id, grouped_options_for_select(@grouped_agents, params[:agent_id]), include_blank: true, class: 'input input-bordered input-sm w-full', onchange: 'this.form.submit()' %>
           </div>
         <% end %>
       </div>
@@ -66,12 +66,16 @@
 
   <div class="my-6">
     <%== pagy_info(@pagy) %>
-    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+    <%== pagy_nav(@pagy) %>
   </div>
 
+
+
   <% if @interventions.any? %>
-    <p>
-      <%= link_to "Exporter vers Excel", url_for(params.permit!.merge(format: :xls)), class: "text-success hover:underline" %>
+    <p class="text-sm mt-4">
+      <%= link_to "Exporter les interventions en XLS", url_for(params.permit!.merge(format: :xls)), class: "text-sm text-success hover:underline" %>
+      <br><br>
+      Nbr interventions par statut : <%= JSON.pretty_generate(Intervention.workflow_states_count(@interventions)) %>
     </p>
   <% end %>
 

@@ -67,7 +67,12 @@ class Intervention < ApplicationRecord
   end
 
   def self.workflow_states_count(interventions)
-    interventions.reorder(:workflow_state).select(:id).group(:workflow_state).count(:id)
+    results = interventions.reorder(:workflow_state).select(:id).group(:workflow_state).count(:id)
+    h = {}
+    self.workflow_state_humanized.each do |workflow_state|
+      h[workflow_state] = results[workflow_state.downcase] || 0
+    end
+    h
   end
 
   def self.workflow_state_humanized
