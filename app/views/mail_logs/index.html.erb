@@ -46,7 +46,7 @@
       <% @mail_logs.each_with_index do |mail_log, index| %>
         <% status_ko = @result_failed["items"].find{|item| item["message"]["headers"]["message-id"] == mail_log.message_id } %>
         
-        <% if params[:ko].blank? || (mail_log.created_at > 5.days.ago && status_ko) %>
+        <% if params[:ko].blank? || status_ko %>
           <%= render partial: "mail_log", locals: {mail_log: mail_log, status_ko: status_ko, index:} %>
         <% end %>
       <% end %>
