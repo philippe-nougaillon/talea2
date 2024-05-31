@@ -27,14 +27,14 @@
         <% if current_user.manager? || current_user.agent? %>
           <div class="flex-1">
             <%= label_tag :adherent_id, "Adhérent" %>
-            <%= select_tag :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, params[:adherent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+            <%= select_tag :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, params[:adherent_id]), include_blank: true, class: 'input input-bordered input-sm w-full', onchange: 'this.form.submit()' %>
           </div>
         <% end %>
 
         <% if current_user.manager? || current_user.adhérent? %>
           <div class="flex-1">
             <%= label_tag :agent_id, "Agent" %>
-            <%= select_tag :agent_id, grouped_options_for_select(@grouped_agents, params[:agent_id]), include_blank: true, onchange: 'this.form.submit()' %>
+            <%= select_tag :agent_id, grouped_options_for_select(@grouped_agents, params[:agent_id]), include_blank: true, class: 'input input-bordered input-sm w-full', onchange: 'this.form.submit()' %>
           </div>
         <% end %>
       </div>

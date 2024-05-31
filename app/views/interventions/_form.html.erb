@@ -13,7 +13,7 @@
 
   <div class="my-5">
     <%= form.label :description %>
-    <%= form.text_field :description, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: :true %>
+    <%= form.text_field :description, class: "input input-bordered input-sm w-full", required: :true %>
   </div>
 
   <div class="my-5">
@@ -23,50 +23,52 @@
 
   <div class="my-5">
     <%= form.label :adherent_id, "Adhérent" %>
-    <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), include_blank: true, class: "select select-bordered select-sm w-full" %>
   </div>
 
   <div class="flex gap-8 my-5">
     <div class="flex-1">
       <%= form.label :agent_id %>
-      <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), include_blank: true, class: "select select-bordered select-sm w-full" %>
     </div>
 
     <div class="flex-1">
       <%= form.label :agent_binome_id, "Binôme" %>
-      <%= form.select :agent_binome_id, grouped_options_for_select(@grouped_agents, intervention.agent_binome_id), include_blank: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.select :agent_binome_id, grouped_options_for_select(@grouped_agents, intervention.agent_binome_id), include_blank: true, class: "select select-bordered select-sm w-full" %>
     </div>
   </div>
 
   <div class="flex flex-wrap gap-8 my-5 items-end">
     <div class="flex-1">
       <%= form.label :début %>
-      <%= form.datetime_field :début, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.datetime_field :début, class: "input input-bordered input-sm w-full" %>
     </div>
 
-    <div class="flex-1">
-      <%= form.label :fin %>
-      <%= form.datetime_field :fin, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-    </div>
-    <div class="flex-1">
+    <% unless params[:action] == 'new' %>
+      <div class="flex-1">
+        <%= form.label :fin %>
+        <%= form.datetime_field :fin, class: "input input-bordered input-sm w-full" %>
+      </div>
+    <% end %>
+
+    <div class="">
       <%= form.label :temps_de_pause, "Temps de pause (h)" %>
-      <%= form.number_field :temps_de_pause, min: 0, required: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.number_field :temps_de_pause, min: 0, required: true, class: "input input-bordered input-sm w-full" %>
     </div>
   </div>
 
-  <!-- KESAKO ??? -->
   <% @intervention.photos.each do |photo| %>
     <%= form.hidden_field :photos, multiple: true, value: photo.signed_id %>
   <% end %>
 
-  <div class="flex flex-wrap gap-8 my-5 items-end">
+  <div class="sm:flex flex-wrap gap-8 my-5 items-end">
     <div class="flex-1">
       <%= form.label :photos, 'Photos: ' %>
       <%= form.file_field :photos, multiple: true, accept: 'image/png,image/gif,image/jpeg', class: 'file-input file-input-sm file-input-bordered w-full max-w-xs' %>
     </div>
 
-    <% unless current_user.agent? %>
-      <div class="flex-1">
+    <% unless current_user.agent? || (params[:action] == 'new') %>
+      <div class="flex-1 mt-4">
         <%= form.label :note, 'Évaluation: ' %>
         <div class="rating">
           <% 1.upto(5) do |i| %>
@@ -79,7 +81,7 @@
 
   <div class="my-5">
     <%= form.label :commentaires %>
-    <%= form.text_area :commentaires, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", 'data-controller': 'textarea-autogrow' %>
+    <%= form.text_area :commentaires, class: "textarea textarea-bordered textarea-sm w-full", 'data-controller': 'textarea-autogrow' %>
   </div>
 
   <div class="flex flex-wrap gap-2">
