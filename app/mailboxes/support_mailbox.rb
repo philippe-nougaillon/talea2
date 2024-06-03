@@ -5,12 +5,15 @@ class SupportMailbox < ApplicationMailbox
     if user = User.find_by(email: mail.from_address.to_s)
       organisation_id = user.organisation_id
     else
-      # organisation_id = Organisation.find_by
+      Organisation.all.each do |organisation|
+        if mail.subject.include?(organisation.nom.split('_').last)
+          organisation_id = organisation.id
+        end
+      end
     end
 
     if organisation_id
-      intervention = Intervention.create(organisation_id: organisation_id, adherent_id: user.id, description: "[SUPPORT] #{mail.subject}")
-      SupportRequest.create!(email: mail.from_address.to_s, subject: mail.subject, body: mail.body.to_s, intervention: intervention)
+      intervention = Intervention.create(organisation_id: organisation_id, adherent_id: user.try(:id), description: "[SUPPORT] #{mail.subject}", commentaires: "De #{mail.from_address.to_s} : #{mail.body.to_s}")
     end
   end
 end
