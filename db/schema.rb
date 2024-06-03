@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_31_113101) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_03_074502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.string "message_id", null: false
+    t.string "message_checksum", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -208,6 +217,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_113101) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "support_requests", force: :cascade do |t|
+    t.string "email", comment: "Email of the submitter"
+    t.string "subject", comment: "Subject of their support email"
+    t.text "body", comment: "Body of their support email"
+    t.bigint "intervention_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["intervention_id"], name: "index_support_requests_on_intervention_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.bigint "tag_id"
     t.string "taggable_type"
@@ -271,6 +290,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_113101) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "support_requests", "interventions"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "organisations"
 end
