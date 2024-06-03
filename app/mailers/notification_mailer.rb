@@ -36,8 +36,14 @@ class NotificationMailer < ApplicationMailer
     end
   end
 
+  def welcome(user)
+    @user = user
+    mail(to: @user.email, subject: '[TALEA] Bienvenue !')
+  end
+
   def new_organisation(organisation)
     @organisation = organisation
     mail(to: 'philippe.nougaillon@gmail.com, pierreemmanuel.dacquet@gmail.com', subject: '[TALEA] Nouvelle Organisation')
   end
+
 end

@@ -6,7 +6,7 @@ class SupportMailbox < ApplicationMailbox
       organisation_id = user.organisation_id
     else
       Organisation.all.each do |organisation|
-        if mail.subject.include?(organisation.nom.split('_').last)
+        if mail.subject.include?(organisation.numero)
           organisation_id = organisation.id
         end
       end

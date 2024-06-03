@@ -1,0 +1,16 @@
+Bienvenue !
+<br><br>
+Votre compte a été créé avec succès.
+<br><br>
+Voici les informations à donner aux intéressés pour qu'ils puissent créer une intervention.
+<br><br>
+Email : <b>support@talea2.fr</b>
+<br>
+Le sujet de l'email doit inclure cet identifiant : <b><%= @user.organisation.numero %></b>
+
+<br><br>
+Pour vous connecter à TALEA2, cliquez sur le lien suivant :
+<%= link_to root_url, root_url %>
+
+<br><br>
+En cas de besoin, vous pouvez nous contacter à l'adresse suivante : <%= link_to "https://www.philnoug.com/contact", "https://www.philnoug.com/contact" %>

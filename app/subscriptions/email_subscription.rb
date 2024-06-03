@@ -36,8 +36,9 @@ class EmailSubscription
   end
 
   def on_organisation_created(event)
-    organisation = Organisation.find(event[:payload][:organisation_id])
-    NewOrganisationNotificationJob.perform_later(organisation)
+    user = User.find(event[:payload][:user_id])
+    WelcomeNotificationJob.perform_later(user)
+    NewOrganisationNotificationJob.perform_later(user.organisation)
   end
 
 end

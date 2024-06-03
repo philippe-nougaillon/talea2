@@ -13,6 +13,8 @@ class Intervention < ApplicationRecord
 
   has_many_attached :photos
 
+  validates :description, presence: true
+
   before_save :calcul_temps_passé
 
   scope :ordered, -> { order(updated_at: :desc) }
