@@ -10,6 +10,10 @@ Voici les informations à donner aux intéressés pour qu'ils puissent
 <br><br>
 1/ Le destinataire du email doit être <b>support@mg.talea2.fr</b>
 <br><br>
+2/ L'expéditeur doit être un adhérent (son adresse email est celle d'un de vos adhérents). 
+<br><br>
+OU
+<br><br>
 2/ Le sujet de l'email doit contenir cet identifiant : <b><%= @user.organisation.numero %></b>
 <br><br>
 <%= mail_to "support@mg.talea2.fr", "Exemple de demande de support TALEA2", subject: "[#{@user.organisation.numero}] Demande d'intervention", body: "Détail de l'intervention demandée..." %>

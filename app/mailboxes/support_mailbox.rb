@@ -3,7 +3,7 @@ class SupportMailbox < ApplicationMailbox
   def process
     organisation_id = nil
 
-    if user = User.where("email like ?", "%#{mail.from_address}").take
+    if user = User.where("email like ?", "%#{mail.from_address}%").take
       organisation_id = user.organisation_id
     else
       Organisation.all.each do |organisation|
