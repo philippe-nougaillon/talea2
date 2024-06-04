@@ -14,7 +14,12 @@ class SupportMailbox < ApplicationMailbox
     end
 
     if organisation_id
-      Intervention.create(organisation_id: organisation_id, adherent_id: user.try(:id), description: "[SUPPORT] #{mail.subject}", commentaires: "De #{mail.from_address} : #{mail.content}")
+      organisation = Organisation.find(organisation_id)
+      organisation.interventions.create( 
+                      adherent_id: user.try(:id), 
+                      description: "[MAIL] #{mail.subject.gsub(organisation.numero, '')}", 
+                      commentaires: "De #{mail.from_address} : #{mail.content}"
+                    )
     end
   end
 
