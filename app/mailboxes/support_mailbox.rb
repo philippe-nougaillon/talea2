@@ -1,4 +1,5 @@
 class SupportMailbox < ApplicationMailbox
+
   def process
     organisation_id = nil
 
@@ -13,7 +14,8 @@ class SupportMailbox < ApplicationMailbox
     end
 
     if organisation_id
-      intervention = Intervention.create(organisation_id: organisation_id, adherent_id: user.try(:id), description: "[SUPPORT] #{mail.subject}", commentaires: "De #{mail.from_address.to_s} : #{mail.body.to_s}")
+      Intervention.create(organisation_id: organisation_id, adherent_id: user.try(:id), description: "[SUPPORT] #{mail.subject}", commentaires: "De #{mail.from_address} : #{mail.content}")
     end
   end
+
 end

@@ -1,16 +1,17 @@
 Bienvenue !
 <br><br>
-Votre compte a été créé avec succès.
-<br><br>
-Voici les informations à donner aux intéressés pour qu'ils puissent créer une intervention.
-<br><br>
-Email : <b>support@talea2.fr</b>
-<br>
-Le sujet de l'email doit inclure cet identifiant : <b><%= @user.organisation.numero %></b>
-
+Votre compte TALEA2 a été créé avec succès.
 <br><br>
 Pour vous connecter à TALEA2, cliquez sur le lien suivant :
 <%= link_to root_url, root_url %>
-
+<br><br><br>
+Voici les informations à donner aux intéressés pour qu'ils puissent 
+<b>créer une intervention à partir d'un simple email</b> envoyé à TALEA2 :
 <br><br>
+1/ Le destinataire du email doit être <b>support@mg.talea2.fr</b>
+<br><br>
+2/ Le sujet de l'email doit contenir cet identifiant : <b><%= @user.organisation.numero %></b>
+<br><br>
+<%= mail_to "support@mg.talea2.fr", "Exemple de demande de support TALEA2", subject: "[#{@user.organisation.numero}] Demande d'intervention", body: "Détail de l'intervention demandée..." %>
+<br><br><br>
 En cas de besoin, vous pouvez nous contacter à l'adresse suivante : <%= link_to "https://www.philnoug.com/contact", "https://www.philnoug.com/contact" %>
