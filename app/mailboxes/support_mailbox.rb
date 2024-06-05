@@ -2,8 +2,9 @@ class SupportMailbox < ApplicationMailbox
 
   def process
     organisation_id = nil
-
-    if user = User.find_by(email: mail.from_address.split('<').last.split('>').first)
+    from_email = mail.from_address.to_s.split('<').last.split('>').first
+    
+    if user = User.find_by(email: from_email)
       organisation_id = user.organisation_id
     else
       Organisation.all.each do |organisation|
