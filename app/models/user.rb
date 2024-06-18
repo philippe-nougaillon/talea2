@@ -47,9 +47,9 @@ class User < ApplicationRecord
   end
 
   def moyenne
-    sum = self.interventions_agent.sum(:note) + self.interventions_agent_binome.sum(:note)
-    count = self.interventions_agent.count + self.interventions_agent_binome.count
+    sum = self.interventions_agent.where.not(note: 0).sum(:note) + self.interventions_agent_binome.where.not(note: 0).sum(:note)
+    count = self.interventions_agent.where.not(note: 0).count + self.interventions_agent_binome.where.not(note: 0).count
     
-    return count != 0 ? (sum.to_f / count).round(1) : 0
+    return count != 0 ? "#{(sum.to_f / count).round(1)} / 5" : ""
   end
 end
