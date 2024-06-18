@@ -62,6 +62,7 @@ class InterventionsController < ApplicationController
   # GET /interventions/new
   def new
     @intervention = Intervention.new
+    @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
     @organisation_members = current_user.organisation.users
     @grouped_agents = User.grouped_agents(@organisation_members)
     @intervention.adherent_id = current_user.id if current_user.adhérent?
@@ -70,6 +71,7 @@ class InterventionsController < ApplicationController
 
   # GET /interventions/1/edit
   def edit
+    @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
     @organisation_members = current_user.organisation.users
     @grouped_agents = User.grouped_agents(@organisation_members)
   end
@@ -78,6 +80,11 @@ class InterventionsController < ApplicationController
   def create
     @intervention = Intervention.new(intervention_params)
     @intervention.organisation = current_user.organisation
+    if current_user.manager?
+      @intervention.tag_list.add(params[:intervention][:tags_manager])
+    else
+      @intervention.tag_list.add(params[:intervention][:tags])
+    end
 
     respond_to do |format|
       if @intervention.save
@@ -94,6 +101,12 @@ class InterventionsController < ApplicationController
   def update
     respond_to do |format|
       if @intervention.update(intervention_params)
+        if current_user.manager?
+          @intervention.tag_list = params[:intervention][:tags_manager]
+        else
+          @intervention.tag_list = params[:intervention][:tags]
+        end
+        @intervention.save
         unless Rails.env.development?
           Events.instance.publish('intervention.updated', payload: {intervention_id: @intervention.id})
         end

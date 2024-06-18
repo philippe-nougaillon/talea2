@@ -17,10 +17,17 @@
       <%= form.text_field :description, class: "input input-bordered input-sm w-full", required: :true %>
     </div>
 
-    <div class="w-full sm:flex-1">
-      <%= form.label :tag_list, "Tags", style: "display: block" %>
-      <%= form.text_field :tag_list, value: intervention.tag_list.join(', '), class: 'input input-bordered input-sm w-full' %>
-    </div>
+    <% if current_user.manager? %>
+      <div class="w-full sm:flex-1">
+        <%= form.label :tags_manager, style: "display: block" %>
+        <%= form.select :tags_manager, options_from_collection_for_select(@tags, :name, :name, intervention.tags.map(&:name)), multiple: true, class: 'w-full' %>
+      </div>
+    <% else %>
+      <div class="w-full sm:flex-1">
+        <%= form.label :tags, style: "display: block" %>
+        <%= form.select :tags, options_from_collection_for_select(@tags, :name, :name, intervention.tags.map(&:name)), multiple: true, class: 'w-full' %>
+      </div>
+    <% end %>
   </div>
 
   <div class="flex flex-wrap gap-8 my-5">
@@ -100,6 +107,33 @@
 
 <script>
   // slimselect
+  new SlimSelect({
+    select: '#intervention_tags',
+    settings: {
+      searchPlaceholder: 'Recherche',
+      searchText: 'Pas de résultat',
+      searchingText: 'Recherche...',
+      placeholderText: 'Choisissez un ou plusieurs tags',
+      allowDeselect: true,
+    }
+  })
+
+  new SlimSelect({
+    select: '#intervention_tags_manager',
+    settings: {
+      searchPlaceholder: 'Recherche',
+      searchText: 'Pas de résultat',
+      searchingText: 'Recherche...',
+      placeholderText: 'Choisissez un ou plusieurs tags',
+      allowDeselect: true,
+    },
+    events: {
+      addable: function (value) {
+        return value
+      }
+    }
+  })
+
   new SlimSelect({
     select: '#intervention_agent_id',
     settings: {

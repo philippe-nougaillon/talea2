@@ -8,9 +8,9 @@
     <%= link_to intervention.description.humanize, intervention, class: 'hover:underline hover:text-base-content' %>
   </p>
 
-  <p class="mb-2">
+  <p class="my-2">
     <% intervention.tags.each do |tag| %>
-      <span class="badge "><%= tag.name.humanize %></span>
+      <span class="badge badge-primary badge-outline text-white"><%= tag.name.humanize %></span>
     <% end %>
   </p>
 
