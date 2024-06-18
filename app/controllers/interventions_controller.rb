@@ -1,5 +1,5 @@
 class InterventionsController < ApplicationController
-  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider refuser archiver purge ]
+  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider refuser purge ]
   before_action :is_user_authorized
 
   # GET /interventions or /interventions.json
@@ -147,11 +147,11 @@ class InterventionsController < ApplicationController
     redirect_to @intervention, notice: "Intervention refusée"
   end
 
-  def archiver
-    @intervention.archiver!
-    send_workflow_changed_notification
-    redirect_to @intervention, notice: "Intervention archivée"
-  end
+  # def archiver
+  #   @intervention.archiver!
+  #   send_workflow_changed_notification
+  #   redirect_to @intervention, notice: "Intervention archivée"
+  # end
 
   def purge
     @intervention.photos.find(params[:photo_id]).purge

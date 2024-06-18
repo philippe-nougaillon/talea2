@@ -124,8 +124,8 @@
         <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white', 'data-turbo': false %> |
         <%= link_to_if intervention.can_terminer?, 'Terminer', terminer_intervention_path(intervention), class: 'btn btn-sm btn-accent', 'data-turbo': false %> |
         <%= link_to_if intervention.can_valider?,  'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white', 'data-turbo': false %> |
-        <%= link_to_if intervention.can_refuser?,  'Refuser', refuser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white', 'data-turbo': false %> |
-        <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white', 'data-turbo': false %> 
+        <%= link_to_if intervention.can_refuser?,  'Refuser', refuser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white', 'data-turbo': false %>
+        <%# <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white', 'data-turbo': false %>
       </p>
 
       <p class="sm:hidden">
@@ -143,9 +143,6 @@
         <% end %>
         <% if intervention.can_refuser? %>
           <%= link_to 'Refuser', refuser_intervention_path(intervention), class: 'btn btn-error text-white', 'data-turbo': false %>
-        <% end %>
-        <% if intervention.can_archiver? %>
-          <%= link_to 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-secondary text-white', 'data-turbo': false %>
         <% end %>
       </p>
     </div>
