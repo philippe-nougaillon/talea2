@@ -118,13 +118,13 @@ class InterventionsController < ApplicationController
 
   def accepter
     @intervention.accepter!
-    send_workflow_changed_notification
+    # send_workflow_changed_notification
     redirect_to @intervention, notice: "Intervention acceptée"
   end
 
   def en_cours
     @intervention.en_cours!
-    send_workflow_changed_notification
+    # send_workflow_changed_notification
     redirect_to @intervention, notice: "Intervention en cours"
   end
 
@@ -137,19 +137,19 @@ class InterventionsController < ApplicationController
 
   def valider
     @intervention.valider!
-    send_workflow_changed_notification
+    # send_workflow_changed_notification
     redirect_to @intervention, notice: "Intervention validée"
   end
 
   def refuser
     @intervention.refuser!
-    send_workflow_changed_notification
+    # send_workflow_changed_notification
     redirect_to @intervention, notice: "Intervention refusée"
   end
 
   # def archiver
   #   @intervention.archiver!
-  #   send_workflow_changed_notification
+  # #   send_workflow_changed_notification
   #   redirect_to @intervention, notice: "Intervention archivée"
   # end
 
