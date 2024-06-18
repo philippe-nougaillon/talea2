@@ -30,6 +30,8 @@ class User < ApplicationRecord
     informatique: 2
   }
 
+  scope :ordered, -> {order(:nom)}
+
   def self.grouped_agents(users)
     h = {}
     User.services.keys.each do |key|

@@ -1,17 +1,14 @@
 <div id="<%= dom_id user %>">
   <p class="text-2xl font-black text-primary"><%= link_to user.nom_prénom, user, class: 'hover:underline hover:text-base-content' %></p>
-  <span class="text-secondary"><%= user.rôle.humanize %> <%= user.service.try(:humanize) %> </span>
-  <p class="my-4"><%= user.email %></p>
-
-  <% if user.agent? %>
-    <p class="my-4">Moyenne évaluation : <%= user.moyenne %></p>
-  <% end %>
+  <span class="text-success"><%= user.rôle.humanize %> <%= user.service.try(:humanize) %> </span>
 
   <% if action_name != "show" %>
-    <div class="flex flex-wrap gap-2">
-      <%= link_to "Voir", user, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      <%= link_to "Modifier", edit_user_path(user), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    </div>
-    <hr class="my-4">
+    <hr class="my-1">
+  <% else %>
+    <p class="my-4"><%= user.email %></p>
+
+    <% if user.agent? %>
+      <p class="my-4">Moyenne évaluation : <%= user.moyenne %></p>
+    <% end %>
   <% end %>
 </div>

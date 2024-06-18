@@ -11,7 +11,7 @@ class InterventionsController < ApplicationController
     @tags = @interventions.tag_counts_on(:tags).order(:name)
 
     if params[:search].present?
-      @interventions = @interventions.where("description ILIKE :search", {search: "%#{params[:search]}%"})
+      @interventions = @interventions.where("description ILIKE :search OR commentaires ILIKE :search", {search: "%#{params[:search]}%"})
     end
 
     if params[:adherent_id].present?

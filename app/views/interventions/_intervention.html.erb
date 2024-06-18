@@ -47,18 +47,18 @@
       <div class="<%= (params[:action] == "index") ? 'hidden sm:block' : '' %>">
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Début</strong>
-          <%= l intervention.début if intervention.début %>
+          <%= l(intervention.début, format: :long) if intervention.début %>
         </p>
 
         <p class="my-2">
           <strong class="block text-slate-400 mb-1">Fin</strong>
-          <%= l intervention.fin if intervention.fin%>
+          <%= l(intervention.fin, format: :long) if intervention.fin%>
         </p>
       </div>
 
       <div class="<%= (params[:action] == "index") ? 'hidden sm:block' : '' %>">
         <p class="my-2">
-          <strong class="block text-slate-400 mb-1">Temps_passé</strong>
+          <strong class="block text-slate-400 mb-1">Temps passé</strong>
           <%= intervention.temps_total %> h
         </p>
 
