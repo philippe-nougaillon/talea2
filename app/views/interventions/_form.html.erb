@@ -11,45 +11,47 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :description %>
-    <%= form.text_field :description, class: "input input-bordered input-sm w-full", required: :true %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :tag_list, "Tags", style: "display: block" %>
-    <%= form.text_field :tag_list, value: intervention.tag_list.join(', '), class: 'input input-bordered input-sm w-full' %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :adherent_id, "Adhérent" %>
-    <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), include_blank: true, class: "select select-bordered select-sm w-full" %>
-  </div>
-
-  <div class="flex gap-8 my-5">
-    <div class="flex-1">
-      <%= form.label :agent_id %>
-      <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), include_blank: true, class: "select select-bordered select-sm w-full" %>
+  <div class="flex flex-wrap gap-8 mb-8">
+    <div class="w-full sm:flex-1">
+      <%= form.label :description %>
+      <%= form.text_field :description, class: "input input-bordered input-sm w-full", required: :true %>
     </div>
 
-    <div class="flex-1">
+    <div class="w-full sm:flex-1">
+      <%= form.label :tag_list, "Tags", style: "display: block" %>
+      <%= form.text_field :tag_list, value: intervention.tag_list.join(', '), class: 'input input-bordered input-sm w-full' %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-8 my-5">
+    <div class="w-full sm:flex-1">
+      <%= form.label :adherent_id, "Adhérent" %>
+      <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), {include_blank: true}, class: "w-full" %>
+    </div>
+
+    <div class="w-full sm:flex-1">
+      <%= form.label :agent_id %>
+      <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), {include_blank: true}, class: "w-full" %>
+    </div>
+
+    <div class="w-full sm:flex-1">
       <%= form.label :agent_binome_id, "Binôme" %>
-      <%= form.select :agent_binome_id, grouped_options_for_select(@grouped_agents, intervention.agent_binome_id), include_blank: true, class: "select select-bordered select-sm w-full" %>
+      <%= form.select :agent_binome_id, grouped_options_for_select(@grouped_agents, intervention.agent_binome_id), {include_blank: true}, class: "w-full" %>
     </div>
   </div>
 
   <div class="flex flex-wrap gap-8 my-5 items-end">
-    <div class="flex-1">
+    <div class="w-full sm:flex-1">
       <%= form.label :début %>
       <%= form.datetime_field :début, class: "input input-bordered input-sm w-full" %>
     </div>
 
-    <div class="flex-1">
+    <div class="w-full sm:flex-1">
       <%= form.label :fin %>
       <%= form.datetime_field :fin, class: "input input-bordered input-sm w-full" %>
     </div>
 
-    <div>
+    <div class="w-full sm:flex-1">
       <%= form.label :temps_de_pause, "Temps de pause (h)" %>
       <%= form.select :temps_de_pause, options_for_select([0.0, 0.5, 1.0], intervention.temps_de_pause),{ required: true }, class: "input input-bordered input-sm w-full" %>
     </div>
@@ -61,13 +63,13 @@
 
   <div class="sm:flex flex-wrap gap-8 my-5 items-end">
     <div class="flex-1">
-      <%= form.label :photos, 'Photos: ' %>
+      <%= form.label :photos, 'Photos : ' %>
       <%= form.file_field :photos, multiple: true, accept: 'image/png,image/gif,image/jpeg', class: 'file-input file-input-sm file-input-bordered w-full max-w-md' %>
     </div>
 
     <% unless current_user.agent? %>
       <div class="mt-4">
-        <%= form.label :note, 'Évaluation: ' %>
+        <%= form.label :note, 'Évaluation : ' %>
         <div class="rating">
           <% 1.upto(5) do |i| %>
             <%= form.radio_button :note, i, class:"mask mask-star bg-yellow-400" %>
@@ -82,9 +84,9 @@
     <%= form.text_area :commentaires, class: "textarea textarea-bordered textarea-sm w-full", 'data-controller': 'textarea-autogrow' %>
   </div>
 
-  <div class="my-5">
+  <div class="flex items-center gap-2 my-5">
     <%= form.label :workflow_state, 'Statut :' %>
-    <%= form.select :workflow_state, Intervention.workflow_spec.states.keys.to_a, {}, class: "select select-bordered select-sm" %>
+    <%= form.select :workflow_state, Intervention.workflow_spec.states.keys.to_a, {}, class: "flex-1 sm:flex-none select select-bordered select-sm" %>
   </div>
 
   <div class="flex flex-wrap gap-2">
