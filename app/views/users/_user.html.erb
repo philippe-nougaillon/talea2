@@ -5,10 +5,10 @@
   <% if action_name != "show" %>
     <hr class="my-1">
   <% else %>
-    <p class="my-4"><%= user.email %></p>
-
     <% if user.agent? %>
-      <p class="my-4">Moyenne évaluation : <%= user.moyenne %></p>
+      <p class="my-4">Évaluation : <b><%= user.moyenne %></b></p>
     <% end %>
+
+    <p class="my-4">Email : <b><%= user.email %></b></p>
   <% end %>
 </div>
