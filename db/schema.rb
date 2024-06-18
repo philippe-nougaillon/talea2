@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_03_073639) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_18_073155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,7 +76,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_073639) do
   create_table "interventions", force: :cascade do |t|
     t.datetime "début"
     t.datetime "fin"
-    t.integer "temps_de_pause", default: 0
+    t.float "temps_de_pause", default: 0.0
     t.string "description"
     t.string "workflow_state"
     t.datetime "created_at", null: false

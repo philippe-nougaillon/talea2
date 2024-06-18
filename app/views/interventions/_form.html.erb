@@ -44,17 +44,15 @@
       <%= form.datetime_field :début, class: "input input-bordered input-sm w-full" %>
     </div>
 
-    <% unless params[:action] == 'new' %>
-      <div class="flex-1">
-        <%= form.label :fin %>
-        <%= form.datetime_field :fin, class: "input input-bordered input-sm w-full" %>
-      </div>
+    <div class="flex-1">
+      <%= form.label :fin %>
+      <%= form.datetime_field :fin, class: "input input-bordered input-sm w-full" %>
+    </div>
 
-      <div>
-        <%= form.label :temps_de_pause, "Temps de pause (h)" %>
-        <%= form.number_field :temps_de_pause, min: 0, required: true, class: "input input-bordered input-sm w-full" %>
-      </div>
-    <% end %>
+    <div>
+      <%= form.label :temps_de_pause, "Temps de pause (h)" %>
+      <%= form.select :temps_de_pause, options_for_select([0.0, 0.5, 1.0], intervention.temps_de_pause),{ required: true }, class: "input input-bordered input-sm w-full" %>
+    </div>
   </div>
 
   <% @intervention.photos.each do |photo| %>
@@ -82,6 +80,11 @@
   <div class="my-5">
     <%= form.label :commentaires %>
     <%= form.text_area :commentaires, class: "textarea textarea-bordered textarea-sm w-full", 'data-controller': 'textarea-autogrow' %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :workflow_state, 'Statut :' %>
+    <%= form.select :workflow_state, Intervention.workflow_spec.states.keys.to_a, {}, class: "select select-bordered select-sm" %>
   </div>
 
   <div class="flex flex-wrap gap-2">
