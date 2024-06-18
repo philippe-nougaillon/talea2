@@ -7,5 +7,22 @@
       <%= button_to "Supprimer", user_path(@user), method: :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir supprimer cet utilisateur ?" }, class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
       <%= link_to "Retour", users_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
+
+    <h2 class="text-2xl text-secondary mt-8">Activité</h2>
+    <div class="overflow-x-auto mt-4">
+      <table class="table table-sm">
+        <thead class="bg-slate-100">
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Id</th>
+            <th>Action</th>
+            <th>Modifications</th>
+          </tr>
+        </thead>
+
+        <%= render partial: 'audit', collection: @audits %>
+      </table>
+    </div>
   </div>
 </div>
