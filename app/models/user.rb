@@ -21,13 +21,17 @@ class User < ApplicationRecord
   enum rôle: {
     adhérent: 0,
     agent: 1,
-    manager: 2
+    manager: 2,
+    équipe: 3
   }
 
   enum service: {
     technique: 0,
     comptabilité: 1,
-    informatique: 2
+    informatique: 2,
+    secrétariat: 3,
+    périscolaire: 4,
+    ménage: 5
   }
 
   scope :ordered, -> {order(:nom)}

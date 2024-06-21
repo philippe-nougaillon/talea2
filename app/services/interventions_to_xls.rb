@@ -14,7 +14,7 @@ class InterventionsToXls < ApplicationService
     sheet = book.create_worksheet name: @interventions.name
     bold = Spreadsheet::Format.new :weight => :bold, :size => 11
 
-    headers = %w{ID Description Tags Statut Adhérent Agent Agent_binôme Début Fin Pause(h) Temps_passé Évaluation Commentaires Créé_le Modifiée_le}
+    headers = %w{ID Description Tags Statut Adhérent Équipe Agent_1 Agent_2 Début Fin Pause(h) Temps_passé Évaluation Commentaires Créé_le Modifiée_le}
 
     sheet.row(0).concat headers
     sheet.row(0).default_format = bold
@@ -28,6 +28,7 @@ class InterventionsToXls < ApplicationService
         intervention.tag_list.join(', '),
         intervention.workflow_state.humanize,
         intervention.adherent.try(:nom_prénom),
+        intervention.user.nom_prénom,
         intervention.agent.try(:nom_prénom),
         intervention.agent_binome.try(:nom_prénom),
         intervention.début ? I18n.l(intervention.début) : "",

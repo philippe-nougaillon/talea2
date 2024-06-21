@@ -7,6 +7,7 @@ class Intervention < ApplicationRecord
   audited
 
   belongs_to :organisation
+  belongs_to :user
   belongs_to :agent, class_name: :User, foreign_key: :agent_id, optional: true 
   belongs_to :agent_binome, class_name: :User, foreign_key: :agent_binome_id, optional: true 
   belongs_to :adherent, class_name: :User, foreign_key: :adherent_id, optional: true 
@@ -88,6 +89,8 @@ class Intervention < ApplicationRecord
       user.organisation.interventions.where(adherent_id: user.id).ordered
     when 'agent'
       user.organisation.interventions.where("agent_id = :id OR agent_binome_id = :id", {id: user.id}).ordered
+    when 'équipe'
+      user.organisation.interventions.where(user_id: user.id)
     end
   end
 

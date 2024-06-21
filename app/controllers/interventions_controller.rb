@@ -7,9 +7,11 @@ class InterventionsController < ApplicationController
     @interventions = Intervention.by_role_for(current_user)
     @interventions_count = @interventions.count
     @organisation_members = current_user.organisation.users
+    @adhérents = @organisation_members.adhérent.order(:nom)
+    @équipes = @organisation_members.équipe
+    @services = User.services
     @grouped_agents = User.grouped_agents(@organisation_members)
     @tags = @interventions.tag_counts_on(:tags).order(:name)
-    @services = User.services
 
     if params[:search].present?
       @interventions = @interventions.where("description ILIKE :search OR commentaires ILIKE :search", {search: "%#{params[:search]}%"})
@@ -86,6 +88,7 @@ class InterventionsController < ApplicationController
   def create
     @intervention = Intervention.new(intervention_params)
     @intervention.organisation = current_user.organisation
+    @intervention.user_id = current_user.id
     if current_user.manager?
       @intervention.tag_list.add(params[:intervention][:tags_manager])
     else
