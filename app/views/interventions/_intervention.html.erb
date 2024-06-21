@@ -129,11 +129,11 @@
 
       <% if intervention.terminé? && (current_user.manager? || current_user.adhérent?) %>
         <p class="flex gap-4">
-          <%= link_to_if intervention.can_valider?,  'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white', 'data-turbo': false %>
-          <%= link_to_if intervention.can_refuser?,  'Refuser', refuser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white', 'data-turbo': false %>
+          <%= link_to_if intervention.can_valider?,  'Valider', valider_intervention_path(intervention), class: 'btn btn-success text-white', 'data-turbo': false %>
+          <%= link_to_if intervention.can_refuser?,  'Refuser', refuser_intervention_path(intervention), class: 'btn btn-error text-white', 'data-turbo': false %>
         <p>
       <% elsif intervention.nouveau? %>
-        <%= link_to_if intervention.can_terminer?,  'Terminer', terminer_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white', 'data-turbo': false %>
+        <%= link_to_if intervention.can_terminer?,  'Terminer', terminer_intervention_path(intervention), class: 'btn btn-primary text-white', 'data-turbo': false %>
       <% end %>
     </div>
 
