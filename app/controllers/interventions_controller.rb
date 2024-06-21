@@ -9,6 +9,7 @@ class InterventionsController < ApplicationController
     @organisation_members = current_user.organisation.users
     @grouped_agents = User.grouped_agents(@organisation_members)
     @tags = @interventions.tag_counts_on(:tags).order(:name)
+    @services = User.services
 
     if params[:search].present?
       @interventions = @interventions.where("description ILIKE :search OR commentaires ILIKE :search", {search: "%#{params[:search]}%"})
@@ -20,6 +21,11 @@ class InterventionsController < ApplicationController
 
     if params[:agent_id].present?
       @interventions = @interventions.where(agent_id: params[:agent_id]).or(@interventions.where(agent_binome_id: params[:agent_id]))
+    end
+
+    if params[:service].present?
+      agents_ids = @organisation_members.agent.where(service: params[:service]).pluck(:id)
+      @interventions = @interventions.where(agent_id: agents_ids)
     end
 
     if params[:du].present?
