@@ -19,7 +19,7 @@ class SupportMailbox < ApplicationMailbox
       organisation.interventions.create( 
                       adherent_id: user.try(:id), 
                       description: "[MAIL] #{mail.subject.gsub(organisation.numero, '')}", 
-                      commentaires: "De #{mail.from_address} : #{mail.body}",
+                      commentaires: "De #{mail.from_address} : #{sanitize(mail.body.split('UTF-8').last.split('Content-Type').first.split('--').first)}",
                       user_id: user.try(:id)
                     )
     end
