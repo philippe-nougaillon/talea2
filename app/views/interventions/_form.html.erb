@@ -1,7 +1,7 @@
 <%= form_with(model: intervention, class: "contents") do |form| %>
   <% if intervention.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(intervention.errors.count, "error") %> prohibited this intervention from being saved:</h2>
+      <h2><%= pluralize(intervention.errors.count, "error") %> empêche(nt) cette intervention d'être sauvegardée :</h2>
 
       <ul>
         <% intervention.errors.each do |error| %>
@@ -34,12 +34,12 @@
     <div class="flex flex-wrap gap-5 sm:gap-8 my-5">
       <div class="w-full sm:flex-1">
         <%= form.label :adherent_id, "Adhérent" %>
-        <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), {include_blank: true}, class: "w-full" %>
+        <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), {include_blank: true, required: true}, class: "w-full" %>
       </div>
 
       <div class="w-full sm:flex-1">
         <%= form.label :agent_id, "Agent 1" %>
-        <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), {include_blank: true}, class: "w-full" %>
+        <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), {include_blank: true, required: true}, class: "w-full" %>
       </div>
 
       <div class="w-full sm:flex-1">
@@ -109,10 +109,12 @@
     <%= form.text_area :commentaires, class: "textarea textarea-bordered textarea-sm w-full", 'data-controller': 'textarea-autogrow' %>
   </div>
 
-  <div class="flex items-center gap-2 my-5">
-    <%= form.label :workflow_state, 'Statut :' %>
-    <%= form.select :workflow_state, Intervention.workflow_spec.states.keys.to_a, {}, class: "flex-1 sm:flex-none select select-bordered select-sm" %>
-  </div>
+  <% if !current_user.adhérent? %>
+    <div class="flex items-center gap-2 my-5">
+      <%= form.label :workflow_state, 'Statut :' %>
+      <%= form.select :workflow_state, Intervention.workflow_spec.states.keys.to_a, {}, class: "flex-1 sm:flex-none select select-bordered select-sm" %>
+    </div>
+  <% end %>
 
   <div class="flex flex-wrap gap-2">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
