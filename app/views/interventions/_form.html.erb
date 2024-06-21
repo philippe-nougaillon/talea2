@@ -38,6 +38,13 @@
           <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), {include_blank: true, required: true}, class: "w-full" %>
         </div>
 
+        <% if current_user.manager? %>
+          <div class="w-full sm:flex-1">
+            <%= form.label :user_id, "Équipe" %>
+            <%= form.select :user_id, options_from_collection_for_select(@équipes, 'id', 'nom_prénom', intervention.user_id), {include_blank: true, required: true}, class: "w-full" %>
+          </div>
+        <% end %>
+
         <div class="w-full sm:flex-1">
           <%= form.label :agent_id, "Agent 1" %>
           <%= form.select :agent_id, grouped_options_for_select(@grouped_agents, intervention.agent_id), {include_blank: true}, class: "w-full" %>
@@ -202,6 +209,17 @@
       searchText: 'Pas de résultat',
       searchingText: 'Recherche...',
       placeholderText: 'Choisissez un adhérent',
+      allowDeselect: true,
+    }
+  })
+
+  new SlimSelect({
+    select: '#intervention_user_id',
+    settings: {
+      searchPlaceholder: 'Recherche',
+      searchText: 'Pas de résultat',
+      searchingText: 'Recherche...',
+      placeholderText: 'Choisissez une équipe',
       allowDeselect: true,
     }
   })

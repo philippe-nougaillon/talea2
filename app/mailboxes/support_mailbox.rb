@@ -7,11 +7,11 @@ class SupportMailbox < ApplicationMailbox
     if user = User.adhérent.find_by(email: from_email)
       organisation_id = user.organisation_id
     else
-      Organisation.all.each do |organisation|
-        if mail.subject.include?(organisation.numero)
-          organisation_id = organisation.id
-        end
-      end
+      # Organisation.all.each do |organisation|
+      #   if mail.subject.include?(organisation.numero)
+      #     organisation_id = organisation.id
+      #   end
+      # end
     end
 
     if organisation_id
@@ -19,7 +19,8 @@ class SupportMailbox < ApplicationMailbox
       organisation.interventions.create( 
                       adherent_id: user.try(:id), 
                       description: "[MAIL] #{mail.subject.gsub(organisation.numero, '')}", 
-                      commentaires: "De #{mail.from_address} : #{mail.body}"
+                      commentaires: "De #{mail.from_address} : #{mail.body}",
+                      user_id: user.try(:id)
                     )
     end
   end

@@ -72,6 +72,7 @@ class InterventionsController < ApplicationController
     @intervention = Intervention.new
     @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
     @organisation_members = current_user.organisation.users
+    @équipes = @organisation_members.équipe
     @grouped_agents = User.grouped_agents(@organisation_members)
     @intervention.adherent_id = current_user.id if current_user.adhérent?
     @intervention.agent_id = current_user.id if current_user.agent?
@@ -81,6 +82,7 @@ class InterventionsController < ApplicationController
   def edit
     @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
     @organisation_members = current_user.organisation.users
+    @équipes = @organisation_members.équipe
     @grouped_agents = User.grouped_agents(@organisation_members)
   end
 
@@ -204,7 +206,7 @@ class InterventionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def intervention_params
-      params.require(:intervention).permit(:organisation_id, :agent_id, :agent_binome_id, :adherent_id, :début, :fin, :temps_de_pause, :temps_total, :description, :commentaires, :workflow_state, :tag_list, :note, :avis, photos: [])
+      params.require(:intervention).permit(:organisation_id, :agent_id, :agent_binome_id, :adherent_id, :début, :fin, :temps_de_pause, :temps_total, :description, :commentaires, :workflow_state, :tag_list, :note, :avis, :user_id, photos: [])
     end
 
     def is_user_authorized
