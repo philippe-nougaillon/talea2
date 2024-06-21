@@ -4,7 +4,7 @@ class SupportMailbox < ApplicationMailbox
     organisation_id = nil
     from_email = mail.from_address.to_s.split('<').last.split('>').first
     
-    if user = User.find_by(email: from_email)
+    if user = User.adhérent.find_by(email: from_email)
       organisation_id = user.organisation_id
     else
       Organisation.all.each do |organisation|
