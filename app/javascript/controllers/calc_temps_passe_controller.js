@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="calc-temps-passe"
 export default class extends Controller {
-  static targets = ['debut', 'fin', 'pause', 'temps']
+  static targets = ['debut', 'fin', 'pause', 'agent2', 'temps']
   connect() {
     console.log('Hello, Stimulus! TEMPS PASSE', this.element)
   }
@@ -18,13 +18,20 @@ export default class extends Controller {
       let pause = this.pauseTarget.value * 60
       let temps = this.tempsTarget
       if (fin > debut) {
-        let diff = Math.abs(fin - debut) / (1000 * 60 * 60)
-        let diff_pause = pause / 60
-        let diff_total = diff - diff_pause
-        temps.innerHTML = "Temps total : " + diff_total.toFixed(2) + " h"
+        let temps_passé = Math.abs(fin - debut) / (1000 * 60 * 60)
+        let temps_pause = pause / 60
+        let temps_total = temps_passé - temps_pause
+        if (this.agent2Target.value != "") {
+          temps_total = temps_total *2
+        }
+        temps.value = temps_total.toFixed(2)
+        temps.classList.remove('!text-red-500')
+        temps.classList.add('!text-green-500')
       }
       else {
-        temps.innerHTML = "Date de fin doit être supérieure à la date de début"
+        temps.value = -1
+        temps.classList.add('!text-red-500')
+        temps.classList.remove('!text-green-500')
       }
     }
   }

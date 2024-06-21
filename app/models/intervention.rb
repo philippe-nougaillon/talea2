@@ -15,8 +15,6 @@ class Intervention < ApplicationRecord
 
   validates :description, presence: true
 
-  before_save :calcul_temps_passé
-
   scope :ordered, -> { order(updated_at: :desc) }
 
   # WORKFLOW
@@ -93,14 +91,4 @@ class Intervention < ApplicationRecord
     end
   end
 
-  private
-
-  def calcul_temps_passé
-    total = 0
-    if self.fin && self.début
-      total = ((self.fin - self.début).to_i / 3600.0) - self.temps_de_pause
-    end
-    self.temps_total = total
-  end
-  
 end
