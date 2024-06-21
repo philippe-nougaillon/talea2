@@ -74,9 +74,16 @@
       </div>
     </div>
 
-    <div class="<%= (params[:action] == "index") ? 'hidden sm:block' : 'sm:flex gap-8 sm:w-2/5' %>">
+    <div class="hidden sm:flex gap-8 sm:w-2/5">
       <div>
-        <% if intervention.photos.attached? %>
+        <p class="my-2">
+          <strong class="block text-slate-400 mb-1">Commentaires</strong>
+          <%= intervention.commentaires %>
+        </p>
+      </div>
+
+      <% if intervention.photos.attached? %>
+        <div>
           <% if intervention.photos.count > 1 %>
             <button onclick="my_modal_<%= intervention.id %>.showModal()">
               <div class="stack w-36">
@@ -96,66 +103,43 @@
               </div>
             </div>
           <% end %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
 
-      <div class="<%= (params[:action] == "index") ? 'hidden sm:block' : '' %>">
-        <div class="rating rating-xs">
+    </div>
+
+    <div>
+      <% if intervention.validé? || intervention.refusé? %>
+        <div>
+          <div class="rating rating-xs">
+            <p class="my-2">
+              <strong class="block text-slate-400 mb-1">Évaluation</strong>
+              <% 5.times do |index| %>
+                <input type="radio" name="rating-<%= intervention.id %>" class="mask mask-star bg-yellow-400" <%= "checked" if intervention.note == index + 1 %> disabled/>
+              <% end %>
+            </p>
+          </div>
+
           <p class="my-2">
-            <strong class="block text-slate-400 mb-1">Evaluation</strong>
-            <input type="radio" name="rating-<%= intervention.id %>" class="rating-hidden" <%= "checked" if intervention.note.zero? %> disabled style="background-color: transparent; border: none; --tw-ring-shadow: none;" />
-            <% 5.times do |index| %>
-              <input type="radio" name="rating-<%= intervention.id %>" class="mask mask-star bg-yellow-400" <%= "checked" if intervention.note == index + 1 %> disabled/>
-            <% end %>
+            <strong class="block text-slate-400 mb-1">Avis</strong>
+            <%= intervention.avis %>
           </p>
         </div>
+      <% end %>
 
-        <p class="my-2">
-          <strong class="block text-slate-400 mb-1">Commentaires</strong>
-          <%= intervention.commentaires %>
-        </p>
-
-
-      </div>
+      <% if intervention.terminé? && (current_user.manager? || current_user.adhérent?) %>
+        <p class="flex gap-4">
+          <%= link_to_if intervention.can_valider?,  'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white', 'data-turbo': false %>
+          <%= link_to_if intervention.can_refuser?,  'Refuser', refuser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white', 'data-turbo': false %>
+        <p>
+      <% elsif intervention.nouveau? %>
+        <%= link_to_if intervention.can_terminer?,  'Terminer', terminer_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white', 'data-turbo': false %>
+      <% end %>
     </div>
 
   </div>
 
   <div class="divider my-2"></div>
-
-  <% if action_name == "show" %>
-    <div class="mt-2 mb-5">
-      <strong class="block text-slate-400 mb-1">Changer le Statut de l'intervention</strong>
-      <p class="hidden sm:block">
-        <%= link_to_if intervention.can_accepter?, 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-sm btn-primary text-white', 'data-turbo': false %> |
-        <%= link_to_if intervention.can_en_cours?, 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-sm btn-warning text-white', 'data-turbo': false %> |
-        <%= link_to_if intervention.can_terminer?, 'Terminer', terminer_intervention_path(intervention), class: 'btn btn-sm btn-accent', 'data-turbo': false %> |
-        <%= link_to_if intervention.can_valider?,  'Valider', valider_intervention_path(intervention), class: 'btn btn-sm btn-success text-white', 'data-turbo': false %> |
-        <%= link_to_if intervention.can_refuser?,  'Refuser', refuser_intervention_path(intervention), class: 'btn btn-sm btn-error text-white', 'data-turbo': false %>
-        <%# <%= link_to_if intervention.can_archiver?, 'Archiver', archiver_intervention_path(intervention), class: 'btn btn-sm btn-secondary text-white', 'data-turbo': false %>
-      </p>
-
-      <p class="sm:hidden">
-        <% if intervention.can_accepter? %>
-          <%= link_to 'Accepter', accepter_intervention_path(intervention), class: 'btn btn-primary text-white', 'data-turbo': false %>
-        <% end %>
-        <% if intervention.can_en_cours? %>
-          <%= link_to 'Commencer', en_cours_intervention_path(intervention), class: 'btn btn-warning text-white', 'data-turbo': false %>
-        <% end %>
-        <% if intervention.can_terminer? %>
-          <%= link_to 'Terminer', terminer_intervention_path(intervention), class: 'btn btn-accent', 'data-turbo': false %>
-        <% end %>
-        <% if intervention.can_valider? %>
-          <%= link_to 'Valider', valider_intervention_path(intervention), class: 'btn btn-success text-white', 'data-turbo': false %>
-        <% end %>
-        <% if intervention.can_refuser? %>
-          <%= link_to 'Refuser', refuser_intervention_path(intervention), class: 'btn btn-error text-white', 'data-turbo': false %>
-        <% end %>
-      </p>
-    </div>
-
-    <div class="divider"></div>
-  <% end %>
 
   <dialog id="my_modal_<%= intervention.id %>" class="modal w-full mx-auto my-auto mx-24">
     <div class="flex justify-end">

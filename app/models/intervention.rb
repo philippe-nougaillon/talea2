@@ -20,8 +20,8 @@ class Intervention < ApplicationRecord
 
   # WORKFLOW
   NOUVEAU   = 'nouveau'
-  ACCEPTE   = 'accepté'
-  EN_COURS  = 'en cours'
+  # ACCEPTE   = 'accepté'
+  # EN_COURS  = 'en cours'
   TERMINE   = 'terminé'
   VALIDE    = 'validé'
   REFUSE    = 'refusé'
@@ -29,18 +29,19 @@ class Intervention < ApplicationRecord
 
   workflow do
     state NOUVEAU, meta: {style: 'badge-info text-white'} do
-      event :accepter, transitions_to: ACCEPTE
-    end
-
-    state ACCEPTE, meta: {style: 'badge-primary text-white'} do
-      event :en_cours, transitions_to: EN_COURS
-    end
-
-    state EN_COURS, meta: {style: 'badge-warning text-white'} do
+      # event :accepter, transitions_to: ACCEPTE
       event :terminer, transitions_to: TERMINE
     end
 
-    state TERMINE, meta: {style: 'badge-accent'} do
+    # state ACCEPTE, meta: {style: 'badge-primary text-white'} do
+    #   event :en_cours, transitions_to: EN_COURS
+    # end
+
+    # state EN_COURS, meta: {style: 'badge-warning text-white'} do
+    #   event :terminer, transitions_to: TERMINE
+    # end
+
+    state TERMINE, meta: {style: 'badge-primary text-white'} do
       event :valider, transitions_to: VALIDE
       event :refuser, transitions_to: REFUSE
     end
@@ -50,7 +51,7 @@ class Intervention < ApplicationRecord
     end
 
     state REFUSE, meta: {style: 'badge-error text-white'} do
-      event :accepter, transitions_to: ACCEPTE
+      # event :accepter, transitions_to: ACCEPTE
       # event :archiver, transitions_to: ARCHIVE
     end
 

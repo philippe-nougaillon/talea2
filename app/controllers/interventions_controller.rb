@@ -160,13 +160,19 @@ class InterventionsController < ApplicationController
   def valider
     @intervention.valider!
     # send_workflow_changed_notification
-    redirect_to @intervention, notice: "Intervention validée"
+    if current_user.adhérent?
+      terminé = true
+    end
+    redirect_to edit_intervention_path(@intervention, terminé: terminé), notice: "Intervention validée"
   end
 
   def refuser
     @intervention.refuser!
     # send_workflow_changed_notification
-    redirect_to @intervention, notice: "Intervention refusée"
+    if current_user.adhérent?
+      terminé = true
+    end
+    redirect_to edit_intervention_path(@intervention, terminé: terminé), notice: "Intervention refusée"
   end
 
   # def archiver
@@ -198,7 +204,7 @@ class InterventionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def intervention_params
-      params.require(:intervention).permit(:organisation_id, :agent_id, :agent_binome_id, :adherent_id, :début, :fin, :temps_de_pause, :temps_total, :description, :commentaires, :workflow_state, :tag_list, :note, photos: [])
+      params.require(:intervention).permit(:organisation_id, :agent_id, :agent_binome_id, :adherent_id, :début, :fin, :temps_de_pause, :temps_total, :description, :commentaires, :workflow_state, :tag_list, :note, :avis, photos: [])
     end
 
     def is_user_authorized
