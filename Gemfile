@@ -101,3 +101,8 @@ gem "aws-sdk-s3", require: false
 gem "langchainrb", "~> 0.13.4"
 
 gem "ruby-openai", "~> 7.1"
+
+# Needed until Ruby 3.3.4 is released https://github.com/ruby/ruby/pull/11006
+gem "net-pop"
+
+gem "csv", "~> 3.3"

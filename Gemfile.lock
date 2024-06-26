@@ -119,6 +119,7 @@ GEM
     concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     crass (1.0.6)
+    csv (3.3.0)
     date (3.3.4)
     debug (1.9.2)
       irb (~> 1.10)
@@ -402,6 +403,7 @@ DEPENDENCIES
   aws-sdk-s3
   bootsnap
   capybara
+  csv (~> 3.3)
   debug
   devise (~> 4.9)
   dotenv
@@ -413,6 +415,7 @@ DEPENDENCIES
   langchainrb (~> 0.13.4)
   mailgun-ruby (~> 1.2)
   mission_control-jobs (~> 0.2.1)
+  net-pop
   pagy (~> 8.3)
   pg (~> 1.1)
   puma (>= 5.0)
