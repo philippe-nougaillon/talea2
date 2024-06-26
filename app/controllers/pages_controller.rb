@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   def assistant
     llm = Langchain::LLM::OpenAI.new(api_key: ENV["OPENAI_API_KEY"])
 
-    interventions = current_user.organisation.interventions
+    interventions = current_user.organisation.interventions.where.not(début: nil)
 
     infos = []
     interventions.each do |intervention|
