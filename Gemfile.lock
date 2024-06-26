@@ -415,7 +415,6 @@ DEPENDENCIES
   langchainrb (~> 0.13.4)
   mailgun-ruby (~> 1.2)
   mission_control-jobs (~> 0.2.1)
-  net-pop
   pagy (~> 8.3)
   pg (~> 1.1)
   puma (>= 5.0)
@@ -440,4 +439,4 @@ RUBY VERSION
    ruby 3.3.1p55
 
 BUNDLED WITH
-   2.5.9
+   2.5.11
