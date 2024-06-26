@@ -9,6 +9,8 @@ class PagesController < ApplicationController
       description_list << "#{intervention.description.gsub('[mail] ', '')} #{l(intervention.début.to_date)}"
     end
 
+    #TODO faire un prompt avec un textfield qui boucle sur cette route
+
     @results = llm.chat(messages: [{role: "user", content: "Génère moi des nouvelles tâches en te basant sur cette liste : #{description_list.join(', ')}"}]).completion
   end
 end
