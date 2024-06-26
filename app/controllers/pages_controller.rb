@@ -4,11 +4,11 @@ class PagesController < ApplicationController
 
     interventions = current_user.organisation.interventions.where.not(début: nil)
 
-    infos = []
+    description_list = []
     interventions.each do |intervention|
-      infos << "#{intervention.description} #{l(intervention.début.to_date)}"
+      description_list << "#{intervention.description} #{l(intervention.début.to_date)}"
     end
 
-    @results = llm.chat(messages: [{role: "user", content: "Génère moi des nouvelles tâches en te basant sur cette liste : #{infos.join(', ')}"}]).completion
+    @results = llm.chat(messages: [{role: "user", content: "Génère moi des nouvelles tâches en te basant sur cette liste : #{description_list.join(', ')}"}]).completion
   end
 end
