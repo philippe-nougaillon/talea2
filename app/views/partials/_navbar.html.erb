@@ -27,6 +27,12 @@
     </span>
   <% end %>
 
+  <%= link_to pages_assistant_path, class: "text-primary #{'active shadow' if params[:controller] == 'pages'}", title: 'Assistant Talea' do %>
+    <span class="material-symbols-outlined">
+      online_prediction
+    </span>
+  <% end %>
+
   <%= link_to destroy_user_session_path, 'data-turbo-method': :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir fermer cette session TALEA ?" }, title: "Fermer la session de #{current_user.email} (#{current_user.rôle})", class: 'text-primary' do %>
     <span class="material-symbols-outlined">
       logout

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'pages/assistant'
 
   devise_for :users, controllers: { 
     registrations: 'users/registrations'

@@ -98,3 +98,6 @@ gem "dry-events", "~> 1.0"
 gem "pagy", "~> 8.3"
 
 gem "aws-sdk-s3", require: false
+gem "langchainrb", "~> 0.13.4"
+
+gem "ruby-openai", "~> 7.1"
