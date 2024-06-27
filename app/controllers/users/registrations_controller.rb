@@ -14,6 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
     @user.organisation = Organisation.create(nom: "Organisation_#{SecureRandom.hex(5)}")
     @user.rôle = "manager"
+    @user.dispatch_email_to_nom_prénom
     @user.save
     Events.instance.publish('organisation.created', payload: {user_id: @user.id})
   end
