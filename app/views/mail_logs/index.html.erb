@@ -9,20 +9,19 @@
 <%= form_tag request.path, method: :get do %>
   <div class="flex flex-wrap items-end gap-4">
 
-    <div class="w-full sm:w-1/4 pr-4">
+    <div class="w-full md:w-6/12 lg:w-3/12 pr-4">
       <%= label_tag :search, "Destinataire" %>
-      <%= select_tag :search, options_for_select(@emails, params[:search]), include_blank: true, onchange:'this.form.submit()', class:"input input-bordered input-sm w-full" %>
+      <%= select_tag :search, options_for_select(@emails, params[:search]), include_blank: true, onchange:'this.form.submit()', class:"input input-bordered w-full" %>
     </div>
 
     <div class="relative max-w-full">
       <%= label_tag :search_subject, "Sujet" %>
-      <%= select_tag :search_subject, options_for_select(@mail_logs.pluck(:subject).uniq.sort, params[:search_subject]), include_blank: true, onchange:'this.form.submit()', class:"select select-bordered select-sm w-full" %>
+      <%= select_tag :search_subject, options_for_select(@mail_logs.pluck(:subject).uniq.sort, params[:search_subject]), include_blank: true, onchange:'this.form.submit()', class:"select select-bordered w-full" %>
     </div>
 
     <div class="sm:w-1/4 pr-4">
+      <%= check_box_tag :ko, 1, params[:ko], class:'checkbox checkbox-primary', onchange:'this.form.submit()' %>
       <%= label_tag :ko, "Afficher que les échecs (statut = KO) ?" %>
-      <br>
-      <%= check_box_tag :ko, 1, params[:ko], onchange:'this.form.submit()' %>
     </div>
     
   </div>
