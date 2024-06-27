@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "contact@philnoug.com"
+  default from: "support@mg.talea2.fr"
   layout "mailer"
 end
