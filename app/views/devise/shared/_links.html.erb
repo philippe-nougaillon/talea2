@@ -22,7 +22,18 @@
 <% end %>
 
 <%- if devise_mapping.omniauthable? %>
+  <div class="divider">OU</div>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false } %><br />
+    <%= form_for "Login",
+      url: omniauth_authorize_path(resource_name, provider),
+      method: :post,
+      data: {turbo: "false"} do |f| %>
+        <div class="mb-4">
+          <button type="submit" style="color: #444;border-radius: 5px;border: thin solid #888;box-shadow: 1px 1px 1px grey;white-space: nowrap; width: 100%" class="btn py-2">
+            <%= image_tag "Google__G__logo.svg" %>
+            <span class="ms-2">Continuer avec Google</span>
+          </button>
+        </div>
+    <% end %>
   <% end %>
 <% end %>
