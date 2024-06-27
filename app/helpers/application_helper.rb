@@ -10,6 +10,18 @@ module ApplicationHelper
       when 'User', 'Agent', 'Adherent', 'Agent binome'
         ids = audit.audited_changes["#{key == "Agent binome" ? key.humanize.downcase.tr(' ', '_') : key.downcase}_id"]
         if User.exists?(id: ids)
+          
+          case key
+          when "Agent binome"
+            key = "Agent 2"
+          when"Agent"
+            key = "Agent 1"
+          when "Adherent"
+            key = "Adhérent"
+          when "User"
+            key = "Équipe" if audit.auditable_type == "Intervention"
+          end
+
           case ids.class.name
           when 'Integer'
             pretty_changes << "#{key} initialisé à '#{User.find(ids).nom_prénom}'"

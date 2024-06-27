@@ -98,3 +98,15 @@ gem "dry-events", "~> 1.0"
 gem "pagy", "~> 8.3"
 
 gem "aws-sdk-s3", require: false
+gem "langchainrb", "~> 0.13.4"
+
+gem "ruby-openai", "~> 7.1"
+
+gem "csv", "~> 3.3"
+gem "tiktoken_ruby", "~> 0.0.9"
+
+gem "omniauth", "~> 2.1"
+
+gem "omniauth-rails_csrf_protection", "~> 1.0"
+
+gem "omniauth-google-oauth2", "~> 1.1"

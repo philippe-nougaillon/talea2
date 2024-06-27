@@ -3,7 +3,7 @@
 <p class="mb-4">
   Historique des mails envoyés via 
   <%= link_to "MailGun", "https://www.mailgun.com/fr/", target: "_blank", class: "text-primary hover:underline" %>,
-  avec Statut et État (OK = acheminé, OUVERT = vu, consultables pendant 5 jours).
+  avec Statut et État (OK = acheminé, OUVERT = vu).
 </p>
 
 <%= form_tag request.path, method: :get do %>
@@ -33,8 +33,8 @@
     <thead class="bg-slate-100">
       <tr>
         <th>Il y a</th>
-        <th>De</th>
-        <th>À</th>
+        <th>Expéditeur</th>
+        <th>Destinataire</th>
         <th>Sujet</th>
         <th>Statut</th>
         <th>État</th>
@@ -44,8 +44,7 @@
 
     <tbody>
       <% @mail_logs.each_with_index do |mail_log, index| %>
-        <% status_ko = @result_failed["items"].find{|item| item["message"]["headers"]["message-id"] == mail_log.message_id } %>
-        
+        <% status_ko = mail_log.error_message || @result_failed["items"].find{|item| item["message"]["headers"]["message-id"] == mail_log.message_id } %>
         <% if params[:ko].blank? || status_ko %>
           <%= render partial: "mail_log", locals: {mail_log: mail_log, status_ko: status_ko, index:} %>
         <% end %>

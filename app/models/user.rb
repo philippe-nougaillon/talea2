@@ -2,12 +2,14 @@ class User < ApplicationRecord
   audited
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :rememberable, :timeoutable and :omniauthable
+  # :confirmable, :lockable, :rememberable, :timeoutable 
   devise :database_authenticatable,
          :recoverable,
          :validatable,
          :trackable,
-         :registerable
+         :registerable,
+         :omniauthable,
+         omniauth_providers: [:google_oauth2]
 
   belongs_to :organisation, optional: true
   has_many :interventions_agent, class_name: :Intervention, foreign_key: :agent_id
@@ -21,14 +23,20 @@ class User < ApplicationRecord
   enum rôle: {
     adhérent: 0,
     agent: 1,
-    manager: 2
+    manager: 2,
+    équipe: 3
   }
 
   enum service: {
     technique: 0,
     comptabilité: 1,
-    informatique: 2
+    informatique: 2,
+    secrétariat: 3,
+    périscolaire: 4,
+    ménage: 5
   }
+
+  scope :ordered, -> {order(:nom)}
 
   def self.grouped_agents(users)
     h = {}
@@ -47,9 +55,36 @@ class User < ApplicationRecord
   end
 
   def moyenne
-    sum = self.interventions_agent.sum(:note) + self.interventions_agent_binome.sum(:note)
-    count = self.interventions_agent.count + self.interventions_agent_binome.count
+    sum = self.interventions_agent.where.not(note: 0).sum(:note) + self.interventions_agent_binome.where.not(note: 0).sum(:note)
+    count = self.interventions_agent.where.not(note: 0).count + self.interventions_agent_binome.where.not(note: 0).count
     
-    return count != 0 ? (sum.to_f / count).round(1) : 0
+    return count != 0 ? "#{(sum.to_f / count).round(1)} / 5" : ""
+  end
+
+  def self.from_omniauth(auth)
+    require "open-uri"
+
+    if user = User.find_by(email: auth.info.email)
+      user
+    else
+      find_or_create_by(provider: auth.provider, uid: auth.uid) do |user|
+        user.email = auth.info.email
+        user.password = Devise.friendly_token[0, 20]
+        user.password_confirmation = user.password
+        user.nom = auth.info.last_name   # assuming the user model has a name
+        user.prénom = auth.info.first_name   # assuming the user model has a name
+        # If you are using confirmable and the provider(s) you use validate emails, 
+        # uncomment the line below to skip the confirmation emails.
+        # user.skip_confirmation!
+
+        user.organisation = Organisation.create(nom: "Organisation_#{SecureRandom.hex(5)}")
+        user.rôle = "manager"
+        
+        user.save
+        Events.instance.publish('organisation.created', payload: {user_id: user.id})
+
+        user
+      end
+    end
   end
 end

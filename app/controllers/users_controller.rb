@@ -4,7 +4,8 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @users = current_user.organisation.users
+    @users = current_user.organisation.users.ordered
+    @services = User.services
 
     if params[:search].present?
       @users = @users.where("nom ILIKE :search OR prénom ILIKE :search OR email ILIKE :search", {search: "%#{params[:search]}%"})
@@ -13,10 +14,15 @@ class UsersController < ApplicationController
     if params[:rôle].present?
       @users = @users.where(rôle: params[:rôle])
     end
+
+    if params[:service].present?
+      @users = @users.where(service: params[:service])
+    end
   end
 
   # GET /users/1 or /users/1.json
   def show
+    @audits = Audited::Audit.where(user_id: @user.id).reorder(id: :desc)
   end
 
   # GET /users/new

@@ -7,6 +7,7 @@ class Intervention < ApplicationRecord
   audited
 
   belongs_to :organisation
+  belongs_to :user
   belongs_to :agent, class_name: :User, foreign_key: :agent_id, optional: true 
   belongs_to :agent_binome, class_name: :User, foreign_key: :agent_binome_id, optional: true 
   belongs_to :adherent, class_name: :User, foreign_key: :adherent_id, optional: true 
@@ -15,47 +16,46 @@ class Intervention < ApplicationRecord
 
   validates :description, presence: true
 
-  before_save :calcul_temps_passé
-
   scope :ordered, -> { order(updated_at: :desc) }
 
   # WORKFLOW
   NOUVEAU   = 'nouveau'
-  ACCEPTE   = 'accepté'
-  EN_COURS  = 'en cours'
+  # ACCEPTE   = 'accepté'
+  # EN_COURS  = 'en cours'
   TERMINE   = 'terminé'
   VALIDE    = 'validé'
   REFUSE    = 'refusé'
-  ARCHIVE   = 'archivé'
+  # ARCHIVE   = 'archivé'
 
   workflow do
     state NOUVEAU, meta: {style: 'badge-info text-white'} do
-      event :accepter, transitions_to: ACCEPTE
-    end
-
-    state ACCEPTE, meta: {style: 'badge-primary text-white'} do
-      event :en_cours, transitions_to: EN_COURS
-    end
-
-    state EN_COURS, meta: {style: 'badge-warning text-white'} do
+      # event :accepter, transitions_to: ACCEPTE
       event :terminer, transitions_to: TERMINE
     end
 
-    state TERMINE, meta: {style: 'badge-accent'} do
+    # state ACCEPTE, meta: {style: 'badge-primary text-white'} do
+    #   event :en_cours, transitions_to: EN_COURS
+    # end
+
+    # state EN_COURS, meta: {style: 'badge-warning text-white'} do
+    #   event :terminer, transitions_to: TERMINE
+    # end
+
+    state TERMINE, meta: {style: 'badge-primary text-white'} do
       event :valider, transitions_to: VALIDE
       event :refuser, transitions_to: REFUSE
     end
 
     state VALIDE, meta: {style: 'badge-success text-white'} do
-      event :archiver, transitions_to: ARCHIVE
+      # event :archiver, transitions_to: ARCHIVE
     end
 
     state REFUSE, meta: {style: 'badge-error text-white'} do
-      event :accepter, transitions_to: ACCEPTE
-      event :archiver, transitions_to: ARCHIVE
+      # event :accepter, transitions_to: ACCEPTE
+      # event :archiver, transitions_to: ARCHIVE
     end
 
-    state ARCHIVE, meta: {style: 'badge-ghost'}
+    # state ARCHIVE, meta: {style: 'badge-ghost'}
   end
 
   # pour que le changement de 'workflow_state' se voit dans l'audit trail
@@ -90,17 +90,9 @@ class Intervention < ApplicationRecord
       user.organisation.interventions.where(adherent_id: user.id).ordered
     when 'agent'
       user.organisation.interventions.where("agent_id = :id OR agent_binome_id = :id", {id: user.id}).ordered
+    when 'équipe'
+      user.organisation.interventions.where(user_id: user.id)
     end
   end
 
-  private
-
-  def calcul_temps_passé
-    total = 0
-    if self.fin && self.début
-      total = ((self.fin - self.début).to_i / 3600.0) - self.temps_de_pause
-    end
-    self.temps_total = total
-  end
-  
 end

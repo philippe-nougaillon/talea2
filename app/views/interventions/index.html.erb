@@ -8,12 +8,12 @@
   <%= form_tag request.path, method: :get do %>
     <div class="flex flex-wrap items-end gap-4 mt-8">
       <div class="flex gap-4">
-        <div class="w-full sm:max-w-48">
+        <div class="w-full sm:max-w-96">
           <%= label_tag :search, "Rechercher" %>
-          <%= text_field_tag :search, params[:search], include_blank:true, onchange:'this.form.submit()', class: 'input input-bordered input-sm w-full', placeholder: 'Description' %>
+          <%= text_field_tag :search, params[:search], include_blank:true, onchange:'this.form.submit()', class: 'input input-bordered input-sm w-full', placeholder: 'Description / Commentaires' %>
         </div>
 
-        <div class="w-full">
+        <div class="">
           <%= label_tag :workflow_state, "Statut" %>
           <%= select_tag :workflow_state, 
                           options_for_select(Intervention.workflow_state_humanized, params[:workflow_state]), 
@@ -23,21 +23,38 @@
         </div>
       </div>
 
-      <div class="flex gap-4 w-full md:w-2/3 lg:w-1/4">
-        <% if current_user.manager? || current_user.agent? %>
+      <% if current_user.manager? || current_user.agent? %>
+        <div class="flex gap-4 w-full md:w-2/3 lg:w-1/4">
           <div class="flex-1">
             <%= label_tag :adherent_id, "Adhérent" %>
-            <%= select_tag :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, params[:adherent_id]), include_blank: true, class: 'input input-bordered input-sm w-full', onchange: 'this.form.submit()' %>
+            <%= select_tag :adherent_id, options_from_collection_for_select(@adhérents, :id, :nom_prénom, params[:adherent_id]), include_blank: true, class: 'w-full', onchange: 'this.form.submit()' %>
           </div>
-        <% end %>
 
-        <% if current_user.manager? || current_user.adhérent? %>
+          <% if current_user.manager? %>
+            <div class="flex-1">
+              <%= label_tag :équipe, "Équipe" %>
+              <%= select_tag :équipe, options_from_collection_for_select(@équipes, 'id', 'nom_prénom', params[:équipe]), include_blank: true, class: 'select select-sm select-bordered w-full', onchange: 'this.form.submit()' %>
+            </div>
+          <% end %>
+
+        </div>
+      <% end %>
+
+      <% if current_user.manager? || current_user.adhérent? || current_user.équipe? %>
+        <div class="flex gap-4 w-full md:w-2/3 lg:w-1/4">
+          <% if current_user.manager? || current_user.adhérent? %>
+            <div class="flex-1">
+              <%= label_tag :service %>
+              <%= select_tag :service, options_for_select(@services, params[:service]), include_blank: true, class: 'select select-sm select-bordered w-full', onchange: 'this.form.submit()' %>
+            </div>
+          <% end %>
+
           <div class="flex-1">
             <%= label_tag :agent_id, "Agent" %>
-            <%= select_tag :agent_id, grouped_options_for_select(@grouped_agents, params[:agent_id]), include_blank: true, class: 'input input-bordered input-sm w-full', onchange: 'this.form.submit()' %>
+            <%= select_tag :agent_id, grouped_options_for_select(@grouped_agents, params[:agent_id]), include_blank: true, class: 'w-full', onchange: 'this.form.submit()' %>
           </div>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
 
       <div class="hidden sm:flex gap-4 w-full md:w-2/3 lg:w-1/4">
         <div class="flex-1">
@@ -73,9 +90,9 @@
 
   <% if @interventions.any? %>
     <p class="text-sm mt-4">
-      <%= link_to "Exporter les interventions en XLS", url_for(params.permit!.merge(format: :xls)), class: "text-sm text-success hover:underline" %>
-      <br><br>
       Nbr interventions par statut : <%= JSON.pretty_generate(Intervention.workflow_states_count(@interventions)) %>
+      <br><br>
+      <%= link_to "Exporter les interventions en XLS", url_for(params.permit!.merge(format: :xls)), class: "text-sm text-success hover:underline" %>
     </p>
   <% end %>
 

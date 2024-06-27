@@ -10,9 +10,18 @@ class AdminController < ApplicationController
     @audits = @organisation_audits.order("id DESC")
     @types  = @organisation_audits.pluck(:auditable_type).uniq.sort
     @actions= %w[update create destroy]
+    @users = current_user.organisation.users.ordered 
+
+    if params[:search].present?
+      @audits = @audits.where("audited_changes ILIKE ?", "%#{params[:search]}%")
+    end
 
     if params[:start_date].present? && params[:end_date].present? 
       @audits = @audits.where("created_at BETWEEN (?) AND (?)", params[:start_date], params[:end_date])
+    end
+
+    if params[:user_id].present?
+      @audits = @audits.where(user_id: params[:user_id])
     end
 
     if params[:type].present?
@@ -23,11 +32,7 @@ class AdminController < ApplicationController
       @audits = @audits.where(action: params[:action_name])
     end
 
-    if params[:search].present?
-      @audits = @audits.where("audited_changes ILIKE ?", "%#{params[:search]}%")
-    end
-
-    @pagy, @audits = pagy(@audits)
+    @pagy, @audits = pagy(@audits, items: 20)
   end
 
   def create_new_user
@@ -43,7 +48,7 @@ class AdminController < ApplicationController
         format.html { redirect_to users_url, notice: "Participant créé avec succès." }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :create_new_admin, status: :unprocessable_entity }
+        format.html { render :create_new_user, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

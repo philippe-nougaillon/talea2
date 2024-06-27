@@ -4,14 +4,14 @@
   <td><%= mail_log.to %></td>
   <td><%= mail_log.subject %></td>
   <td>
-    <% if status_ko || !mail_log.statut %>
+    <% if status_ko %>
       <span class="text-error">KO</span>
     <% else %>
       <span class="text-success">OK</span>
     <% end %>
   </td>
   <td>
-    <% if params[:ko].blank? && status = @result_opened["items"].find{|item| item["message"]["headers"]["message-id"] == mail_log.message_id } || mail_log.etat %>
+    <% if !status_ko && (mail_log.etat || @result_opened["items"].find{|item| item["message"]["headers"]["message-id"] == mail_log.message_id }) %>
       <span class="text-info">OUVERT</span>
     <% end %>
   </td>

@@ -1,5 +1,5 @@
 class InterventionsController < ApplicationController
-  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider refuser archiver purge ]
+  before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider refuser purge ]
   before_action :is_user_authorized
 
   # GET /interventions or /interventions.json
@@ -7,11 +7,14 @@ class InterventionsController < ApplicationController
     @interventions = Intervention.by_role_for(current_user)
     @interventions_count = @interventions.count
     @organisation_members = current_user.organisation.users
+    @adhérents = @organisation_members.adhérent.order(:nom)
+    @équipes = @organisation_members.équipe
+    @services = User.services
     @grouped_agents = User.grouped_agents(@organisation_members)
     @tags = @interventions.tag_counts_on(:tags).order(:name)
 
     if params[:search].present?
-      @interventions = @interventions.where("description ILIKE :search", {search: "%#{params[:search]}%"})
+      @interventions = @interventions.where("description ILIKE :search OR commentaires ILIKE :search", {search: "%#{params[:search]}%"})
     end
 
     if params[:adherent_id].present?
@@ -20,6 +23,11 @@ class InterventionsController < ApplicationController
 
     if params[:agent_id].present?
       @interventions = @interventions.where(agent_id: params[:agent_id]).or(@interventions.where(agent_binome_id: params[:agent_id]))
+    end
+
+    if params[:service].present?
+      agents_ids = @organisation_members.agent.where(service: params[:service]).pluck(:id)
+      @interventions = @interventions.where(agent_id: agents_ids)
     end
 
     if params[:du].present?
@@ -62,7 +70,9 @@ class InterventionsController < ApplicationController
   # GET /interventions/new
   def new
     @intervention = Intervention.new
+    @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
     @organisation_members = current_user.organisation.users
+    @équipes = @organisation_members.équipe
     @grouped_agents = User.grouped_agents(@organisation_members)
     @intervention.adherent_id = current_user.id if current_user.adhérent?
     @intervention.agent_id = current_user.id if current_user.agent?
@@ -70,7 +80,9 @@ class InterventionsController < ApplicationController
 
   # GET /interventions/1/edit
   def edit
+    @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
     @organisation_members = current_user.organisation.users
+    @équipes = @organisation_members.équipe
     @grouped_agents = User.grouped_agents(@organisation_members)
   end
 
@@ -78,6 +90,12 @@ class InterventionsController < ApplicationController
   def create
     @intervention = Intervention.new(intervention_params)
     @intervention.organisation = current_user.organisation
+    @intervention.user_id = current_user.id
+    if current_user.manager?
+      @intervention.tag_list.add(params[:intervention][:tags_manager])
+    else
+      @intervention.tag_list.add(params[:intervention][:tags])
+    end
 
     respond_to do |format|
       if @intervention.save
@@ -94,6 +112,12 @@ class InterventionsController < ApplicationController
   def update
     respond_to do |format|
       if @intervention.update(intervention_params)
+        if current_user.manager?
+          @intervention.tag_list = params[:intervention][:tags_manager]
+        else
+          @intervention.tag_list = params[:intervention][:tags]
+        end
+        @intervention.save
         unless Rails.env.development?
           Events.instance.publish('intervention.updated', payload: {intervention_id: @intervention.id})
         end
@@ -118,13 +142,13 @@ class InterventionsController < ApplicationController
 
   def accepter
     @intervention.accepter!
-    send_workflow_changed_notification
+    # send_workflow_changed_notification
     redirect_to @intervention, notice: "Intervention acceptée"
   end
 
   def en_cours
     @intervention.en_cours!
-    send_workflow_changed_notification
+    # send_workflow_changed_notification
     redirect_to @intervention, notice: "Intervention en cours"
   end
 
@@ -137,21 +161,27 @@ class InterventionsController < ApplicationController
 
   def valider
     @intervention.valider!
-    send_workflow_changed_notification
-    redirect_to @intervention, notice: "Intervention validée"
+    # send_workflow_changed_notification
+    if current_user.adhérent?
+      terminé = true
+    end
+    redirect_to edit_intervention_path(@intervention, terminé: terminé), notice: "Intervention validée"
   end
 
   def refuser
     @intervention.refuser!
-    send_workflow_changed_notification
-    redirect_to @intervention, notice: "Intervention refusée"
+    # send_workflow_changed_notification
+    if current_user.adhérent?
+      terminé = true
+    end
+    redirect_to edit_intervention_path(@intervention, terminé: terminé), notice: "Intervention refusée"
   end
 
-  def archiver
-    @intervention.archiver!
-    send_workflow_changed_notification
-    redirect_to @intervention, notice: "Intervention archivée"
-  end
+  # def archiver
+  #   @intervention.archiver!
+  # #   send_workflow_changed_notification
+  #   redirect_to @intervention, notice: "Intervention archivée"
+  # end
 
   def purge
     @intervention.photos.find(params[:photo_id]).purge
@@ -176,7 +206,7 @@ class InterventionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def intervention_params
-      params.require(:intervention).permit(:organisation_id, :agent_id, :agent_binome_id, :adherent_id, :début, :fin, :temps_de_pause, :description, :commentaires, :workflow_state, :tag_list, :note, photos: [])
+      params.require(:intervention).permit(:organisation_id, :agent_id, :agent_binome_id, :adherent_id, :début, :fin, :temps_de_pause, :temps_total, :description, :commentaires, :workflow_state, :tag_list, :note, :avis, :user_id, photos: [])
     end
 
     def is_user_authorized

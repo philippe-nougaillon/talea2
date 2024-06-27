@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_03_073639) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_27_101123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,7 +76,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_073639) do
   create_table "interventions", force: :cascade do |t|
     t.datetime "début"
     t.datetime "fin"
-    t.integer "temps_de_pause", default: 0
+    t.decimal "temps_de_pause", default: "0.0"
     t.string "description"
     t.string "workflow_state"
     t.datetime "created_at", null: false
@@ -87,11 +87,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_073639) do
     t.integer "adherent_id"
     t.decimal "temps_total", precision: 4, scale: 2, default: "0.0"
     t.text "commentaires"
-    t.integer "note", default: 5
+    t.integer "note", default: 0
+    t.bigint "user_id", null: false
+    t.string "avis"
     t.index ["adherent_id"], name: "index_interventions_on_adherent_id"
     t.index ["agent_binome_id"], name: "index_interventions_on_agent_binome_id"
     t.index ["agent_id"], name: "index_interventions_on_agent_id"
     t.index ["organisation_id"], name: "index_interventions_on_organisation_id"
+    t.index ["user_id"], name: "index_interventions_on_user_id"
   end
 
   create_table "mail_logs", force: :cascade do |t|
@@ -265,6 +268,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_073639) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.integer "service"
+    t.string "uid"
+    t.string "provider"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -273,6 +278,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_073639) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "interventions", "organisations"
+  add_foreign_key "interventions", "users"
   add_foreign_key "mail_logs", "organisations"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

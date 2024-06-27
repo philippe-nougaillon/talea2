@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  get 'pages/assistant'
 
   devise_for :users, controllers: { 
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    omniauth_callbacks: 'users/omniauth_callbacks'
   }
   
   devise_scope :user do
@@ -28,7 +30,7 @@ Rails.application.routes.draw do
       get :terminer
       get :valider
       get :refuser
-      get :archiver
+      # get :archiver
       delete :purge
     end
   end
