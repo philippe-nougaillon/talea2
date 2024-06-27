@@ -1,6 +1,6 @@
 <div class="hero min-h-screen bg-base-200">
   <div class="flex flex-row flex-wrap gap-12 px-4 mt-8">
-    <div class="mx-auto w-full lg:max-w-72">
+    <div class="mx-auto w-full lg:w-96">
       <div class="flex flex-col justify-center max-w-96 mx-auto">
 
         <div class="card shadow-2xl bg-base-100 p-8">
@@ -30,7 +30,7 @@
               </div>
 
               <div class="actions">
-                <%= f.submit "S'inscrire", class: 'btn btn-outline btn-primary btn-lg w-full mt-4 mb-8' %>
+                <%= f.submit "S'inscrire", class: 'btn btn-outline btn-success btn-lg w-full mt-4 mb-8' %>
               </div>
             <% end %>
 
@@ -53,16 +53,13 @@
       <h3 class="text-xl text-secondary font-black my-6 max-w-full">
         Une fois votre compte 'Manager' créé, vous pourrez ajouter des comptes utilisateurs
         <br>
-        pour les Adhérents (Syndics, Clients, etc.) et les Agents (Prestataires, Artisans, etc.).
+        pour vos Adhérents, Équipes et Agents.
+      </h3>
+
+      <h3 class="text-xl text-secondary font-black my-6 max-w-full">
+        Vous avez une question, une remarque ou un projet à nous soumettre ?
         <br><br>
-        Rappel; une notification sera envoyée aux :
-        <br><br>
-        <ul class="list-disc list-inside">
-          <li>Managers quand un changement de statut a eu lieu</li>
-          <li>Agents quand un commentaire est ajouté par un adhérent</li>
-          <li>Adhérents quand une intervention est terminée par un agent</li>
-          <li>Adhérents quand une intervention terminée depuis plus de 3 jours n'est pas validée</li>
-        </ul>
+        <%= link_to "Nous contacter", "https://www.philnoug.com/contact?objet=TALEA", class: 'underline hover:text-primary' %>
       </h3>
     </div>
   </div>

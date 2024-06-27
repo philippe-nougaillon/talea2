@@ -1,6 +1,19 @@
 <div class="mx-auto md:w-2/3 w-full flex">
   <div class="mx-auto">
-    <%= render @user %>
+    <p class="text-4xl font-black text-primary mb-4"><%= link_to @user.nom_prénom, @user, class: 'hover:underline hover:text-base-content' %></p>
+    <span class="text-success text-xl"><%= @user.rôle.humanize %> <%= @user.service.try(:humanize) %> </span>
+
+    <p class="my-4">
+      <strong class="block text-slate-400 mb-1">Email</strong>
+      <b><%= @user.email %></b>
+    </p>
+
+    <% if @user.agent? %>
+      <p class="my-8">
+        <strong class="block text-slate-400 mb-1">Évaluation</strong>
+        <b><%= @user.moyenne %></b>
+      </p>
+    <% end %>
 
     <div class="flex flex-wrap gap-2 mt-2">
       <%= link_to "Modifier", edit_user_path(@user), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
@@ -8,21 +21,23 @@
       <%= link_to "Retour", users_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
 
-    <h2 class="text-2xl text-secondary mt-8">Activité</h2>
-    <div class="overflow-x-auto mt-4">
-      <table class="table table-sm">
-        <thead class="bg-slate-100">
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Id</th>
-            <th>Action</th>
-            <th>Modifications</th>
-          </tr>
-        </thead>
+    <% if @audits.any? %>
+      <h2 class="text-2xl text-secondary mt-8">Activité</h2>
+      <div class="overflow-x-auto mt-4">
+        <table class="table table-sm">
+          <thead class="bg-slate-100">
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Id</th>
+              <th>Action</th>
+              <th>Modifications</th>
+            </tr>
+          </thead>
 
-        <%= render partial: 'audit', collection: @audits %>
-      </table>
-    </div>
+          <%= render partial: 'audit', collection: @audits %>
+        </table>
+      </div>
+    <% end %>
   </div>
 </div>

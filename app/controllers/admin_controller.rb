@@ -32,7 +32,7 @@ class AdminController < ApplicationController
       @audits = @audits.where(action: params[:action_name])
     end
 
-    @pagy, @audits = pagy(@audits)
+    @pagy, @audits = pagy(@audits, items: 20)
   end
 
   def create_new_user
