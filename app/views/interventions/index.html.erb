@@ -56,7 +56,7 @@
                         class: 'select select-bordered w-full', 
                         onchange: 'this.form.submit()' %>
       </div>
-      <div class="hidden sm:flex gap-4 w-full md:w-2/3 lg:w-1/4">
+      <div class="hidden sm:flex gap-4 w-full md:w-8/12 lg:w-3/12">
         <div class="flex-1">
           <%= label_tag :du, 'Du' %>
           <%= date_field_tag :du, params[:du], onchange: 'this.form.submit()', class: 'input input-bordered w-full' %>
@@ -70,7 +70,7 @@
 
 
 
-      <div class="flex flex-wrap gap-1">
+      <div class="flex flex-wrap gap-1 w-full">
         <%= render TagCloudComponent.new(tags: @tags) %>
       </div>
     </div>
