@@ -1,9 +1,11 @@
 <div>
   <h1 class="text-4xl text-primary font-bold">Assistant TALEA</h1>
   <h2 class="text-2xl mt-4 mb-8">Bienvenue dans l'assistant TALEA (en bêta test) !</h2>
+
   <p class="text-xl mb-12">
-    Cet assistant permet, à partir des interventions passées, d'en proposer de nouvelles à planifier prochainement (d'après l'IA d'OpenAI).
+    Cet assistant permet, à partir des interventions passées, d'en proposer de nouvelles à planifier prochainement.
   </p>
+
   <% if params[:commit].blank? %>
     <%= form_tag request.path, method: :get, class: 'mb-8' do |f| %>
       <%= submit_tag 'Lancer la prévision', class: 'btn btn-primary btn-outline btn-wide btn-lg' %>
@@ -14,4 +16,5 @@
       <%= simple_format(@results, class: 'text-lg') %>
     </div>
   <% end %>
+  
 </div>
