@@ -4,7 +4,7 @@
   <%= form_with(model: @user, class: "contents", url: "create_new_user_do", html: { autocomplete: "off" }) do |form| %>
   <% if @user.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(@user.errors.count, "error") %> empêche(nt) cet utilisateur d'être sauvegardé :</h2>
+      <h2><%= pluralize(@user.errors.count, "erreur") %> empêche(nt) cet utilisateur d'être sauvegardé :</h2>
 
       <ul>
         <% @user.errors.each do |error| %>

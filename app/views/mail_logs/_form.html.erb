@@ -1,7 +1,7 @@
 <%= form_with(model: mail_log, class: "contents") do |form| %>
   <% if mail_log.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(mail_log.errors.count, "error") %> empêche(nt) ce mail_log d'être sauvegardé :</h2>
+      <h2><%= pluralize(mail_log.errors.count, "erreur") %> empêche(nt) ce mail_log d'être sauvegardé :</h2>
 
       <ul>
         <% mail_log.errors.each do |error| %>

@@ -20,7 +20,7 @@
 
       <% if current_user.manager? %>
         <div class="w-full sm:flex-1">
-          <%= form.label :tags_manager, "Tags", style: "display: block" %>
+          <%= form.label :tags_manager, "Mots clés", style: "display: block" %>
           <%= form.select :tags_manager, options_from_collection_for_select(@tags, :name, :name, intervention.tags.map(&:name)), multiple: true, class: 'w-full' %>
         </div>
       <% else %>
@@ -35,13 +35,13 @@
       <div class="flex flex-wrap gap-5 sm:gap-8 my-5">
         <div class="w-full sm:flex-1">
           <%= form.label :adherent_id, "Adhérent" %>
-          <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), {include_blank: true, required: true}, class: "w-full" %>
+          <%= form.select :adherent_id, options_from_collection_for_select(@organisation_members.adhérent, :id, :nom_prénom, intervention.adherent_id), {include_blank: true}, class: "w-full" %>
         </div>
 
-        <% if current_user.manager? %>
+        <% if current_user.manager? || current_user.adhérent? %>
           <div class="w-full sm:flex-1">
             <%= form.label :user_id, "Équipe" %>
-            <%= form.select :user_id, options_from_collection_for_select(@équipes, 'id', 'nom_prénom', intervention.user_id), {include_blank: true, required: true}, class: "w-full" %>
+            <%= form.select :user_id, options_from_collection_for_select(@équipes, 'id', 'nom_prénom', intervention.user_id), {include_blank: true}, class: "w-full" %>
           </div>
         <% end %>
 
@@ -159,7 +159,7 @@
       searchPlaceholder: 'Recherche',
       searchText: 'Pas de résultat',
       searchingText: 'Recherche...',
-      placeholderText: 'Choisissez un ou plusieurs tags',
+      placeholderText: 'Choisissez un ou plusieurs mots clés',
       allowDeselect: true,
     }
   })
@@ -170,7 +170,7 @@
       searchPlaceholder: 'Recherche',
       searchText: 'Pas de résultat',
       searchingText: 'Recherche...',
-      placeholderText: 'Choisissez un ou plusieurs tags',
+      placeholderText: 'Choisissez un ou plusieurs mots clés',
       allowDeselect: true,
     },
     events: {
