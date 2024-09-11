@@ -105,6 +105,6 @@ Rails.application.configure do
     :api_host => 'api.eu.mailgun.net'  # Uncomment this line for EU region domains
   }
 
-  config.action_mailer.default_url_options = { host: 'www.talea2.com', protocol: 'https' }
-  config.action_mailer.asset_host = 'https://www.talea2.com/'
+  config.action_mailer.default_url_options = { host: 'www.talea2.fr', protocol: 'https' }
+  config.action_mailer.asset_host = 'https://www.talea2.fr/'
 end
