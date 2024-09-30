@@ -27,24 +27,24 @@
         
       <div>
         <p class="my-2">
+          <strong class="block text-slate-400 mb-1">Adhérent</strong>
+          <b><%= intervention.adherent.try(:nom_prénom) %></b>
+        </p>
+        <p class="my-2">
           <strong class="block text-slate-400 mb-1">Équipe</strong>
           <b><%= intervention.user.nom_prénom %></b>
         </p>
 
-        <p class="my-2">
-          <strong class="block text-slate-400 mb-1">Adhérent</strong>
-          <b><%= intervention.adherent.try(:nom_prénom) %></b>
-        </p>
       </div>
 
       <div>
         <p class="my-2">
-          <strong class="block text-slate-400 mb-1">Agent 1</strong>
+          <strong class="block text-slate-400 mb-1">Agent#1</strong>
           <b><%= intervention.agent.try(:nom_prénom) %></b>
         </p>
 
         <p class="<%= (params[:action] == "index") ? 'hidden sm:block' : 'my-2' %>">
-          <strong class="block text-slate-400 mb-1">Agent 2</strong>
+          <strong class="block text-slate-400 mb-1">Agent#2</strong>
           <b><%= intervention.agent_binome.try(:nom_prénom) %></b>
         </p>
       </div>

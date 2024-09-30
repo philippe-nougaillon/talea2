@@ -90,7 +90,7 @@ class InterventionsController < ApplicationController
   def create
     @intervention = Intervention.new(intervention_params)
     @intervention.organisation = current_user.organisation
-    @intervention.user_id = current_user.id
+    @intervention.user_id ||= current_user.id
     if current_user.manager?
       @intervention.tag_list.add(params[:intervention][:tags_manager])
     else
