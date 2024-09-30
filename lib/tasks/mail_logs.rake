@@ -9,7 +9,7 @@ namespace :mail_logs do
     events_failed = mg_client.get("#{domain}/events", {event: 'failed'}).to_h
     events_opened = mg_client.get("#{domain}/events", {event: 'opened'}).to_h
     
-    mail_logs = MailLog.where("created_at::DATE - NOW()::DATE <= ?", 5)
+    mail_logs = MailLog.where(created_at: [DateTime.now-5.days..DateTime.now])
     mail_logs.each do |mail_log|
       # puts "CHECK MAILOG n°#{mail_log.id}"
 
