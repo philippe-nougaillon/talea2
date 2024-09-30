@@ -92,4 +92,17 @@ class User < ApplicationRecord
     nom_prénom = self.email.split('@').first
     self.nom, self.prénom = nom_prénom.split('.')
   end
+
+  def avatar
+    case self.rôle
+    when "manager"
+      "👑"
+    when "agent"
+      "👷"
+    when "équipe"
+      "🛻"
+    when "adhérent"
+      "🏢"
+    end
+  end
 end

@@ -1,8 +1,8 @@
 <div class="w-full mb-24">
   <div class="flex flex-wrap justify-between items-center">
     <h1 class="text-4xl text-primary font-bold">Utilisateurs</h1>
-    <%= link_to "Ajouter un Utilisateur", admin_create_new_user_path, class: "hidden sm:block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
-    <%= link_to "+", admin_create_new_user_path, class: "block sm:hidden rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+    <%= link_to "Ajouter un Utilisateur", admin_create_new_user_path, class: "hidden sm:inline-flex btn btn-primary btn-outline" %>
+    <%= link_to "+", admin_create_new_user_path, class: "inline-flex sm:hidden btn btn-primary btn-outline" %>
   </div>
 
   <%= form_tag request.path, method: :get do %>
@@ -32,9 +32,11 @@
 
   <div class="divider"></div>
 
-  <div id="users" class="min-w-full">
-    <%= render @users %>
-  </div>
+  <table id="users" class="table table-sm">
+    <tbody>
+      <%= render @users %>
+    </tbody>
+  </table>
 
   <p class="mt-8">
     Affichage de <%= pluralize(@users.count, 'utilisateur', plural: 'utilisateurs') %> sur <%= current_user.organisation.users.count %>

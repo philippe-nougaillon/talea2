@@ -1,8 +1,8 @@
 <div class="w-full">
   <div class="flex flex-wrap justify-between items-center">
     <h1 class="text-4xl text-primary font-bold">Interventions</h1>
-    <%= link_to "Ajouter une Intervention", new_intervention_path, class: "hidden sm:block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
-    <%= link_to "+", new_intervention_path, class: "block sm:hidden rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+    <%= link_to "Ajouter une Intervention", new_intervention_path, class: "hidden sm:inline-flex btn btn-primary btn-outline" %>
+    <%= link_to "+", new_intervention_path, class: "inline-flex sm:hidden btn btn-primary btn-outline" %>
   </div>
 
   <%= form_tag request.path, method: :get do %>
@@ -24,7 +24,7 @@
           <% if current_user.manager? %>
             <div class="flex-1">
               <%= label_tag :équipe, "Équipe" %>
-              <%= select_tag :équipe, options_from_collection_for_select(@équipes, 'id', 'nom_prénom', params[:équipe]), include_blank: true, class: 'select select-sm select-bordered w-full', onchange: 'this.form.submit()' %>
+              <%= select_tag :équipe, options_from_collection_for_select(@équipes, 'id', 'nom_prénom', params[:équipe]), include_blank: true, class: 'w-full', onchange: 'this.form.submit()' %>
             </div>
           <% end %>
 
@@ -36,7 +36,7 @@
           <% if current_user.manager? || current_user.adhérent? %>
             <div class="flex-1">
               <%= label_tag :service %>
-              <%= select_tag :service, options_for_select(@services, params[:service]), include_blank: true, class: 'select select-sm select-bordered w-full', onchange: 'this.form.submit()' %>
+              <%= select_tag :service, options_for_select(@services, params[:service]), include_blank: true, class: 'w-full', onchange: 'this.form.submit()' %>
             </div>
           <% end %>
 
@@ -91,7 +91,7 @@
 
   <% if @interventions.any? %>
     <p class="text-sm mt-4">
-      Nbr interventions par statut : <%= JSON.pretty_generate(Intervention.workflow_states_count(@interventions)) %>
+      Nombre d'interventions par statut : <%= JSON.pretty_generate(Intervention.workflow_states_count(@interventions)) %>
       <br><br>
       <%= link_to "Exporter les interventions en XLS", url_for(params.permit!.merge(format: :xls)), class: "text-sm text-success hover:underline" %>
     </p>
@@ -108,6 +108,28 @@
       searchText: 'Pas de résultat',
       searchingText: 'Recherche...',
       placeholderText: 'Choisissez un adhérent',
+      allowDeselect: true,
+    }
+  })
+
+  new SlimSelect({
+    select: '#_quipe',
+    settings: {
+      searchPlaceholder: 'Recherche',
+      searchText: 'Pas de résultat',
+      searchingText: 'Recherche...',
+      placeholderText: 'Choisissez une équipe',
+      allowDeselect: true,
+    }
+  })
+
+  new SlimSelect({
+    select: '#service',
+    settings: {
+      searchPlaceholder: 'Recherche',
+      searchText: 'Pas de résultat',
+      searchingText: 'Recherche...',
+      placeholderText: 'Choisissez un service',
       allowDeselect: true,
     }
   })
