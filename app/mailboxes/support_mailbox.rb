@@ -1,6 +1,7 @@
 class SupportMailbox < ApplicationMailbox
 
   def process
+    raise
     organisation_id = nil
     from_email = mail.from_address.to_s.split('<').last.split('>').first
     puts "email : #{from_email}"
