@@ -13,18 +13,18 @@
     <% end %>
   <% end %>
 
+  <%= link_to admin_audits_path, class: "text-primary hover-active hover:shadow #{'active shadow' if params[:controller] == 'admin'}", title: 'Activité (historique des modifications)' do %>
+    <span class="material-symbols-outlined">
+      history
+    </span>
+  <% end %>
+
   <% if policy(MailLog).index? %>
     <%= link_to mail_logs_path, class: "text-primary hover-active hover:shadow #{'active shadow' if params[:controller] == 'mail_logs'}", title: "Mail Logs (historique des mails envoyés)" do %>
       <span class="material-symbols-outlined">
         mark_email_read
       </span>
     <% end %>
-  <% end %>
-
-  <%= link_to admin_audits_path, class: "text-primary hover-active hover:shadow #{'active shadow' if params[:controller] == 'admin'}", title: 'Activité (historique des modifications)' do %>
-    <span class="material-symbols-outlined">
-      history
-    </span>
   <% end %>
 
   <% if policy(:pages).assistant? %>
