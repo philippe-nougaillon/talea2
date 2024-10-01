@@ -38,8 +38,9 @@
     </tbody>
   </table>
 
-  <p class="mt-8">
-    Affichage de <%= pluralize(@users.count, 'utilisateur', plural: 'utilisateurs') %> sur <%= current_user.organisation.users.count %>
-  </p>
+  <div class="my-6">
+    <%== pagy_info(@pagy) %>
+    <%== pagy_nav(@pagy) %>
+  </div>
 
 </div>

@@ -18,6 +18,8 @@ class UsersController < ApplicationController
     if params[:service].present?
       @users = @users.where(service: params[:service])
     end
+
+    @pagy, @users = pagy(@users, items: 15)
   end
 
   # GET /users/1 or /users/1.json
