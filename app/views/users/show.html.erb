@@ -1,8 +1,11 @@
 <div class="mx-auto md:w-2/3 w-full flex">
   <div class="mx-auto">
-    <div class="flex flex-wrap gap-12">
+    <p class="text-4xl font-black text-primary mt-8 mb-4">
+      <%= @user.avatar %>
+      <%= @user.nom_prénom %>
+    </p>
+    <div class="flex flex-wrap gap-24">
       <div>
-        <p class="text-4xl font-black text-primary mt-8 mb-4"><%= link_to @user.nom_prénom, @user, class: 'hover:underline hover:text-base-content' %></p>
         <span class="text-success text-xl"><%= @user.rôle.humanize %> <%= @user.service.try(:humanize) %> </span>
 
         <p class="my-4">
@@ -11,7 +14,7 @@
       </div>
 
       <% if @user.agent? %>
-        <div class="my-8">
+        <div>
           <strong class="block text-slate-400 mb-1">Évaluation</strong>
           <div class="flex justify-between w-32">
             <b><%= @user.moyenne %></b>
