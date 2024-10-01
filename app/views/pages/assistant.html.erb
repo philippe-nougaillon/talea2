@@ -12,9 +12,46 @@
     <% end %>
   <% else %>
     <div class="mb-8">
-      <h3 class="text-2xl font-black mb-4">Proposition d'interventions :</h3>
-      <%= simple_format(@results, class: 'text-lg') %>
+      <h3 class="text-2xl font-black mb-4">Réponse générée par l'IA :</h3>
+      <div class="typewriter">
+        <% @results.split("\n").each do |result| %>
+          <p class="text-lg"><%= result %></p>
+        <% end %>
+      </div>
     </div>
   <% end %>
   
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const paragraphs = document.querySelectorAll(".typewriter p");
+  const typingSpeed = 4; // Durée de l'animation pour chaque ligne en secondes
+  let totalTime = 0;
+
+  paragraphs.forEach((paragraph, index) => {
+    const delay = totalTime; // Le délai dépend du temps total écoulé
+    paragraph.style.animationDelay = `${delay}s`;
+
+    // Ajouter la classe "current" pour afficher le curseur sur le paragraphe courant
+    setTimeout(() => {
+      // Retirer le curseur de la ligne précédente
+      if (index > 0) {
+        paragraphs[index - 1].classList.remove("current");
+      }
+      // Ajouter le curseur à la ligne courante
+      paragraph.classList.add("current");
+    }, delay * 1000);
+
+    // Temps total pour cette ligne (pour calculer le prochain délai)
+    const duration = typingSpeed + 0.5; // On ajoute 0.5s pour le curseur entre les lignes
+    totalTime += duration;
+  });
+
+  // Retirer le curseur de la dernière ligne une fois l'animation terminée
+  setTimeout(() => {
+    paragraphs[paragraphs.length - 1].classList.remove("current");
+  }, totalTime * 1000);
+});
+
+</script>
