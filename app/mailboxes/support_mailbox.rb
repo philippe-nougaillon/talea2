@@ -11,10 +11,7 @@ class SupportMailbox < ApplicationMailbox
       organisation_id = user.organisation_id
       # puts "organisation_id : #{organisation_id}"
 
-      # puts 'après check adhérent/manager et avant check organisation_id'
-
       if organisation_id
-        # puts 'pendant check organisation_id'
         organisation = Organisation.find(organisation_id)
         # puts "organisation : #{organisation.inspect}"
         intervention = organisation.interventions.new( 
@@ -28,13 +25,6 @@ class SupportMailbox < ApplicationMailbox
         intervention.save
         # puts 'après création intervention'
       end
-      # puts 'après check organisation_id'
-    else
-      # Organisation.all.each do |organisation|
-      #   if mail.subject.include?(organisation.numero)
-      #     organisation_id = organisation.id
-      #   end
-      # end
     end
   end
 
