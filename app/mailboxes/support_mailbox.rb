@@ -4,7 +4,8 @@ class SupportMailbox < ApplicationMailbox
     organisation_id = nil
     from_email = mail.from_address.to_s.split('<').last.split('>').first
     
-    if user = User.adhérent.find_by(email: from_email)
+    # Chercher si l'envoyeur est un adhérent ou un manager
+    if user = User.where(rôle: [0,2]).find_by(email: from_email)
       organisation_id = user.organisation_id
     else
       # Organisation.all.each do |organisation|
