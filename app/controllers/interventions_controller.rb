@@ -1,5 +1,6 @@
 class InterventionsController < ApplicationController
   before_action :set_intervention, only: %i[ show edit update destroy accepter en_cours terminer valider refuser purge ]
+  before_action :set_form_variables, only: %i[ new edit create update ]
   before_action :is_user_authorized
 
   # GET /interventions or /interventions.json
@@ -70,30 +71,22 @@ class InterventionsController < ApplicationController
   # GET /interventions/new
   def new
     @intervention = Intervention.new
-    @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
-    @organisation_members = current_user.organisation.users
-    @équipes = @organisation_members.équipe
-    @grouped_agents = User.grouped_agents(@organisation_members)
     @intervention.adherent_id = current_user.id if current_user.adhérent?
     @intervention.agent_id = current_user.id if current_user.agent?
   end
 
   # GET /interventions/1/edit
   def edit
-    @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
-    @organisation_members = current_user.organisation.users
-    @équipes = @organisation_members.équipe
-    @grouped_agents = User.grouped_agents(@organisation_members)
   end
 
   # POST /interventions or /interventions.json
   def create
     @intervention = Intervention.new(intervention_params)
     @intervention.organisation = current_user.organisation
-    @intervention.user_id ||= current_user.id
     if current_user.manager?
       @intervention.tag_list.add(params[:intervention][:tags_manager])
     else
+      @intervention.user_id ||= current_user.id
       @intervention.tag_list.add(params[:intervention][:tags])
     end
 
@@ -202,6 +195,13 @@ class InterventionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_intervention
       @intervention = Intervention.find(params[:id])
+    end
+
+    def set_form_variables
+      @tags = current_user.organisation.interventions.tag_counts_on(:tags).order(:name)
+      @organisation_members = current_user.organisation.users
+      @équipes = @organisation_members.équipe
+      @grouped_agents = User.grouped_agents(@organisation_members)
     end
 
     # Only allow a list of trusted parameters through.
