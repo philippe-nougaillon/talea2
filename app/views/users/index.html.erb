@@ -32,19 +32,21 @@
 
   <div class="divider"></div>
 
-  <table id="users" class="table table-sm">
-    <thead class="bg-slate-100">
-      <tr>
-        <th>Nom Prénom</th>
-        <th>Rôle</th>
-        <th>Email</th>
-        <th>Évaluation</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render @users %>
-    </tbody>
-  </table>
+  <div class="overflow-x-auto">
+    <table id="users" class="table table-sm">
+      <thead class="bg-slate-100">
+        <tr>
+          <th>Nom Prénom</th>
+          <th>Rôle</th>
+          <th>Email</th>
+          <th>Évaluation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @users %>
+      </tbody>
+    </table>
+  </div>
 
   <div class="my-6">
     <%== pagy_info(@pagy) %>
