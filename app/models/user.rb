@@ -61,6 +61,20 @@ class User < ApplicationRecord
     return count != 0 ? "#{(sum.to_f / count).round(1)} / 5" : ""
   end
 
+  def star_count(rating)
+    rating_per_star = {}
+    sum = 0
+    (1..5).each do |i|
+      rating_per_star[i] = self.interventions_agent.where(note: i).count + self.interventions_agent_binome.where(note: i).count
+      sum += rating_per_star[i]
+    end
+    return (rating_per_star[rating].to_f / sum) * 100
+  end
+
+  def total_rating
+    return self.interventions_agent.where.not(note: 0).count + self.interventions_agent_binome.where.not(note: 0).count
+  end
+
   def self.from_omniauth(auth)
     require "open-uri"
 
