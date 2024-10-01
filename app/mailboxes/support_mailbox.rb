@@ -3,6 +3,7 @@ class SupportMailbox < ApplicationMailbox
   def process
     organisation_id = nil
     from_email = mail.from_address.to_s.split('<').last.split('>').first
+    puts "email : #{from_email}"
     puts 'avant check adhérent/manager'
     # Chercher si l'envoyeur est un adhérent ou un manager
     if user = User.where(rôle: [0,2]).find_by(email: from_email)
