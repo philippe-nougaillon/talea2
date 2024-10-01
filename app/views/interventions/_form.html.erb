@@ -122,6 +122,11 @@
       </p>
     <% end %>
     <div class="flex gap-4 mb-4">
+      <div class="flex-1">
+        <%= form.label :avis %>
+        <%= form.text_area :avis, class: "textarea textarea-bordered textarea-sm w-full", 'data-controller': 'textarea-autogrow' %>
+      </div>
+
       <div class="flex flex-col">
         <%= form.label :note, 'Évaluation', class: "mb-4" %>
         <div class="rating">
@@ -132,11 +137,6 @@
             <%= form.radio_button :note, i, class:"mask mask-star bg-yellow-400" %>
           <% end %> 
         </div>
-      </div>
-
-      <div class="flex-1">
-        <%= form.label :avis %>
-        <%= form.text_area :avis, class: "textarea textarea-bordered textarea-sm w-full", 'data-controller': 'textarea-autogrow' %>
       </div>
     </div>
 

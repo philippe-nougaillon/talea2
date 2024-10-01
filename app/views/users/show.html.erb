@@ -38,7 +38,11 @@
 
     <div class="flex flex-wrap gap-2 mt-2">
       <%= link_to "Modifier", edit_user_path(@user), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      <%= button_to "Supprimer", user_path(@user), method: :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir supprimer cet utilisateur ?" }, class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      <%= button_to user_path(@user), method: :delete, data: {turbo_confirm: "Êtes-vous certain(e) de vouloir supprimer cet utilisateur ?" }, class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" do %>
+        <span class="material-symbols-outlined">
+          delete
+        </span>
+      <% end %>
       <%= link_to "Retour", users_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
 
